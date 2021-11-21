@@ -1,0 +1,72 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.appsmoviles.gruposcomunitarios"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    var core_ktx = "1.7.0"
+    implementation "androidx.core:core-ktx:$core_ktx"
+
+    var appcompat = "1.4.0"
+    implementation "androidx.appcompat:appcompat:$appcompat"
+
+    var material = "1.4.0"
+    implementation "com.google.android.material:material:$material"
+
+    var constraint_layout = "2.1.2"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // Dagger & Hilt
+    var hilt_android = "2.40"
+    var hilt_common = "1.0.0"
+    var hilt_compiler = "1.0.0"
+    var hilt_navigation_fragment = "1.0.0"
+    var hilt_work = "1.0.0"
+    implementation "com.google.dagger:hilt-android:$hilt_android"
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_android")
+    implementation("androidx.hilt:hilt-common:$hilt_common")
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler"
+    implementation("androidx.hilt:hilt-navigation-fragment:$hilt_navigation_fragment")
+    implementation("androidx.hilt:hilt-work:$hilt_work")
+
+    // ViewModel and LiveData
+    var lifecycle_version = "2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+}
