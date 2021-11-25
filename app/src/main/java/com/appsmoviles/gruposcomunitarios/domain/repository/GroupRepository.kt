@@ -9,7 +9,7 @@ interface GroupRepository {
     suspend fun getGroupsByTag(tag: String): Flow<Res<List<Group>>>
     suspend fun getGroupInfo(groupId: String): Flow<Res<Group>>
     suspend fun createGroup(group: Group): Flow<Res<Group>>
-    suspend fun getSubscribedGroups(): Flow<Res<List<Group>>>
-    suspend fun subscribeToGroup(groupId: String): Flow<Res<Nothing>>
-    suspend fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>>
+    suspend fun getSubscribedGroups(groupsIds: List<String>): Flow<Res<List<Group>>>
+    suspend fun subscribeToGroup(userId: String, groupId: String): Flow<Res<Nothing>>
+    suspend fun unsubscribeToGroup(userId: String, groupId: String): Flow<Res<Nothing>>
 }
