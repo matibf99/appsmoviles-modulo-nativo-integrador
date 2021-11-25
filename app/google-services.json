@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "247619082853",
+    "project_id": "grupos-comunitarios",
+    "storage_bucket": "grupos-comunitarios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247619082853:android:644ccf89c791a7b395c48c",
+        "android_client_info": {
+          "package_name": "com.appsmoviles.gruposcomunitarios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247619082853-tgl09vr5vua8tt9qm3a8lmt7beem9pc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe9s1T0Sel7U6H-ZplkmqEk3rRmYULVzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247619082853-tgl09vr5vua8tt9qm3a8lmt7beem9pc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
