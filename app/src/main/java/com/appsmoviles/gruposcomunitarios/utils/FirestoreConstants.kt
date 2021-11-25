@@ -6,5 +6,5 @@ object FirestoreConstants {
     const val POST_SUBCOLLECTION_COMMENTS = "comments"
     const val GROUP_SUBCOLLECTION_MODERATORS = "moderators"
 
-    const val USER_COLLECTION = "users"
+    const val USERS_COLLECTION = "users"
 }

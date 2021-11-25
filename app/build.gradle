@@ -59,18 +59,21 @@ dependencies {
     var hilt_work = "1.0.0"
     implementation "com.google.dagger:hilt-android:$hilt_android"
     kapt("com.google.dagger:hilt-android-compiler:$hilt_android")
-    implementation("androidx.hilt:hilt-common:$hilt_common")
+    implementation "androidx.hilt:hilt-common:$hilt_common"
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler"
-    implementation("androidx.hilt:hilt-navigation-fragment:$hilt_navigation_fragment")
-    implementation("androidx.hilt:hilt-work:$hilt_work")
+    implementation "androidx.hilt:hilt-navigation-fragment:$hilt_navigation_fragment"
+    implementation "androidx.hilt:hilt-work:$hilt_work"
 
     // ViewModel and LiveData
     var lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    var firestore = "24.0.0"
-    implementation("com.google.firebase:firebase-firestore:$firestore")
+    // Firebase
+    var firebase_boom = "29.0.0"
+    implementation platform("com.google.firebase:firebase-bom:$firebase_boom")
+    implementation "com.google.firebase:firebase-firestore-ktx"
+    implementation "com.google.firebase:firebase-auth-ktx"
 }

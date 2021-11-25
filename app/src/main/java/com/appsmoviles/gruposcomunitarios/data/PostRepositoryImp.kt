@@ -1,5 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.data
 
+import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
@@ -16,6 +17,11 @@ import kotlinx.coroutines.flow.callbackFlow
 class PostRepositoryImp(
     private val db: FirebaseFirestore
 ) : PostRepository {
+
+    companion object {
+        private const val TAG = "PostRepositoryImp"
+    }
+
     override fun createPost(groupId: String, post: Post): Flow<Res<Nothing>> = callbackFlow {
         trySend(Res.Loading())
 
@@ -29,6 +35,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "createPost: ${it.message}")
             }
     }
 
@@ -45,6 +52,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "modifyPost: ${it.message}")
             }
     }
 
@@ -61,6 +69,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "deletePost: ${it.message}")
             }
     }
 
@@ -78,6 +87,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getPost: ${it.message}")
             }
     }
 
@@ -100,6 +110,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getPosts: ${it.message}")
             }
     }
 
@@ -124,6 +135,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getComments: ${it.message}")
             }
     }
 
@@ -146,6 +158,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "postComment: ${it.message}")
             }
     }
 
@@ -169,6 +182,7 @@ class PostRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "modifyComment: ${it.message}")
             }
     }
 }

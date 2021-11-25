@@ -1,9 +1,11 @@
 package com.appsmoviles.gruposcomunitarios.domain.repository
 
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
+import com.appsmoviles.gruposcomunitarios.utils.Res
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
-    suspend fun registerUser(email: String, password: String)
-    suspend fun signIn(email: String, password: String)
-    suspend fun getUserInfo(): Result<User>
+    suspend fun registerUser(user: User, password: String): Flow<Res<Nothing>>
+    suspend fun signIn(email: String, password: String): Flow<Res<Nothing>>
+    suspend fun getCurrentUserInfo(): Flow<Res<User>>
 }

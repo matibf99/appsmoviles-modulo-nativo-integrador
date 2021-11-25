@@ -1,5 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.data
 
+import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
 import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.GROUPS_COLLECTION
@@ -17,6 +18,11 @@ import kotlinx.coroutines.flow.*
 class GroupRepositoryImp(
     private val db: FirebaseFirestore
 ): GroupRepository {
+
+    companion object {
+        private const val TAG = "GroupRepositoryImp"
+    }
+
     override suspend fun getGroups(sortBy: Int): Flow<Res<List<Group>>> = callbackFlow {
         trySend(Res.Loading())
 
@@ -34,6 +40,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getGroups: ${it.message}")
             }
     }
 
@@ -55,6 +62,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getGroupsByTag: ${it.message}")
             }
     }
 
@@ -72,6 +80,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getGroupInfo: ${it.message}")
             }
     }
 
@@ -86,6 +95,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "createGroup: ${it.message}")
             }
     }
 
@@ -117,6 +127,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "getSubscribedGroups: ${it.message}")
             }
     }
 
@@ -131,6 +142,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "subscribeToGroup: ${it.message}")
             }
     }
 
@@ -145,6 +157,7 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+                Log.d(TAG, "unsubscribeToGroup: ${it.message}")
             }
     }
 
