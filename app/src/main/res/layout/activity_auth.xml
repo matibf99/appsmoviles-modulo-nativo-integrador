@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".presentation.AuthActivity">
 
 
     <LinearLayout
+        android:id="@+id/authLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -29,8 +32,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            />
+            android:layout_height="8dp" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -42,8 +44,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            />
+            android:layout_height="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,13 +57,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
 
-                android:textColor="@android:color/white"
-                android:text="Registrar" />
+                android:text="Registrar"
+                android:textColor="@android:color/white" />
 
             <Space
                 android:layout_width="8dp"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/loginButton"
@@ -70,9 +70,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Acceder"
-                android:textColor="@android:color/white"
-                />
+                android:textColor="@android:color/white" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/googleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FDFDFD"
+            android:backgroundTint="#FFFFFF"
+            android:drawableStart="@drawable/googleg_standard_color_18"
+            android:text="Google"
+            android:textColor="@color/design_default_color_primary_dark" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Grupos Comunitarios</string>
+    <string name="prefs_files">com.appsmoviles.gruposcomunitarios.PREFERENCE_FILE_KEY</string>
+
 </resources>
