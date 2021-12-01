@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserBinding
 
@@ -20,6 +21,8 @@ class UserFragment : Fragment() {
     ): View? {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        (activity as AppCompatActivity).supportActionBar!!.title = "User"
 
         return view
     }
