@@ -1,12 +1,15 @@
 package com.appsmoviles.gruposcomunitarios.presentation
 
-import android.content.ContentProviderClient
+import android.R.attr
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.ActivityAuthBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,6 +18,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import androidx.core.app.ActivityCompat.startActivityForResult
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
+import android.R.attr.data
+import android.net.Uri
+import android.widget.Toast
+
 
 class AuthActivity : AppCompatActivity() {
     companion object{
@@ -23,7 +33,8 @@ class AuthActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var binding: ActivityAuthBinding
-    private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var mGoogleSignInClient:GoogleSignInClient
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,41 +42,29 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        //Configure Google Sing In
-        // Configure Google Sign In
-
-        binding.googleButton.setOnClickListener {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                //.requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-            googleSignInClient = GoogleSignIn.getClient(this, gso)
-            googleSignInClient.signOut()
-
-            startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
-        }
-
         //Setup
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         setup()
         session()
     }
 
     override fun onStart() {
         super.onStart()
-
         binding.authLayout.visibility = View.VISIBLE
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+    private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == Activity.RESULT_OK){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try{
                 val account = task.getResult(ApiException::class.java)
+
                 if(account != null){
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
@@ -80,11 +79,33 @@ class AuthActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 showAlert()
             }
-
-
-
         }
     }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+//        if (requestCode == RC_SIGN_IN) {
+//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+//            try{
+//                val account = task.getResult(ApiException::class.java)
+//
+//                if(account != null){
+//                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+//                    FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            //Navegamos a la nueva pantalla
+//                            showHome(account.email?: "", ProviderType.GOOGLE)
+//                        } else {
+//                            showAlert()
+//                        }
+//                    }
+//                }
+//            } catch (e: ApiException) {
+//                showAlert()
+//            }
+//        }
+//    }
 
     private fun session() {
         val prefs = getSharedPreferences(getString(R.string.prefs_files), Context.MODE_PRIVATE)
@@ -114,6 +135,7 @@ class AuthActivity : AppCompatActivity() {
 
             }
         }
+
         binding.loginButton.setOnClickListener {
             if (binding.emailEditText.text.isNotEmpty() && binding.passwordEditText.text.isNotEmpty() ) {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.emailEditText.text.toString(),
@@ -131,10 +153,42 @@ class AuthActivity : AppCompatActivity() {
 
         //Google auth
         binding.googleButton.setOnClickListener {
-
+            val signInIntent = mGoogleSignInClient.signInIntent
+            startActivityForResult.launch(signInIntent)
         }
     }
 
+    private val startActivityForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            handleSignInResult(task)
+        }
+    }
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+
+
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)
+            if (account != null) {
+                val personName: String = account.getDisplayName()
+                val personGivenName: String = account.getGivenName()
+                val personFamilyName: String = account.getFamilyName()
+                val personEmail: String = account.getEmail()
+                val personId: String = account.getId()
+                val personPhoto: Uri = account.getPhotoUrl()
+
+                Toast.makeText(this,"Email" + personEmail,Toast.LENGTH_SHORT).show()
+            }
+            // Signed in successfully, show authenticated UI.
+
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.d("GOOGLE ERROR","Erro al iniciar sesion")
+        }
+    }
     private fun showAlert(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")

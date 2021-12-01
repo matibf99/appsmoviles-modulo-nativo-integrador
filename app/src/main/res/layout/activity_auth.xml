@@ -77,11 +77,11 @@
             android:id="@+id/googleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FDFDFD"
+
             android:backgroundTint="#FFFFFF"
-            android:drawableStart="@drawable/googleg_standard_color_18"
+            android:drawableLeft="@drawable/googlescale40"
             android:text="Google"
-            android:textColor="@color/design_default_color_primary_dark" />
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

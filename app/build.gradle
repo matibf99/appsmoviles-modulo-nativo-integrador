@@ -7,6 +7,12 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\facun\\.android\\debug.keystore')
+            keyAlias 'AndroidDebugKey'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
