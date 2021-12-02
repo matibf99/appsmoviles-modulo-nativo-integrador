@@ -3,6 +3,7 @@ package com.appsmoviles.gruposcomunitarios.presentation.search
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -40,11 +41,19 @@ class SearchFragment : Fragment() {
 
         viewModel.status.observe(requireActivity(), { status ->
             when(status) {
-                SearchGroupsStatus.LOADING -> Log.d(TAG, "onCreateView: loading")
-                SearchGroupsStatus.LOADED -> Log.d(TAG, "onCreateView: loaded")
-                SearchGroupsStatus.FAILED -> Log.d(TAG, "onCreateView: failed")
-                SearchGroupsStatus.UNKNOWN -> Log.d(TAG, "onCreateView: unknown")
-                else -> Log.d(TAG, "onCreateView: null")
+                SearchGroupsStatus.Loading -> {
+                    binding.progressSearch.visibility = View.VISIBLE
+                    Log.d(TAG, "onCreateView: loading")
+                }
+                SearchGroupsStatus.Success -> {
+                    binding.progressSearch.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: success")
+                }
+                is SearchGroupsStatus.Error -> {
+                    binding.progressSearch.visibility = View.GONE
+                    Toast.makeText(requireContext(), status.message, Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "onCreateView: failed: ${status.message}")
+                }
             }
         })
 

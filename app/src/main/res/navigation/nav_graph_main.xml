@@ -17,7 +17,18 @@
         tools:layout="@layout/fragment_groups" >
         <action
             android:id="@+id/action_groupsFragment_to_createGroupFragment"
-            app:destination="@id/createGroupFragment" />
+            app:destination="@id/createGroupFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_groupsFragment_to_groupFragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -34,4 +45,29 @@
         android:name="com.appsmoviles.gruposcomunitarios.presentation.groups.CreateGroupFragment"
         android:label="fragment_create_group"
         tools:layout="@layout/fragment_create_group" />
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.group.GroupFragment"
+        android:label="fragment_group"
+        tools:layout="@layout/fragment_group" >
+        <action
+            android:id="@+id/action_groupFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="group"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.createpost.CreatePostFragment"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" >
+        <argument
+            android:name="group"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+    </fragment>
 </navigation>

@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface StorageRepository {
-    fun loadImageToStorage(userId: String, filename: String, bitmap: Bitmap): Flow<Res<String>>
+    fun loadImageToStorage(root: String, filename: String, bitmap: Bitmap): Flow<Res<String>>
 }

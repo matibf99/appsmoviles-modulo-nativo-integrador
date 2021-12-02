@@ -1,9 +1,13 @@
 package com.appsmoviles.gruposcomunitarios.domain.entities
 
+import android.os.Parcelable
+import com.google.firebase.firestore.Exclude
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
+@Parcelize
 data class Group(
-    var documentId: String? = null,
+    @get:Exclude var documentId: String? = null,
     val name: String? = null,
     val description: String? = null,
     var photo: String? = null,
@@ -12,6 +16,6 @@ data class Group(
     val createdBy: String? = null,
     val tags: List<String>? = null,
     val moderators: List<String>? = null,
-    var userRol: String? = null,
-    var subscribed: Boolean? = false,
-)
+    @get:Exclude var userRol: String? = null,
+    @get:Exclude var subscribed: Boolean? = false,
+) : Parcelable

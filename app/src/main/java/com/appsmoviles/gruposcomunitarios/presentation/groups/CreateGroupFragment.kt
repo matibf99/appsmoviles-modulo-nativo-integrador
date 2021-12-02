@@ -5,11 +5,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
@@ -44,6 +46,24 @@ class CreateGroupFragment : Fragment() {
         val view = binding.root
 
         (activity as AppCompatActivity).supportActionBar!!.title = "Create new group"
+        
+        viewModel.status.observe(requireActivity(), {
+            when(it) {
+                CreateGroupStatus.Success -> {
+                    binding.progressCreateGroup.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: success")
+                }
+                CreateGroupStatus.Loading -> {
+                    binding.progressCreateGroup.visibility = View.VISIBLE
+                    Log.d(TAG, "onCreateView: loading")
+                }
+                is CreateGroupStatus.Error -> {
+                    binding.progressCreateGroup.visibility = View.GONE
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "onCreateView: error: ${it.message}")
+                }
+            }
+        })
 
         viewModel.imageUri.observe(requireActivity(), {
             Glide.with(requireContext())

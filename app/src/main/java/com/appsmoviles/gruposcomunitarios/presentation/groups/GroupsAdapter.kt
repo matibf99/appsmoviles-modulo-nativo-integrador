@@ -37,7 +37,9 @@ abstract class GroupsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is GroupViewHolder) {
-            val item = items[position-1]
+            val i = position - 1
+
+            val item = items[i]
 
             holder.tvTitle.text = item.name!!
 
@@ -49,7 +51,7 @@ abstract class GroupsAdapter(
                 .into(holder.imageView)
 
             holder.btnUnsubscribe.setOnClickListener {
-                onUnsubscribeListener(position-1)
+                onUnsubscribeListener(i)
             }
 
             if (displaySubscribeButton) {
@@ -62,7 +64,7 @@ abstract class GroupsAdapter(
             }
 
             holder.layout.setOnClickListener {
-
+                onOpenGroupListener(i)
             }
         } else if (holder is GroupHeaderViewHolder) {
             holder.tvTitle.text = title
@@ -72,6 +74,8 @@ abstract class GroupsAdapter(
     override fun getItemCount(): Int = items.size + 1
 
     abstract fun onUnsubscribeListener(position: Int)
+
+    abstract fun onOpenGroupListener(position: Int)
 
     inner class GroupHeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvTitle: TextView = view.findViewById(R.id.item_group_header_text)

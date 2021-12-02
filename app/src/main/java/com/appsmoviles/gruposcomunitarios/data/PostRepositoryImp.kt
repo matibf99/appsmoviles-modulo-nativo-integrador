@@ -10,6 +10,7 @@ import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.POST_SUBCOLLE
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -23,8 +24,6 @@ class PostRepositoryImp(
     }
 
     override fun createPost(groupId: String, post: Post): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -37,11 +36,10 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "createPost: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun modifyPost(groupId: String, postId: String, post: Post): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -54,11 +52,10 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "modifyPost: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun deletePost(groupId: String, postId: String): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -71,11 +68,10 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "deletePost: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun getPost(groupId: String, postId: String): Flow<Res<Post>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -89,11 +85,10 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "getPost: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun getPosts(groupId: String, sortBy: Int): Flow<Res<List<Post>>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -112,11 +107,10 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "getPosts: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun getComments(groupId: String, postId: String): Flow<Res<List<PostComment>>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -137,6 +131,7 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "getComments: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun postComment(
@@ -144,8 +139,6 @@ class PostRepositoryImp(
         postId: String,
         comment: PostComment
     ): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -160,6 +153,7 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "postComment: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override fun modifyComment(
@@ -168,8 +162,6 @@ class PostRepositoryImp(
         commentId: String,
         comment: PostComment
     ): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(POST_SUBCOLLECTION_COMMENTS)
@@ -184,5 +176,6 @@ class PostRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "modifyComment: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 }

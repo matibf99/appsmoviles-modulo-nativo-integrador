@@ -31,7 +31,14 @@ class AppModule {
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
+    fun provideFirebaseStorage(): FirebaseStorage {
+        val instance = FirebaseStorage.getInstance()
+        instance.maxOperationRetryTimeMillis = 60000
+        instance.maxDownloadRetryTimeMillis = 60000
+        instance.maxUploadRetryTimeMillis = 60000
+
+        return instance
+    }
 
     @Provides
     fun provideGroupRepository(firestore: FirebaseFirestore): GroupRepository =

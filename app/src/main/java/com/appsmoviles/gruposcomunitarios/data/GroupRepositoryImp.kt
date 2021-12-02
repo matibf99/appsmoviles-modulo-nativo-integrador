@@ -90,8 +90,6 @@ class GroupRepositoryImp(
     }
 
     override suspend fun createGroup(group: Group): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         db.collection(GROUPS_COLLECTION)
             .document(group.name!!)
             .set(group)

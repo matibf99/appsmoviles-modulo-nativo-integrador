@@ -15,8 +15,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class GroupsStatus {
-    LOADING, LOADED, FAILED
+sealed class GroupsStatus(
+    val message: String? = null
+) {
+    object Success : GroupsStatus()
+    object Loading : GroupsStatus()
+    class Error(message: String?) : GroupsStatus(message)
 }
 
 @HiltViewModel
@@ -26,7 +30,7 @@ class GroupsViewModel @Inject constructor(
     private val unsubscribeToGroupUseCase: UnsubscribeToGroupUseCase,
 ) : ViewModel() {
 
-    private val _status: MutableLiveData<GroupsStatus> = MutableLiveData(GroupsStatus.LOADING)
+    private val _status: MutableLiveData<GroupsStatus> = MutableLiveData()
     val status: LiveData<GroupsStatus> get() = _status
 
     private val _subscribedGroups: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
@@ -44,14 +48,14 @@ class GroupsViewModel @Inject constructor(
             getSubscribedGroupsUseCase.getSubscribedGroups().collect {
                 when(it) {
                     is Res.Success -> {
-                        _status.postValue(GroupsStatus.LOADED)
+                        _status.postValue(GroupsStatus.Success)
                         _subscribedGroups.postValue(it.data!!)
                     }
                     is Res.Error -> {
-                        _status.postValue(GroupsStatus.FAILED)
+                        _status.postValue(GroupsStatus.Error(it.message))
                     }
                     is Res.Loading -> {
-                        _status.postValue(GroupsStatus.LOADING)
+                        _status.postValue(GroupsStatus.Loading)
                     }
                 }
             }
@@ -61,14 +65,14 @@ class GroupsViewModel @Inject constructor(
             getGroupsWithRoleUseCase.getGroupsWithUseCase().collect {
                 when(it) {
                     is Res.Success -> {
-                        _status.postValue(GroupsStatus.LOADED)
+                        _status.postValue(GroupsStatus.Success)
                         _groupsWithRole.postValue(it.data!!)
                     }
                     is Res.Error -> {
-                        _status.postValue(GroupsStatus.FAILED)
+                        _status.postValue(GroupsStatus.Error(it.message))
                     }
                     is Res.Loading -> {
-                        _status.postValue(GroupsStatus.LOADING)
+                        _status.postValue(GroupsStatus.Loading)
                     }
                 }
             }

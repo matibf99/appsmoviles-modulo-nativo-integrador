@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.di
 
 import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
+import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
 import com.appsmoviles.gruposcomunitarios.domain.usecases.*
@@ -45,4 +46,8 @@ class ViewModelModule {
     @Provides
     fun provideCreateGroupUseCase(groupRepository: GroupRepository, userRepository: UserRepository, storageRepository: StorageRepository): CreateGroupUseCase =
         CreateGroupUseCaseImp(groupRepository, userRepository, storageRepository)
+
+    @Provides
+    fun provideCreatePostUseCase(postRepository: PostRepository, userRepository: UserRepository, storageRepository: StorageRepository): CreatePostUseCase =
+        CreatePostUseCaseImp(postRepository, userRepository, storageRepository)
 }

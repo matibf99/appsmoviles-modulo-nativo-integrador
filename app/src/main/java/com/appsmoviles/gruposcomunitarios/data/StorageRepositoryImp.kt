@@ -17,8 +17,8 @@ import java.io.ByteArrayOutputStream
 class StorageRepositoryImp(
     private val storage: FirebaseStorage
 ) : StorageRepository {
-    override fun loadImageToStorage(userId: String, filename: String, bitmap: Bitmap): Flow<Res<String>> = callbackFlow {
-        val storageRef = storage.reference.child("$userId/$filename")
+    override fun loadImageToStorage(root: String, filename: String, bitmap: Bitmap): Flow<Res<String>> = callbackFlow {
+        val storageRef = storage.reference.child("$root/$filename")
 
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)

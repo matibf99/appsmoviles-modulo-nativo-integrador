@@ -11,12 +11,15 @@ import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class SearchGroupsStatus {
-    LOADING, LOADED, FAILED, UNKNOWN
+sealed class SearchGroupsStatus(
+    val message: String? = null
+) {
+    object Success : SearchGroupsStatus()
+    object Loading : SearchGroupsStatus()
+    class Error(message: String?) : SearchGroupsStatus(message)
 }
 
 @HiltViewModel
@@ -27,7 +30,7 @@ class SearchViewModel @Inject constructor(
     private val getGroupsByTagUseCase: GetGroupsByTagUseCase
 ) : ViewModel() {
 
-    private var _status: MutableLiveData<SearchGroupsStatus> = MutableLiveData(SearchGroupsStatus.LOADING)
+    private var _status: MutableLiveData<SearchGroupsStatus> = MutableLiveData()
     val status: LiveData<SearchGroupsStatus> get() = _status
 
     private var _groups: MutableLiveData<List<Group>> = MutableLiveData()
@@ -45,15 +48,15 @@ class SearchViewModel @Inject constructor(
             getGroupsUseCase.getGroups(sortBy).collect {
                 when(it) {
                     is Res.Loading -> {
-                        _status.postValue(SearchGroupsStatus.LOADING)
+                        _status.postValue(SearchGroupsStatus.Loading)
                     }
                     is Res.Success -> {
                         _groups.postValue(it.data!!)
-                        _status.postValue(SearchGroupsStatus.LOADED)
+                        _status.postValue(SearchGroupsStatus.Success)
                         Log.d(TAG, "groups: ${it.data}")
                     }
                     is Res.Error -> {
-                        _status.postValue(SearchGroupsStatus.FAILED)
+                        _status.postValue(SearchGroupsStatus.Error(it.message))
                     }
                 }
             }
@@ -65,15 +68,15 @@ class SearchViewModel @Inject constructor(
             getGroupsByTagUseCase.getGroupsByTag(tag).collect {
                 when(it) {
                     is Res.Loading -> {
-                        _status.postValue(SearchGroupsStatus.LOADING)
+                        _status.postValue(SearchGroupsStatus.Loading)
                     }
                     is Res.Success -> {
                         _groups.postValue(it.data!!)
-                        _status.postValue(SearchGroupsStatus.LOADED)
+                        _status.postValue(SearchGroupsStatus.Success)
                         Log.d(TAG, "groups: ${it.data}")
                     }
                     is Res.Error -> {
-                        _status.postValue(SearchGroupsStatus.FAILED)
+                        _status.postValue(SearchGroupsStatus.Error(it.message))
                     }
                 }
             }

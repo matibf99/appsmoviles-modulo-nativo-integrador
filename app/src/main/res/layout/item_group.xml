@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="32dp"
-    android:paddingVertical="6dp"
+    android:paddingVertical="4dp"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/item_group_image_view"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
