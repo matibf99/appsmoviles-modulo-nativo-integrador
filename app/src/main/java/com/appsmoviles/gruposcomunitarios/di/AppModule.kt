@@ -2,15 +2,18 @@ package com.appsmoviles.gruposcomunitarios.di
 
 import com.appsmoviles.gruposcomunitarios.data.GroupRepositoryImp
 import com.appsmoviles.gruposcomunitarios.data.PostRepositoryImp
+import com.appsmoviles.gruposcomunitarios.data.StorageRepositoryImp
 import com.appsmoviles.gruposcomunitarios.data.UserRepositoryImp
 import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
+import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCaseImp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +31,9 @@ class AppModule {
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Provides
+    fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
+
+    @Provides
     fun provideGroupRepository(firestore: FirebaseFirestore): GroupRepository =
         GroupRepositoryImp(firestore)
 
@@ -38,4 +44,8 @@ class AppModule {
     @Provides
     fun provideUserRepository(auth: FirebaseAuth, firestore: FirebaseFirestore): UserRepository =
         UserRepositoryImp(auth, firestore)
+
+    @Provides
+    fun provideStorageRepository(storage: FirebaseStorage): StorageRepository =
+        StorageRepositoryImp(storage)
 }

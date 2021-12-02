@@ -120,7 +120,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val options = arrayOf("Name - Descending", "Name - Ascending", "Created at - Descending", "Created at - Ascending")
+        val options = arrayOf("Name - Ascending", "Name - Descending","Created at - Ascending", "Created at - Descending")
 
         when(item.itemId) {
             R.id.menu_search_filter -> {
@@ -128,10 +128,10 @@ class SearchFragment : Fragment() {
                     .setTitle("Order by")
                     .setItems(options) { dialog, which ->
                         when(which) {
-                            0 -> viewModel.setSortBy(SortBy.NAME_DESCENDING)
-                            1 -> viewModel.setSortBy(SortBy.NAME_ASCENDING)
-                            2 -> viewModel.setSortBy(SortBy.CREATED_AT_DESCENDING)
-                            3 -> viewModel.setSortBy(SortBy.CREATED_AT_ASCENDING)
+                            0 -> viewModel.setSortBy(SortBy.NAME_ASCENDING)
+                            1 -> viewModel.setSortBy(SortBy.NAME_DESCENDING)
+                            2 -> viewModel.setSortBy(SortBy.CREATED_AT_ASCENDING)
+                            3 -> viewModel.setSortBy(SortBy.CREATED_AT_DESCENDING)
                         }
                     }
                     .show()

@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
     private var _groups: MutableLiveData<List<Group>> = MutableLiveData()
     val groups: LiveData<List<Group>> get() = _groups
 
-    private var _sortBy: MutableLiveData<SortBy> = MutableLiveData(SortBy.NAME_DESCENDING)
+    private var _sortBy: MutableLiveData<SortBy> = MutableLiveData(SortBy.NAME_ASCENDING)
     val sortBy: LiveData<SortBy> get() = _sortBy
 
     init {

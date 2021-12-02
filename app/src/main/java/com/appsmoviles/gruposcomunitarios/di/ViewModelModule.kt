@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.di
 
 import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
+import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
 import com.appsmoviles.gruposcomunitarios.domain.usecases.*
 import dagger.Module
@@ -40,4 +41,8 @@ class ViewModelModule {
     @Provides
     fun provideGetGroupsWithRole(groupRepository: GroupRepository, userRepository: UserRepository): GetGroupsWithRoleUseCase =
         GetGroupsWithRoleUseCaseImp(groupRepository, userRepository)
+
+    @Provides
+    fun provideCreateGroupUseCase(groupRepository: GroupRepository, userRepository: UserRepository, storageRepository: StorageRepository): CreateGroupUseCase =
+        CreateGroupUseCaseImp(groupRepository, userRepository, storageRepository)
 }

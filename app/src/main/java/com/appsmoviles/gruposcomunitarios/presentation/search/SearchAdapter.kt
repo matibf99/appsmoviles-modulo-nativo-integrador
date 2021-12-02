@@ -40,7 +40,7 @@ abstract class SearchAdapter(
 
         Glide.with(holder.itemView.context)
             .load(item.photo)
-            .centerCrop()
+            .circleCrop()
             .into(holder.imageView)
 
         if (item.subscribed == true)

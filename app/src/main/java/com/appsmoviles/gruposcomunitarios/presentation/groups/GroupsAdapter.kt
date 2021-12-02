@@ -45,7 +45,7 @@ abstract class GroupsAdapter(
 
             Glide.with(holder.itemView.context)
                 .load(item.photo)
-                .centerCrop()
+                .circleCrop()
                 .into(holder.imageView)
 
             holder.btnUnsubscribe.setOnClickListener {

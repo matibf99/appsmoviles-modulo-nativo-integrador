@@ -16,43 +16,23 @@ fun pickImageFromGalleryIntent(): Intent {
     return pickIntent
 }
 
-private fun getRootFile(applicationContext: Context): File {
+fun pickImageFromCameraIntent(applicationContext: Context): Intent {
+    val photoURI = getImageUriTakenWithCamera(applicationContext, true)
+
+    val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+    return takePhotoIntent
+}
+
+fun getImageUriTakenWithCamera(applicationContext: Context, delete: Boolean = false): Uri {
     val root = File(applicationContext.externalCacheDir, "my_images") // consider using getExternalFilesDir(Environment.DIRECTORY_PICTURES); you need to check the file_paths.xml
     if (!root.exists())
         root.mkdirs()
 
-    return root
-}
-
-fun pickImageFromCameraIntent(activity: Activity): Intent {
-    val applicationContext: Context = activity.applicationContext
-    val root = getRootFile(applicationContext)
-
     val capturedPhoto = File(root, "image.jpeg")
-    if (!capturedPhoto.exists()) {
+    if (delete && capturedPhoto.exists())
         capturedPhoto.delete()
-    }
-    capturedPhoto.createNewFile()
-    Log.d(TAG, "pickImageFromCameraIntent: ${capturedPhoto.absolutePath}")
 
-    val photoURI = FileProvider.getUriForFile(
-        applicationContext,
-        applicationContext.packageName + ".fileprovider",
-        capturedPhoto
-    )
-
-    val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-    //takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    //takePhotoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-    return takePhotoIntent
-}
-
-fun getImageUriTaken(activity: Activity): Uri {
-    val applicationContext: Context = activity.applicationContext
-    val root = getRootFile(applicationContext)
-
-    val capturedPhoto = File(root, "image.jpeg")
     return FileProvider.getUriForFile(
         applicationContext,
         applicationContext.packageName + ".fileprovider",

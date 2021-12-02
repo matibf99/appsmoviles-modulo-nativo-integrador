@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="GROUP INFORMATION"
         android:textAppearance="?attr/textAppearanceOverline"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,13 +22,15 @@
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:hint="Name"
+        app:helperTextEnabled="true"
+        app:helperText="Group name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_header_group"
         app:startIconContentDescription="Name"
-        app:startIconDrawable="@drawable/ic_baseline_search_24">
+        app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -38,13 +41,15 @@
         android:id="@+id/edit_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:hint="Description"
+        app:helperTextEnabled="true"
+        app:helperText="Group description"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_name"
         app:startIconContentDescription="Description"
-        app:startIconDrawable="@drawable/ic_baseline_search_24">
+        app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -55,13 +60,15 @@
         android:id="@+id/edit_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:hint="Tags"
+        app:helperTextEnabled="true"
+        app:helperText="Introduce the tags separated by commas"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_description"
         app:startIconContentDescription="Tags"
-        app:startIconDrawable="@drawable/ic_baseline_search_24">
+        app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -72,7 +79,7 @@
         android:id="@+id/text_header_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="PHOTO"
         android:textAppearance="?attr/textAppearanceOverline"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -83,7 +90,7 @@
         android:id="@+id/photo_preview"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_header_photo" />

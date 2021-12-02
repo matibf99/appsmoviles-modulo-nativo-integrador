@@ -6,7 +6,7 @@ data class Group(
     var documentId: String? = null,
     val name: String? = null,
     val description: String? = null,
-    val photo: String? = null,
+    var photo: String? = null,
     val createdAt: Date? = null,
     val modifiedAt: Date? = null,
     val createdBy: String? = null,

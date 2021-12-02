@@ -89,11 +89,11 @@ class GroupRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override suspend fun createGroup(group: Group): Flow<Res<Group>> = callbackFlow {
+    override suspend fun createGroup(group: Group): Flow<Res<Nothing>> = callbackFlow {
         trySend(Res.Loading())
 
         db.collection(GROUPS_COLLECTION)
-            .document()
+            .document(group.name!!)
             .set(group)
             .addOnSuccessListener {
                 trySend(Res.Success())

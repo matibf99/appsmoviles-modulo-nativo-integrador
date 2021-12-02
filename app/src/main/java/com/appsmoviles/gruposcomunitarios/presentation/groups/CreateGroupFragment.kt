@@ -1,29 +1,29 @@
 package com.appsmoviles.gruposcomunitarios.presentation.groups
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraIntent
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
 import androidx.fragment.app.viewModels
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateGroupBinding
-import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTaken
+import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import java.io.File
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CreateGroupFragment : Fragment() {
 
     private val viewModel: CreateGroupFragmentViewModel by viewModels()
@@ -54,12 +54,37 @@ class CreateGroupFragment : Fragment() {
                 .into(binding.photoPreview)
         })
 
+        binding.editName.editText?.setText(viewModel.name.value)
+        binding.editDescription.editText?.setText(viewModel.description.value)
+        binding.editTags.editText?.setText(viewModel.tags.value)
+
+        binding.editName.editText?.doAfterTextChanged {
+            viewModel.setName(it.toString())
+        }
+
+        binding.editDescription.editText?.doAfterTextChanged {
+            viewModel.setDescription(it.toString())
+        }
+
+        binding.editTags.editText?.doAfterTextChanged {
+            viewModel.setTags(it.toString())
+        }
+
         binding.btnPickCamera.setOnClickListener {
-            startActivityForResult(pickImageFromCameraIntent(requireActivity()), REQUEST_CAPTURE_IMAGE)
+            startActivityForResult(
+                pickImageFromCameraIntent(requireActivity().applicationContext),
+                REQUEST_CAPTURE_IMAGE
+            )
         }
 
         binding.btnPickStorage.setOnClickListener {
             startActivityForResult(pickImageFromGalleryIntent(), REQUEST_CAPTURE_IMAGE)
+        }
+
+        binding.btnCreateGroup.setOnClickListener {
+            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, viewModel.imageUri.value)
+            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, 512, 512, true)
+            viewModel.createGroup(compressedBitmap)
         }
 
         return view
@@ -82,10 +107,10 @@ class CreateGroupFragment : Fragment() {
         when(requestCode) {
             REQUEST_CAPTURE_IMAGE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    if (data?.data != null)
+                    if (data?.data != null) // Gallery or storage
                         viewModel.setImageUri(data.data!!)
-                    else
-                        viewModel.setImageUri(getImageUriTaken(requireActivity()))
+                    else // Camera
+                        viewModel.setImageUri(getImageUriTakenWithCamera(requireActivity().applicationContext))
                 }
             }
         }
