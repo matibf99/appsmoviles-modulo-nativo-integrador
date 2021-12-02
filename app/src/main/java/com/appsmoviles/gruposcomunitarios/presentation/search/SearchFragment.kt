@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentSearchBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,6 +78,11 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        (activity as MainActivity?)!!.displayHomeButton(false)
+        super.onResume()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 
 class UserFragment : Fragment() {
 
@@ -18,7 +19,7 @@ class UserFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -30,6 +31,11 @@ class UserFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        (activity as MainActivity?)!!.displayHomeButton(false)
+        super.onResume()
     }
 
     companion object {

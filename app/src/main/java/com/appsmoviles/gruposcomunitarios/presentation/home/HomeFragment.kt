@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentHomeBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +32,11 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        (activity as MainActivity?)!!.displayHomeButton(false)
+        super.onResume()
     }
 
     companion object {

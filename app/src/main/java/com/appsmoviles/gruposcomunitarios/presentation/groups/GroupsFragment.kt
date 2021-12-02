@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentGroupsBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,6 +64,11 @@ class GroupsFragment : Fragment() {
             adapterRole.notifyDataSetChanged()
         })
 
+        binding.groupsFab.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.action_groupsFragment_to_createGroupFragment)
+        }
+
         return view
     }
 
@@ -69,11 +77,15 @@ class GroupsFragment : Fragment() {
         super.onDestroyView()
     }
 
+    override fun onResume() {
+        (activity as MainActivity?)!!.displayHomeButton(false)
+        super.onResume()
+    }
+
     companion object {
         private const val TAG = "GroupsFragment"
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GroupsFragment()
+        fun newInstance() = GroupsFragment()
     }
 }
