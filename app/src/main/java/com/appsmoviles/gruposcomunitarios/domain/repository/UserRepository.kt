@@ -9,6 +9,4 @@ interface UserRepository {
     suspend fun signIn(email: String, password: String): Flow<Res<Nothing>>
     suspend fun getCurrentUserInfo(): Flow<Res<User>>
     suspend fun getCurrentUserDocumentId(): Flow<Res<String>>
-    suspend fun subscribeToGroup(groupId: String): Flow<Res<Nothing>>
-    suspend fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>>
 }

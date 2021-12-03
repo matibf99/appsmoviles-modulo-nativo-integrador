@@ -91,38 +91,4 @@ class UserRepositoryImp(
     override suspend fun getCurrentUserDocumentId(): Flow<Res<String>> = flow {
         emit(Res.Success("matibf99"))
     }
-
-    override suspend fun subscribeToGroup(groupId: String): Flow<Res<Nothing>> = callbackFlow {
-        val documentId = "matibf99"
-
-        db.collection(USERS_COLLECTION)
-            .document(documentId)
-            .update("groups", FieldValue.arrayUnion(groupId))
-            .addOnSuccessListener {
-                Log.d(TAG, "subscribeToGroup: success")
-                trySend(Res.Success())
-            }
-            .addOnFailureListener {
-                trySend(Res.Error(it.message))
-                Log.d(TAG, "subscribeToGroup: ${it.message}")
-            }
-        awaitClose { channel.close() }
-    }
-
-    override suspend fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>> = callbackFlow {
-        val documentId = "matibf99"
-
-        db.collection(USERS_COLLECTION)
-            .document(documentId)
-            .update("groups", FieldValue.arrayRemove(groupId))
-            .addOnSuccessListener {
-                Log.d(TAG, "unsubscribeToGroup: success")
-                trySend(Res.Success())
-            }
-            .addOnFailureListener {
-                trySend(Res.Error(it.message))
-                Log.d(TAG, "unsubscribeToGroup: ${it.message}")
-            }
-        awaitClose { channel.close() }
-    }
 }

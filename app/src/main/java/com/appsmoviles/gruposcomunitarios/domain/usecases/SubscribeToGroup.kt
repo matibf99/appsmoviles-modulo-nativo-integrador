@@ -12,11 +12,13 @@ interface SubscribeToGroupUseCase {
 }
 
 class SubscribeToGroupUseCaseImp(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val groupRepository: GroupRepository
 ) : SubscribeToGroupUseCase {
     override fun subscribeToGroup(groupId: String): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
-        val result = userRepository.subscribeToGroup(groupId).first()
+        val userId = userRepository.getCurrentUserDocumentId().first()
+        val result = groupRepository.subscribeToGroup(groupId, userId.data!!).first()
         emit(result)
     }
 }

@@ -13,11 +13,13 @@ interface UnsubscribeToGroupUseCase {
 }
 
 class UnsubscribeToGroupUseCaseImp(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val groupRepository: GroupRepository
 ) : UnsubscribeToGroupUseCase {
     override fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
-        val result = userRepository.unsubscribeToGroup(groupId).first()
+        val userId = userRepository.getCurrentUserDocumentId().first()
+        val result = groupRepository.unsubscribeToGroup(groupId, userId.data!!).first()
         emit(result)
     }
 }

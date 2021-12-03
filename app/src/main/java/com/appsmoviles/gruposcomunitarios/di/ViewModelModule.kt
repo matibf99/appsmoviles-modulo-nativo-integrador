@@ -16,16 +16,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @InstallIn(ViewModelComponent::class)
 class ViewModelModule {
     @Provides
-    fun provideGetGroupsUseCase(groupRepository: GroupRepository, userRepository: UserRepository): GetGroupsUseCase =
-        GetGroupsUseCaseImp(groupRepository, userRepository)
+    fun provideGetGroupsUseCase(groupRepository: GroupRepository): GetGroupsUseCase =
+        GetGroupsUseCaseImp(groupRepository)
 
     @Provides
-    fun provideSubscribeToGroupUseCase(userRepository: UserRepository): SubscribeToGroupUseCase =
-        SubscribeToGroupUseCaseImp(userRepository)
+    fun provideSubscribeToGroupUseCase(userRepository: UserRepository, groupRepository: GroupRepository): SubscribeToGroupUseCase =
+        SubscribeToGroupUseCaseImp(userRepository, groupRepository)
 
     @Provides
-    fun provideUnsubscribeToGroupUseCase(userRepository: UserRepository): UnsubscribeToGroupUseCase =
-        UnsubscribeToGroupUseCaseImp(userRepository)
+    fun provideUnsubscribeToGroupUseCase(userRepository: UserRepository, groupRepository: GroupRepository): UnsubscribeToGroupUseCase =
+        UnsubscribeToGroupUseCaseImp(userRepository, groupRepository)
 
     @Provides
     fun provideGetGroupsByTagUseCase(groupRepository: GroupRepository): GetGroupsByTagUseCase =

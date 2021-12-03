@@ -105,36 +105,26 @@ class GroupRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override suspend fun getSubscribedGroups(groupsIds: List<String>): Flow<Res<List<Group>>> = callbackFlow {
-        val groupsIdsChunked = groupsIds.chunked(10)
-        val tasks = ArrayList<Task<QuerySnapshot>>()
-
-        for (ids in groupsIdsChunked) {
-            val task = db.collection(GROUPS_COLLECTION)
-                .whereIn(FieldPath.documentId(), ids)
-                .get()
-
-            tasks.add(task)
-        }
-
-        Tasks.whenAllSuccess<QuerySnapshot>(tasks)
+    override suspend fun getSubscribedGroups(userId: String): Flow<Res<List<Group>>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .whereArrayContains("subscribed", userId)
+            .get()
             .addOnSuccessListener {
-                val subscribedGroups = ArrayList<Group>()
-                for (querySnapshotList in it) {
-                    for (documentSnapshot in querySnapshotList) {
-                        val group = documentSnapshot.toObject(Group::class.java)
-                        group.documentId = documentSnapshot.id
-                        group.subscribed = true
-
-                        subscribedGroups.add(group)
-                    }
+                val groups = ArrayList<Group>()
+                
+                for (documentSnapshot in it) {
+                    val group = documentSnapshot.toObject(Group::class.java)
+                    group.documentId = documentSnapshot.id
+                    
+                    groups.add(group)
                 }
-
-                trySend(Res.Success(subscribedGroups))
+                
+                trySend(Res.Success(groups))
+                Log.d(TAG, "getSubscribedGroups: success")
             }
-            .addOnFailureListener {
+            .addOnFailureListener { 
                 trySend(Res.Error(it.message))
-                Log.d(TAG, "getSubscribedGroups: ${it.message}")
+                Log.d(TAG, "getSubscribedGroups: error: ${it.message}")
             }
         awaitClose { channel.close() }
     }
@@ -151,17 +141,14 @@ class GroupRepositoryImp(
             .get()
 
         Tasks.whenAllSuccess<QuerySnapshot>(task1, task2)
-            .addOnSuccessListener {
+            .addOnSuccessListener { listQuerySnapshot ->
                 val groups = ArrayList<Group>()
-                for (querySnapshot in it) {
+                for (querySnapshot in listQuerySnapshot) {
                     for (documentSnapshot in querySnapshot) {
                         val group = documentSnapshot.toObject(Group::class.java)
 
                         if (groups.find { documentSnapshot.id == it.documentId } == null) {
                             group.documentId = documentSnapshot.id
-                            group.userRol = if (username == group.createdBy) "Owner"
-                                else "Moderator"
-
                             groups.add(group)
                         }
                     }
@@ -170,6 +157,36 @@ class GroupRepositoryImp(
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
+            }
+        awaitClose { channel.close() }
+    }
+
+    override suspend fun subscribeToGroup(groupId: String, userId: String): Flow<Res<Nothing>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .update("subscribed", FieldValue.arrayUnion(userId))
+            .addOnSuccessListener { 
+                trySend(Res.Success())
+                Log.d(TAG, "subscribeToGroup: success")
+            }
+            .addOnFailureListener { 
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "subscribeToGroup: error: ${it.message}")
+            }
+        awaitClose { channel.close() }
+    }
+
+    override suspend fun unsubscribeToGroup(groupId: String, userId: String): Flow<Res<Nothing>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .update("subscribed", FieldValue.arrayRemove(userId))
+            .addOnSuccessListener {
+                trySend(Res.Success())
+                Log.d(TAG, "unsubscribeToGroup: success")
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "unsubscribeToGroup: error: ${it.message}")
             }
         awaitClose { channel.close() }
     }

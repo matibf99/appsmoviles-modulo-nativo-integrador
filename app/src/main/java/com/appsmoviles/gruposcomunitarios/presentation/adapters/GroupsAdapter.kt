@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 
 abstract class GroupsAdapter(
     private val title: String,
+    private val username: String,
     var items: List<Group>,
     private val displaySubscribeButton: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -43,7 +44,11 @@ abstract class GroupsAdapter(
 
             holder.tvTitle.text = item.name!!
 
-            holder.tvSubtitle.text = item.userRol!!
+            holder.tvSubtitle.text = when {
+                username == item.createdBy -> "Owner"
+                item.moderators?.contains(username) == true -> "Moderator"
+                else -> "User"
+            }
 
             Glide.with(holder.itemView.context)
                 .load(item.photo)
@@ -55,7 +60,7 @@ abstract class GroupsAdapter(
             }
 
             if (displaySubscribeButton) {
-                if (item.subscribed == true)
+                if (item.subscribed?.contains(username) == true)
                     holder.btnUnsubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
                 else
                     holder.btnUnsubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)

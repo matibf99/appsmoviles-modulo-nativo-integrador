@@ -55,7 +55,7 @@ class GroupsFragment : Fragment() {
             }
         })
 
-        adapterRole = object : GroupsAdapter("My groups", viewModel.groupsWithRole.value!!, false) {
+        adapterRole = object : GroupsAdapter("My groups", viewModel.username, viewModel.groupsWithRole.value!!, false) {
             override fun onUnsubscribeListener(position: Int) {
             }
 
@@ -65,7 +65,7 @@ class GroupsFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
-        adapterSubscribed = object : GroupsAdapter("Subscribed groups", viewModel.subscribedGroups.value!!, true) {
+        adapterSubscribed = object : GroupsAdapter("Subscribed groups", viewModel.username, viewModel.subscribedGroups.value!!, true) {
             override fun onUnsubscribeListener(position: Int) {
                 viewModel.unsubscribeTo(position)
             }

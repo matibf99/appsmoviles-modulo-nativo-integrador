@@ -27,6 +27,9 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var adapter: SearchAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
@@ -59,24 +62,27 @@ class SearchFragment : Fragment() {
             }
         })
 
+        linearLayoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewSearch.layoutManager = linearLayoutManager
+
+        adapter = object : SearchAdapter(viewModel.username, viewModel.groups.value!!) {
+            override fun onSubscribeListener(position: Int) {
+                viewModel.subscribeToGroup(position)
+                adapter.notifyItemChanged(position)
+            }
+
+            override fun onOpenGroupListener(position: Int) {
+                val group = viewModel.groups.value!![position]
+                val action = SearchFragmentDirections.actionSearchFragmentToGroupFragment(group)
+                findNavController().navigate(action)
+            }
+        }
+        binding.recyclerViewSearch.adapter = adapter
+
         viewModel.groups.observe(requireActivity(), { list ->
             Log.d(TAG, "onCreateView: new groups list")
-
-            if (list != null) {
-                Log.d(TAG, "onCreateView: is not empty")
-                binding.recyclerViewSearch.layoutManager = LinearLayoutManager(requireContext())
-                binding.recyclerViewSearch.adapter = object : SearchAdapter(list) {
-                    override fun onSubscribeListener(position: Int) {
-                        viewModel.subscribeToGroup(position)
-                    }
-
-                    override fun onOpenGroupListener(position: Int) {
-                        val group = viewModel.groups.value!![position]
-                        val action = SearchFragmentDirections.actionSearchFragmentToGroupFragment(group)
-                        findNavController().navigate(action)
-                    }
-                }
-            }
+            adapter.items = list
+            adapter.notifyDataSetChanged()
         })
 
         viewModel.sortBy.observe(requireActivity(), { sortBy ->

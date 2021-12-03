@@ -13,7 +13,8 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.bumptech.glide.Glide
 
 abstract class SearchAdapter(
-    private val items: List<Group>
+    private val username: String,
+    var items: List<Group>
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -43,7 +44,7 @@ abstract class SearchAdapter(
             .circleCrop()
             .into(holder.imageView)
 
-        if (item.subscribed == true)
+        if (item.subscribed?.contains(username) == true)
             holder.btnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
         else
             holder.btnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)

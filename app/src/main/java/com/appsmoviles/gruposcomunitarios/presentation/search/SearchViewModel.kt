@@ -33,11 +33,13 @@ class SearchViewModel @Inject constructor(
     private var _status: MutableLiveData<SearchGroupsStatus> = MutableLiveData()
     val status: LiveData<SearchGroupsStatus> get() = _status
 
-    private var _groups: MutableLiveData<List<Group>> = MutableLiveData()
+    private var _groups: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
     val groups: LiveData<List<Group>> get() = _groups
 
     private var _sortBy: MutableLiveData<SortBy> = MutableLiveData(SortBy.NAME_ASCENDING)
     val sortBy: LiveData<SortBy> get() = _sortBy
+
+    val username: String = "matibf99"
 
     init {
         loadGroups()
@@ -86,12 +88,18 @@ class SearchViewModel @Inject constructor(
     fun subscribeToGroup(position: Int) {
         val group = groups.value!![position]
 
-        val isSubscribed = group.subscribed
-        group.subscribed = !isSubscribed!!
-        _groups.value = _groups.value
+        val isSubscribed = group.subscribed?.contains(username) == true
+        val subscribed = group.subscribed!!.toMutableList()
+
+        if (isSubscribed)
+            subscribed.remove(username)
+        else
+            subscribed.add(username)
+
+        _groups.value!![position].subscribed = subscribed
 
         viewModelScope.launch {
-            val res = if (isSubscribed == true) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!)
+            val res = if (isSubscribed) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!)
                 else subscribeToGroupUseCase.subscribeToGroup(group.documentId!!)
 
             res.collect {

@@ -16,6 +16,5 @@ data class Group(
     val createdBy: String? = null,
     val tags: List<String>? = null,
     val moderators: List<String>? = null,
-    @get:Exclude var userRol: String? = null,
-    @get:Exclude var subscribed: Boolean? = false,
+    var subscribed: List<String>? = null,
 ) : Parcelable
