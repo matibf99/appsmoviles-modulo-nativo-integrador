@@ -54,6 +54,11 @@ class UserRepositoryImp(
             }
     }
 
+    override  fun registeredUser(): Boolean {
+        val user = auth.currentUser
+        return user != null
+    }
+
     override suspend fun signIn(email: String, password: String): Flow<Res<Nothing>> = callbackFlow {
         trySend(Res.Loading())
 

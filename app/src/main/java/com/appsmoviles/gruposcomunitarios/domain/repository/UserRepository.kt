@@ -7,8 +7,10 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     suspend fun registerUser(user: User, password: String): Flow<Res<Nothing>>
     suspend fun signIn(email: String, password: String): Flow<Res<Nothing>>
+    fun registeredUser(): Boolean
     suspend fun getCurrentUserInfo(): Flow<Res<User>>
     suspend fun getCurrentUserDocumentId(): Flow<Res<String>>
     suspend fun subscribeToGroup(groupId: String): Flow<Res<Nothing>>
     suspend fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>>
+
 }
