@@ -12,7 +12,7 @@ interface GetUserRegisteredUseCase {
     fun registeredUser(): Boolean
 }
 
-class GetUserRegisteredImp (
+class GetUserRegisteredUseCaseImp (
     private val userRepository: UserRepository
     ) : GetUserRegisteredUseCase {
     override fun registeredUser(): Boolean {

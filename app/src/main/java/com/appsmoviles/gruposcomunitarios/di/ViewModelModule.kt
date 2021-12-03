@@ -38,6 +38,10 @@ class ViewModelModule {
         GetUserInfoUseCaseImp(userRepository)
 
     @Provides
+    fun provideRegisteredUser(userRepository: UserRepository): GetUserRegisteredUseCase =
+        GetUserRegisteredUseCaseImp(userRepository)
+
+    @Provides
     fun provideGetGroupsWithRole(groupRepository: GroupRepository, userRepository: UserRepository): GetGroupsWithRoleUseCase =
         GetGroupsWithRoleUseCaseImp(groupRepository, userRepository)
 }
