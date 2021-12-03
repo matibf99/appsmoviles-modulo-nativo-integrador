@@ -60,7 +60,6 @@ class UserRepositoryImp(
     }
 
     override suspend fun signIn(email: String, password: String): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {

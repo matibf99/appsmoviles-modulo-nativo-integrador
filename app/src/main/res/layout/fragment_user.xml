@@ -103,7 +103,7 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:drawableStart="@drawable/ic_baseline_email"
+            android:drawableStart="@drawable/custom_email_icon"
             android:background="@drawable/custom_input"
             android:drawablePadding="12dp"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -121,7 +121,7 @@
             android:paddingEnd="12dp"
             android:ems="10"
             android:hint="Contraseña"
-            android:drawableStart="@drawable/ic_baseline"
+            android:drawableStart="@drawable/custom_lock_icon"
             android:background="@drawable/custom_input"
             android:drawablePadding="12dp"
             android:inputType="textPassword" />

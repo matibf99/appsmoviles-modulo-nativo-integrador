@@ -27,6 +27,10 @@ class UserFragment : Fragment() {
         return view
     }
 
+    private fun takeDatesOfUsers() {
+
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
