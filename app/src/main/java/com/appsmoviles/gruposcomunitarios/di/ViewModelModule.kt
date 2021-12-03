@@ -50,4 +50,24 @@ class ViewModelModule {
     @Provides
     fun provideCreatePostUseCase(postRepository: PostRepository, userRepository: UserRepository, storageRepository: StorageRepository): CreatePostUseCase =
         CreatePostUseCaseImp(postRepository, userRepository, storageRepository)
+
+    @Provides
+    fun provideGetPostsUseCase(postRepository: PostRepository): GetPostsFromGroupUseCase =
+        GetPostsFromGroupUseCaseImp(postRepository)
+
+    @Provides
+    fun provideLikePostUseCase(postRepository: PostRepository): LikePostUseCase =
+        LikePostUseCaseImp(postRepository)
+
+    @Provides
+    fun provideUnlikePostUseCase(postRepository: PostRepository): UnlikePostUseCase =
+        UnlikePostUseCaseImp(postRepository)
+
+    @Provides
+    fun provideGetPostsFromAllGroupsUseCase(postRepository: PostRepository): GetPostsFromAllGroupsUseCase =
+        GetPostsFromAllGroupsUseCaseImp(postRepository)
+
+    @Provides
+    fun provideGetGroupUseCase(groupRepository: GroupRepository): GetGroupUseCase =
+        GetGroupUseCaseImp(groupRepository)
 }

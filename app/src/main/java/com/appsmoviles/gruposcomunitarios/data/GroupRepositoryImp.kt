@@ -79,8 +79,10 @@ class GroupRepositoryImp(
             .addOnSuccessListener {
                 val group = it.toObject(Group::class.java)
 
-                if (group != null)
+                if (group != null) {
+                    group.documentId = it.id
                     trySend(Res.Success(group))
+                }
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))

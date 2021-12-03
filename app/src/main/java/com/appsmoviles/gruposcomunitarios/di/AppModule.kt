@@ -1,5 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.appsmoviles.gruposcomunitarios.data.GroupRepositoryImp
 import com.appsmoviles.gruposcomunitarios.data.PostRepositoryImp
 import com.appsmoviles.gruposcomunitarios.data.StorageRepositoryImp
@@ -17,6 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -39,6 +42,10 @@ class AppModule {
 
         return instance
     }
+
+    @Provides
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
     @Provides
     fun provideGroupRepository(firestore: FirebaseFirestore): GroupRepository =

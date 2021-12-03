@@ -1,4 +1,4 @@
-package com.appsmoviles.gruposcomunitarios.presentation.search
+package com.appsmoviles.gruposcomunitarios.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -50,14 +50,14 @@ abstract class SearchAdapter(
 
         holder.btnSubscribe.setOnClickListener { onSubscribeListener(position) }
 
-        holder.layout.setOnClickListener {
-
-        }
+        holder.layout.setOnClickListener { onOpenGroupListener(position) }
     }
 
     override fun getItemCount(): Int = items.size
 
     abstract fun onSubscribeListener(position: Int)
+
+    abstract fun onOpenGroupListener(position: Int)
 
     inner class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val layout: ConstraintLayout = view.findViewById(R.id.item_search_layout)

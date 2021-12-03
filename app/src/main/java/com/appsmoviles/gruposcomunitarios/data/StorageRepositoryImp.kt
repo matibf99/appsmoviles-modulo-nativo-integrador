@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
 import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.storage.resize
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -20,8 +21,9 @@ class StorageRepositoryImp(
     override fun loadImageToStorage(root: String, filename: String, bitmap: Bitmap): Flow<Res<String>> = callbackFlow {
         val storageRef = storage.reference.child("$root/$filename")
 
+        val resizedBitmap = resize(bitmap)
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
 
         val uploadTask = storageRef.putBytes(data)

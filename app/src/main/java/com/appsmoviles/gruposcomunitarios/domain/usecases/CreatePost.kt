@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import java.util.*
+import kotlin.collections.ArrayList
 
 interface CreatePostUseCase {
     fun createPost(
@@ -58,7 +59,9 @@ class CreatePostUseCaseImp(
             commentsCount = 0,
             photo = imageUrl,
             createdAt = Date(),
-            createdBy = userIdRes.data
+            createdBy = userIdRes.data,
+            groupId = groupId,
+            likes = ArrayList()
         )
 
         val postRes = postRepository.createPost(groupId, post).first()

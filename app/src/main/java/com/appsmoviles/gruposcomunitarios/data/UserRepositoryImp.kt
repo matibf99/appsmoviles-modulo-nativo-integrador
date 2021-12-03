@@ -26,8 +26,6 @@ class UserRepositoryImp(
     }
 
     override suspend fun registerUser(user: User, password: String): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
         auth.createUserWithEmailAndPassword(user.email!!, password)
             .addOnSuccessListener {
                 val documentId = auth.currentUser?.getIdToken(false)?.result?.token
@@ -69,7 +67,7 @@ class UserRepositoryImp(
 
     override suspend fun getCurrentUserInfo(): Flow<Res<User>> = callbackFlow {
         //val documentId = auth.currentUser?.getIdToken(false)?.result?.token
-        val documentId = "nPOYu5Ad0Tj0WoZkN9qZ"
+        val documentId = "matibf99"
 
         if (documentId != null) {
             db.collection(USERS_COLLECTION)
@@ -91,11 +89,11 @@ class UserRepositoryImp(
     }
 
     override suspend fun getCurrentUserDocumentId(): Flow<Res<String>> = flow {
-        emit(Res.Success("nPOYu5Ad0Tj0WoZkN9qZ"))
+        emit(Res.Success("matibf99"))
     }
 
     override suspend fun subscribeToGroup(groupId: String): Flow<Res<Nothing>> = callbackFlow {
-        val documentId = "nPOYu5Ad0Tj0WoZkN9qZ"
+        val documentId = "matibf99"
 
         db.collection(USERS_COLLECTION)
             .document(documentId)
@@ -112,7 +110,7 @@ class UserRepositoryImp(
     }
 
     override suspend fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>> = callbackFlow {
-        val documentId = "nPOYu5Ad0Tj0WoZkN9qZ"
+        val documentId = "matibf99"
 
         db.collection(USERS_COLLECTION)
             .document(documentId)

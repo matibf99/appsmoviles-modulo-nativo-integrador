@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentSearchBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.presentation.adapters.SearchAdapter
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,6 +68,12 @@ class SearchFragment : Fragment() {
                 binding.recyclerViewSearch.adapter = object : SearchAdapter(list) {
                     override fun onSubscribeListener(position: Int) {
                         viewModel.subscribeToGroup(position)
+                    }
+
+                    override fun onOpenGroupListener(position: Int) {
+                        val group = viewModel.groups.value!![position]
+                        val action = SearchFragmentDirections.actionSearchFragmentToGroupFragment(group)
+                        findNavController().navigate(action)
                     }
                 }
             }

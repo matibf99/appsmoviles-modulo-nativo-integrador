@@ -103,8 +103,7 @@ class CreateGroupFragment : Fragment() {
 
         binding.btnCreateGroup.setOnClickListener {
             val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, viewModel.imageUri.value)
-            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, 512, 512, true)
-            viewModel.createGroup(compressedBitmap)
+            viewModel.createGroup(bitmap)
         }
 
         return view

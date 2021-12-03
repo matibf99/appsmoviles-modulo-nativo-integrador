@@ -8,7 +8,10 @@ import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.GROUPS_COLLEC
 import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.GROUP_SUBCOLLECTION_POSTS
 import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.POST_SUBCOLLECTION_COMMENTS
 import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -88,16 +91,23 @@ class PostRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override fun getPosts(groupId: String, sortBy: Int): Flow<Res<List<Post>>> = callbackFlow {
+    override fun getPosts(groupId: String, sortBy: SortBy): Flow<Res<List<Post>>> = callbackFlow {
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
+            .orderBy("createdAt", when(sortBy) {
+                SortBy.CREATED_AT_ASCENDING -> Query.Direction.ASCENDING
+                SortBy.CREATED_AT_DESCENDING -> Query.Direction.DESCENDING
+                else -> Query.Direction.ASCENDING
+            })
             .get()
             .addOnSuccessListener {
                 val posts = ArrayList<Post>()
 
                 for (documentSnapshot in it) {
                     val post = documentSnapshot.toObject(Post::class.java)
+                    post.documentId = documentSnapshot.id
+
                     posts.add(post)
                 }
 
@@ -109,6 +119,35 @@ class PostRepositoryImp(
             }
         awaitClose { channel.close() }
     }
+
+    override fun getPostsFromAllGroups(sortBy: SortBy): Flow<Res<List<Post>>> = callbackFlow {
+        db.collectionGroup(GROUP_SUBCOLLECTION_POSTS)
+            .orderBy("createdAt", when(sortBy) {
+                SortBy.CREATED_AT_ASCENDING -> Query.Direction.ASCENDING
+                SortBy.CREATED_AT_DESCENDING -> Query.Direction.DESCENDING
+                else -> Query.Direction.ASCENDING
+            })
+            .get()
+            .addOnSuccessListener {
+                val posts = ArrayList<Post>()
+
+                for (documentSnapshot in it) {
+                    val post = documentSnapshot.toObject(Post::class.java)
+                    post.documentId = documentSnapshot.id
+
+                    posts.add(post)
+                }
+
+                trySend(Res.Success(posts))
+                Log.d(TAG, "getPostsFromAllGroups: success")
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "getPostsFromAllGroups: error: ${it.message}")
+            }
+        awaitClose { channel.close() }
+    }
+
 
     override fun getComments(groupId: String, postId: String): Flow<Res<List<PostComment>>> = callbackFlow {
         db.collection(GROUPS_COLLECTION)
@@ -122,6 +161,8 @@ class PostRepositoryImp(
 
                 for (documentSnapshot in it) {
                     val comment = documentSnapshot.toObject(PostComment::class.java)
+                    comment.documentId = documentSnapshot.id
+
                     comments.add(comment)
                 }
 
@@ -175,6 +216,40 @@ class PostRepositoryImp(
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "modifyComment: ${it.message}")
+            }
+        awaitClose { channel.close() }
+    }
+
+    override fun likePost(groupId: String, postId: String, userId: String): Flow<Res<Nothing>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .collection(GROUP_SUBCOLLECTION_POSTS)
+            .document(postId)
+            .update("likes", FieldValue.arrayUnion(userId))
+            .addOnSuccessListener {
+                trySend(Res.Success())
+                Log.d(TAG, "likePost: success")
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "likePost: error")
+            }
+        awaitClose { channel.close() }
+    }
+
+    override fun unlikePost(groupId: String, postId: String, userId: String): Flow<Res<Nothing>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .collection(GROUP_SUBCOLLECTION_POSTS)
+            .document(postId)
+            .update("likes", FieldValue.arrayRemove(userId))
+            .addOnSuccessListener {
+                trySend(Res.Success())
+                Log.d(TAG, "unlikePost: success")
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "unlikePost: error")
             }
         awaitClose { channel.close() }
     }

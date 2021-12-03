@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Exclude
 import java.util.*
 
 data class PostComment(
-    @get:Exclude val documentId: String? = null,
+    @get:Exclude var documentId: String? = null,
     val content: String? = null,
     val createdAt: Date? = null,
     val modifiedAt: Date? = null,

@@ -1,4 +1,4 @@
-package com.appsmoviles.gruposcomunitarios.presentation.groups
+package com.appsmoviles.gruposcomunitarios.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View

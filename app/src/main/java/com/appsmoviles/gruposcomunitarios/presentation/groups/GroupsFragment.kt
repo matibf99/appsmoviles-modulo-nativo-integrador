@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentGroupsBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.presentation.adapters.GroupsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.log
 
 @AndroidEntryPoint
 class GroupsFragment : Fragment() {
