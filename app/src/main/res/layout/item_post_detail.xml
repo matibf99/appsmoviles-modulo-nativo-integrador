@@ -147,7 +147,8 @@
                 app:layout_constraintTop_toTopOf="@+id/post_detail_likes_count"
                 app:layout_constraintBottom_toBottomOf="@id/post_detail_likes_count"
                 app:layout_constraintLeft_toRightOf="@id/post_detail_likes_count"
-                app:tint="?attr/colorPrimaryDark" />
+                app:tint="?attr/colorPrimaryDark"
+                android:contentDescription="@string/btn_like_post" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

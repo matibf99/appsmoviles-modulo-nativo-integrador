@@ -52,7 +52,8 @@
             android:layout_marginBottom="6dp"
             android:src="@drawable/ic_baseline_comment_24"
             app:layout_constraintTop_toBottomOf="@id/text_comment_parent_content"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:contentDescription="@string/comments_count"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_comment_parent_comments_count"
@@ -89,7 +90,8 @@
             app:layout_constraintTop_toBottomOf="@id/text_comment_parent_content"
             app:layout_constraintBottom_toBottomOf="@+id/text_comment_parent_likes_count"
             app:layout_constraintRight_toRightOf="parent"
-            app:tint="?attr/colorPrimaryDark" />
+            app:tint="?attr/colorPrimaryDark"
+            android:contentDescription="@string/btn_like_comment" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

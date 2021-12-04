@@ -45,7 +45,7 @@ class GroupsFragment : Fragment() {
         _binding = FragmentGroupsBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        (activity as AppCompatActivity).supportActionBar!!.title = "Groups"
+        (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_groups_title)
         viewModel.loadGroups()
 
         linearLayoutManager = LinearLayoutManager(requireContext())
@@ -62,7 +62,7 @@ class GroupsFragment : Fragment() {
         })
 
         adapterRole = object : GroupsAdapter(
-            "My groups",
+            R.string.fragment_groups_category_my_groups,
             mainViewModel.user.value?.username ?: "",
             viewModel.groupsWithRole.value!!,
             false) {
@@ -76,7 +76,7 @@ class GroupsFragment : Fragment() {
             }
         }
         adapterSubscribed = object : GroupsAdapter(
-            "Subscribed groups",
+            R.string.fragment_groups_category_subscribed_groups,
             mainViewModel.user.value?.username ?: "",
             viewModel.subscribedGroups.value!!,
             true) {

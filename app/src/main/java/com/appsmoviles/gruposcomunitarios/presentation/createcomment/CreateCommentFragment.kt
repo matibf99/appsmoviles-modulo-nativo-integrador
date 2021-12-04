@@ -14,9 +14,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateCommentBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,7 +48,7 @@ class CreateCommentFragment : Fragment() {
             viewModel.setCommentParent(it.commentParent)
         }
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Create new comment"
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.fragment_create_comment_title)
 
         binding.editCommentContent.editText?.setText(viewModel.commentContent.value)
 
@@ -54,9 +56,24 @@ class CreateCommentFragment : Fragment() {
             viewModel.setCommentContent(it.toString())
         }
 
+        viewModel.commentFormStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                FieldStatus.EMPTY -> {
+                    binding.btnCreateComment.isEnabled = false
+                    binding.btnCreateComment.alpha = 0.5f
+                }
+                else -> {
+                    binding.btnCreateComment.isEnabled = true
+                    binding.btnCreateComment.alpha = 1f
+                }
+            }
+        })
+
         binding.btnCreateComment.setOnClickListener {
             Log.d(TAG, "onCreateView: button clicked!")
-            viewModel.createComment(mainViewModel.user.value!!.username ?: "")
+
+            if (viewModel.isFormValid())
+                viewModel.createComment(mainViewModel.user.value!!.username ?: "")
         }
 
         viewModel.commentStatus.observe(viewLifecycleOwner, {

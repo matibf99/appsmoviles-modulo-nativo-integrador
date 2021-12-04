@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.domain.usecases.CreateCommentUseCase
-import com.appsmoviles.gruposcomunitarios.presentation.createpost.CreatePostStatus
+import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -34,6 +34,9 @@ class CreateCommentViewModel @Inject constructor(
     private val _commentStatus: MutableLiveData<CreateCommentStatus> = MutableLiveData()
     val commentStatus: LiveData<CreateCommentStatus> get() = _commentStatus
 
+    private val _commentFormStatus: MutableLiveData<FieldStatus> = MutableLiveData(FieldStatus.EMPTY)
+    val commentFormStatus: LiveData<FieldStatus> get() = _commentFormStatus
+
     private val _commentContent: MutableLiveData<String> = MutableLiveData()
     val commentContent: LiveData<String> get() = _commentContent
 
@@ -47,6 +50,19 @@ class CreateCommentViewModel @Inject constructor(
 
     fun setCommentContent(content: String) {
         _commentContent.value = content
+        validateContent()
+    }
+
+    fun isFormValid(): Boolean {
+        validateContent()
+        return commentFormStatus.value == FieldStatus.VALID
+    }
+
+    private fun validateContent() {
+        if (commentContent.value?.isEmpty() == true || commentContent.value == null)
+            _commentFormStatus.value = FieldStatus.EMPTY
+        else
+            _commentFormStatus.value = FieldStatus.VALID
     }
 
     fun createComment(username: String) {

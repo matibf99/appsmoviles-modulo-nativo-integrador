@@ -36,6 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_baseline_add_comment_24" />
+        android:src="@drawable/ic_baseline_add_comment_24"
+        android:contentDescription="@string/fragment_post_fab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,7 +18,9 @@ import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraInten
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateGroupBinding
+import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 
 import com.bumptech.glide.Glide
@@ -45,7 +47,7 @@ class CreateGroupFragment : Fragment() {
         _binding = FragmentCreateGroupBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        (activity as AppCompatActivity).supportActionBar!!.title = "Create new group"
+        (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_create_group_title)
         
         viewModel.status.observe(viewLifecycleOwner, {
             when(it) {
@@ -84,13 +86,34 @@ class CreateGroupFragment : Fragment() {
             viewModel.setName(it.toString())
         }
 
+        viewModel.formNameStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.editName.error = getString(R.string.create_group_validation_name_invalid)
+                else -> binding.editName.isErrorEnabled = false
+            }
+        })
+
         binding.editDescription.editText?.doAfterTextChanged {
             viewModel.setDescription(it.toString())
         }
 
+        viewModel.formDescriptionStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.editDescription.error = getString(R.string.create_group_validation_description_invalid)
+                else -> binding.editDescription.isErrorEnabled = false
+            }
+        })
+
         binding.editTags.editText?.doAfterTextChanged {
             viewModel.setTags(it.toString())
         }
+
+        viewModel.formTagsStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                FieldStatus.EMPTY -> binding.editTags.error = getString(R.string.create_group_validation_tags_invalid)
+                else -> binding.editTags.isErrorEnabled = false
+            }
+        })
 
         binding.btnPickCamera.setOnClickListener {
             startActivityForResult(
@@ -103,9 +126,21 @@ class CreateGroupFragment : Fragment() {
             startActivityForResult(pickImageFromGalleryIntent(), REQUEST_CAPTURE_IMAGE)
         }
 
+        viewModel.formImageStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.textPhotoError.visibility = View.VISIBLE
+                else -> binding.textPhotoError.visibility = View.GONE
+            }
+        })
+
         binding.btnCreateGroup.setOnClickListener {
-            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, viewModel.imageUri.value)
-            viewModel.createGroup(bitmap)
+            if (viewModel.isFormValid()) {
+                val bitmap = MediaStore.Images.Media.getBitmap(
+                    requireActivity().contentResolver,
+                    viewModel.imageUri.value
+                )
+                viewModel.createGroup(bitmap)
+            }
         }
 
         return view

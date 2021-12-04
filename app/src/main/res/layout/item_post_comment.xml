@@ -84,6 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/text_comment_content"
         app:layout_constraintBottom_toBottomOf="@+id/image_comments_count"
         app:layout_constraintRight_toRightOf="parent"
-        app:tint="?attr/colorPrimaryDark" />
+        app:tint="?attr/colorPrimaryDark"
+        android:contentDescription="@string/btn_like_comment"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

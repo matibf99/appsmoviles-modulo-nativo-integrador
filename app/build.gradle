@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     var core_ktx = "1.7.0"
     implementation "androidx.core:core-ktx:$core_ktx"

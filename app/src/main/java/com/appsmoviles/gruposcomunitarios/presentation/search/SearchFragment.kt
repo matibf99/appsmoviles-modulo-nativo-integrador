@@ -45,7 +45,7 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        (activity as AppCompatActivity).supportActionBar!!.title = "Search"
+        (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_search_title)
         viewModel.loadGroups(viewModel.sortBy.value!!)
 
         linearLayoutManager = LinearLayoutManager(requireContext())
@@ -99,13 +99,13 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.sortBy.observe(viewLifecycleOwner, { sortBy ->
-            binding.textSortBy.text = when(sortBy) {
-                SortBy.NAME_DESCENDING -> "name, descending"
-                SortBy.NAME_ASCENDING -> "name, ascending"
-                SortBy.CREATED_AT_DESCENDING -> "created at, descending"
-                SortBy.CREATED_AT_ASCENDING -> "created at, ascending"
-                else -> "-"
-            }
+            binding.textSortBy.setText(when(sortBy) {
+                SortBy.NAME_DESCENDING -> R.string.order_by_name_descending
+                SortBy.NAME_ASCENDING -> R.string.order_by_name_ascending
+                SortBy.CREATED_AT_DESCENDING -> R.string.order_by_created_at_descending
+                SortBy.CREATED_AT_ASCENDING -> R.string.order_by_created_at_ascending
+                else -> R.string.order_by_nothing
+            })
         })
 
         return view
@@ -155,12 +155,12 @@ class SearchFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val options = arrayOf("Name - Ascending", "Name - Descending","Created at - Ascending", "Created at - Descending")
+        val options = resources.getStringArray(R.array.fragment_search_dialog_sort_by)
 
         when(item.itemId) {
             R.id.menu_search_filter -> {
                 MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Order by")
+                    .setTitle(R.string.fragment_search_dialog_order_by)
                     .setSingleChoiceItems(options, 1) { dialog, which ->
                         Log.d(TAG, "onOptionsItemSelected: new order selected - which: $which")
                         when(which) {
@@ -170,8 +170,8 @@ class SearchFragment : Fragment() {
                             3 -> viewModel.setSortBy(SortBy.CREATED_AT_DESCENDING)
                         }
                     }
-                    .setPositiveButton("SELECT", null)
-                    .setNegativeButton("CANCEL", null)
+                    .setPositiveButton(R.string.dialog_positive_button_select, null)
+                    .setNegativeButton(R.string.dialog_negative_button_cancel, null)
                     .show()
             }
         }

@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentHomeBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
@@ -43,7 +44,7 @@ class HomeFragment : Fragment() {
         Log.d(TAG, "onCreateView: initiating")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).supportActionBar!!.title = "Home"
+        (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_home_title)
 
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewHome.layoutManager = linearLayoutManager
@@ -123,7 +124,7 @@ class HomeFragment : Fragment() {
         private const val TAG = "HomeFragment"
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             HomeFragment()
     }
 }

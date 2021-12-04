@@ -1,9 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.di
 
-import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
-import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
-import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
-import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
+import com.appsmoviles.gruposcomunitarios.domain.repository.*
 import com.appsmoviles.gruposcomunitarios.domain.usecases.*
 import dagger.Module
 import dagger.Provides
@@ -90,4 +87,8 @@ class ViewModelModule {
     @Provides
     fun provideCreateCommentUseCase(postRepository: PostRepository): CreateCommentUseCase =
         CreateCommentUseCaseImp(postRepository)
+
+    @Provides
+    fun provideGetLocationUseCase(locationRepository: LocationRepository): GetLocationUseCase =
+        GetLocationUseCaseImp(locationRepository)
 }

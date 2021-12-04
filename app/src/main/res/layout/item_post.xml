@@ -139,7 +139,8 @@
             app:layout_constraintTop_toTopOf="@+id/post_likes_count"
             app:layout_constraintBottom_toBottomOf="@id/post_likes_count"
             app:layout_constraintLeft_toRightOf="@id/post_likes_count"
-            app:tint="?attr/colorPrimaryDark" />
+            app:tint="?attr/colorPrimaryDark"
+            android:contentDescription="@string/btn_like_post"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/post_text_comments_count"

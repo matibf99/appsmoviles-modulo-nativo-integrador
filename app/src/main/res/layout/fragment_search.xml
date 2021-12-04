@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="2dp"
             android:textColor="?attr/colorOnPrimary"
-            android:text="Sorting by: "
+            android:text="@string/fragment_search_sorting_by"
             android:textAppearance="?attr/textAppearanceBodyLarge" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorOnPrimary"
-            android:text="name, descending"
+            android:text=""
             android:textStyle="bold"
             android:textAppearance="?attr/textAppearanceBodyLarge" />
     </LinearLayout>

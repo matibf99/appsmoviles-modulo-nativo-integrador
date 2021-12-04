@@ -26,7 +26,7 @@
             android:id="@+id/text_header_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GROUP INFORMATION"
+            android:text="@string/create_group_header_group_info"
             android:textAppearance="?attr/textAppearanceOverline"
             android:layout_marginTop="24dp"
             android:layout_marginHorizontal="16dp"
@@ -40,9 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_marginHorizontal="16dp"
-            android:hint="Name"
+            android:hint="@string/create_group_label_group_name"
             app:helperTextEnabled="true"
-            app:helperText="Group name"
+            app:helperText="@string/create_group_hint_group_name"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_header_group"
@@ -62,9 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_marginHorizontal="16dp"
-            android:hint="Description"
+            android:hint="@string/create_group_label_group_description"
             app:helperTextEnabled="true"
-            app:helperText="Group description"
+            app:helperText="@string/create_group_hint_group_description"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_name"
@@ -84,9 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_marginHorizontal="16dp"
-            android:hint="Tags"
+            android:hint="@string/create_group_label_tags_description"
             app:helperTextEnabled="true"
-            app:helperText="Introduce the tags separated by commas"
+            app:helperText="@string/create_group_hint_tags_description"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_description"
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:text="PHOTO"
+            android:text="@string/create_group_header_photo"
             android:textAppearance="?attr/textAppearanceOverline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -120,7 +120,22 @@
             android:layout_marginLeft="16dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_header_photo" />
+            app:layout_constraintTop_toBottomOf="@id/text_header_photo"
+            android:contentDescription="@string/create_group_image_description"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_photo_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/create_group_validation_image_invalid"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/photo_preview"
+            app:layout_constraintLeft_toLeftOf="@+id/photo_preview"
+            app:layout_constraintRight_toRightOf="@id/photo_preview"
+            android:textColor="?attr/colorError"
+            android:visibility="gone"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_pick_camera"
@@ -128,7 +143,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:text="PICK PHOTO FROM CAMERA"
+            android:text="@string/create_group_btn_camera"
+            android:textAllCaps="true"
             app:layout_constraintLeft_toRightOf="@id/photo_preview"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/photo_preview" />
@@ -140,7 +156,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="16dp"
-            android:text="PICK PHOTO FROM STORAGE"
+            android:text="@string/create_group_btn_storage"
+            android:textAllCaps="true"
             app:layout_constraintTop_toBottomOf="@id/btn_pick_camera"
             app:layout_constraintLeft_toRightOf="@id/photo_preview"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -150,11 +167,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/photo_preview"
+            app:layout_constraintTop_toBottomOf="@id/text_photo_error"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="CREATE GROUP" />
+            android:text="@string/create_group_btn_create_group"
+            android:textAllCaps="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

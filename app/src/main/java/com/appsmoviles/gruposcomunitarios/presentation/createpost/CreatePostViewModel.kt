@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.presentation.createpost
 
 import android.graphics.Bitmap
+import android.location.Location
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -9,8 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.usecases.CreatePostUseCase
+import com.appsmoviles.gruposcomunitarios.domain.usecases.GetLocationUseCase
+import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +29,8 @@ sealed class CreatePostStatus(
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val createPostUseCase: CreatePostUseCase
+    private val createPostUseCase: CreatePostUseCase,
+    private val getLocationUseCase: GetLocationUseCase
 ) : ViewModel() {
 
     private val _group: MutableLiveData<Group> = MutableLiveData()
@@ -40,6 +45,12 @@ class CreatePostViewModel @Inject constructor(
     private val _imageUri: MutableLiveData<Uri?> = MutableLiveData()
     val imageUri: LiveData<Uri?> get() = _imageUri
 
+    private val _location: MutableLiveData<Location> = MutableLiveData()
+    val location: LiveData<Location> get() = _location
+
+    private val _fieldTitleStatus: MutableLiveData<FieldStatus> = MutableLiveData()
+    val fieldTitleStatus: LiveData<FieldStatus> get() = _fieldTitleStatus
+
     private val _createPostStatus: MutableLiveData<CreatePostStatus> = MutableLiveData()
     val createPostStatus: LiveData<CreatePostStatus> get() = _createPostStatus
 
@@ -49,6 +60,11 @@ class CreatePostViewModel @Inject constructor(
 
     fun setTitle(title: String) {
         _title.value = title
+
+        if (title.isEmpty())
+            _fieldTitleStatus.value = FieldStatus.EMPTY
+        else
+            _fieldTitleStatus.value = FieldStatus.VALID
     }
 
     fun setContent(content: String) {
@@ -59,13 +75,44 @@ class CreatePostViewModel @Inject constructor(
         _imageUri.value = uri
     }
 
+    fun removeLocation() {
+        _location.value = null
+    }
+
+    fun isFormValid(): Boolean {
+        validateTitle()
+        return _fieldTitleStatus.value == FieldStatus.VALID
+    }
+
+    private fun validateTitle() {
+        if (_title.value?.isEmpty() == true || _title.value == null)
+            _fieldTitleStatus.value = FieldStatus.EMPTY
+        else
+            _fieldTitleStatus.value = FieldStatus.VALID
+    }
+
+    fun getLocation() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getLocationUseCase.getLocation().collect {
+                when(it) {
+                    is Res.Success -> {
+                        _location.postValue(it.data!!)
+                        Log.d(TAG, "getLocation: location: ${it.data}")
+                    }
+                    is Res.Loading -> Log.d(TAG, "getLocation: loading location")
+                    is Res.Error -> Log.d(TAG, "getLocation: error loading location: ${it.message}")
+                }
+            }
+        }
+    }
+
     fun createPost(bitmap: Bitmap? = null) {
         viewModelScope.launch {
             createPostUseCase.createPost(
                 groupId = group.value?.documentId!!,
                 groupName = group.value?.name!!,
                 title = title.value!!,
-                content = content.value!!,
+                content = content.value ?: "",
                 imageBitmap = bitmap
             ).collect {
                 Log.d(TAG, "createPost: ${it.toString()}")

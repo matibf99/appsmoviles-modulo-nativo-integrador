@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
@@ -13,7 +14,7 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.bumptech.glide.Glide
 
 abstract class GroupsAdapter(
-    private val title: String,
+    @StringRes private val title: Int,
     var username: String,
     var items: List<Group>,
     private val displaySubscribeButton: Boolean,
@@ -44,11 +45,11 @@ abstract class GroupsAdapter(
 
             holder.tvTitle.text = item.name!!
 
-            holder.tvSubtitle.text = when {
-                username == item.createdBy -> "Owner"
-                item.moderators?.contains(username) == true -> "Moderator"
-                else -> "User"
-            }
+            holder.tvSubtitle.setText(when {
+                username == item.createdBy -> R.string.adapter_groups_rol_owner
+                item.moderators?.contains(username) == true -> R.string.adapter_groups_rol_moderator
+                else -> R.string.adapter_groups_rol_user
+            })
 
             Glide.with(holder.itemView.context)
                 .load(item.photo)
@@ -72,7 +73,7 @@ abstract class GroupsAdapter(
                 onOpenGroupListener(i)
             }
         } else if (holder is GroupHeaderViewHolder) {
-            holder.tvTitle.text = title
+            holder.tvTitle.setText(title)
         }
     }
 

@@ -2,16 +2,12 @@ package com.appsmoviles.gruposcomunitarios.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.appsmoviles.gruposcomunitarios.data.GroupRepositoryImp
-import com.appsmoviles.gruposcomunitarios.data.PostRepositoryImp
-import com.appsmoviles.gruposcomunitarios.data.StorageRepositoryImp
-import com.appsmoviles.gruposcomunitarios.data.UserRepositoryImp
-import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
-import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
-import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
-import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
+import com.appsmoviles.gruposcomunitarios.data.*
+import com.appsmoviles.gruposcomunitarios.domain.repository.*
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCaseImp
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -48,6 +44,10 @@ class AppModule {
         context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
 
     @Provides
+    fun provideFusedLocationClient(@ApplicationContext context: Context): FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
+
+    @Provides
     fun provideGroupRepository(firestore: FirebaseFirestore): GroupRepository =
         GroupRepositoryImp(firestore)
 
@@ -62,4 +62,8 @@ class AppModule {
     @Provides
     fun provideStorageRepository(storage: FirebaseStorage): StorageRepository =
         StorageRepositoryImp(storage)
+
+    @Provides
+    fun provideLocationRepository(fusedLocationProviderClient: FusedLocationProviderClient): LocationRepository =
+        LocationRepositoryImp(fusedLocationProviderClient)
 }
