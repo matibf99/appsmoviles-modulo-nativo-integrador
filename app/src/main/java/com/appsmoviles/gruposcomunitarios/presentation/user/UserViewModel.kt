@@ -5,6 +5,8 @@ import androidx.lifecycle.*
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetUserInfoUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetUserRegisteredUseCase
+import com.appsmoviles.gruposcomunitarios.domain.usecases.RegisterUserCase
+import com.appsmoviles.gruposcomunitarios.domain.usecases.SingInUserCase
 import com.appsmoviles.gruposcomunitarios.presentation.search.SearchGroupsStatus
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
@@ -21,7 +23,9 @@ enum class UserStatus {
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getUserRegistered: GetUserRegisteredUseCase
+    private val getUserRegistered: GetUserRegisteredUseCase,
+    private val singInUserCase: SingInUserCase,
+    private val registerUserCase: RegisterUserCase
 ) : ViewModel() {
 
     private var _status: MutableLiveData<UserStatus> = MutableLiveData(UserStatus.LOADING)
@@ -62,4 +66,50 @@ class UserViewModel @Inject constructor(
         _statusRegistered.value = registered
 
     }
-}
+
+        private fun signIn(email:String, password:String) {
+            viewModelScope.launch {
+                singInUserCase.signIn(email,password).collect {
+                    when(it) {
+                        is Res.Loading -> {
+                            _status.postValue(UserStatus.LOADING)
+                            _user.postValue(it.data!!)
+
+                        }
+                        is Res.Success -> {
+                            _status.postValue(UserStatus.LOADED)
+                        }
+                        is Res.Error -> {
+                            _status.postValue(UserStatus.FAILED)
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun registerUser(user: User, password:String) {
+            viewModelScope.launch {
+                registerUserCase.registerUser(user,password).collect {
+                    when(it) {
+                        is Res.Loading -> {
+                            _status.postValue(UserStatus.LOADING)
+                            _user.postValue(it.data!!)
+
+                        }
+                        is Res.Success -> {
+                            _status.postValue(UserStatus.LOADED)
+                        }
+                        is Res.Error -> {
+                            _status.postValue(UserStatus.FAILED)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
