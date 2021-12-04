@@ -198,21 +198,6 @@ class PostRepositoryImp(
             )
             }
             .addOnSuccessListener {
-            trySend(Res.Success())
-            }
-            .addOnFailureListener {
-            trySend(Res.Error(it.message))
-            Log.d(TAG, "postComment: ${it.message}")
-            }
-
-        db.collection(GROUPS_COLLECTION)
-            .document(groupId)
-            .collection(GROUP_SUBCOLLECTION_POSTS)
-            .document(postId)
-            .collection(POST_SUBCOLLECTION_COMMENTS)
-            .document()
-            .set(comment)
-            .addOnSuccessListener {
                 trySend(Res.Success())
             }
             .addOnFailureListener {

@@ -55,6 +55,7 @@ class CreateCommentFragment : Fragment() {
         }
 
         binding.btnCreateComment.setOnClickListener {
+            Log.d(TAG, "onCreateView: button clicked!")
             viewModel.createComment(mainViewModel.user.value!!.username ?: "")
         }
 

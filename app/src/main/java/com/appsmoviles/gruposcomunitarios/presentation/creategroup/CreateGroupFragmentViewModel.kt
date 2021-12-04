@@ -1,4 +1,4 @@
-package com.appsmoviles.gruposcomunitarios.presentation.groups
+package com.appsmoviles.gruposcomunitarios.presentation.creategroup
 
 import android.graphics.Bitmap
 import android.net.Uri

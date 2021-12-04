@@ -1,8 +1,7 @@
-package com.appsmoviles.gruposcomunitarios.presentation.groups
+package com.appsmoviles.gruposcomunitarios.presentation.creategroup
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -18,6 +17,7 @@ import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraIntent
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateGroupBinding
 import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 
@@ -51,6 +51,8 @@ class CreateGroupFragment : Fragment() {
             when(it) {
                 CreateGroupStatus.Success -> {
                     binding.progressCreateGroup.visibility = View.GONE
+
+                    findNavController().popBackStack()
                     Log.d(TAG, "onCreateView: success")
                 }
                 CreateGroupStatus.Loading -> {
