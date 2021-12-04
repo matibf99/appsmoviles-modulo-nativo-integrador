@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentGroupsBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
 import com.appsmoviles.gruposcomunitarios.presentation.adapters.GroupsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,10 +26,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class GroupsFragment : Fragment() {
 
     private val viewModel: GroupsViewModel by viewModels()
+    private val mainViewModel: MainAcitivityViewModel by activityViewModels()
 
     // Only is valid between onCreateView and onDestroyView
     private var _binding: FragmentGroupsBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentGroupsBinding get() = _binding!!
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapterRole: GroupsAdapter
@@ -37,10 +41,12 @@ class GroupsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView: initiating")
         _binding = FragmentGroupsBinding.inflate(inflater, container, false)
         val view = binding.root
 
         (activity as AppCompatActivity).supportActionBar!!.title = "Groups"
+        viewModel.loadGroups()
 
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewGroups.layoutManager = linearLayoutManager
@@ -55,7 +61,11 @@ class GroupsFragment : Fragment() {
             }
         })
 
-        adapterRole = object : GroupsAdapter("My groups", viewModel.username, viewModel.groupsWithRole.value!!, false) {
+        adapterRole = object : GroupsAdapter(
+            "My groups",
+            mainViewModel.user.value?.username ?: "",
+            viewModel.groupsWithRole.value!!,
+            false) {
             override fun onUnsubscribeListener(position: Int) {
             }
 
@@ -65,7 +75,11 @@ class GroupsFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
-        adapterSubscribed = object : GroupsAdapter("Subscribed groups", viewModel.username, viewModel.subscribedGroups.value!!, true) {
+        adapterSubscribed = object : GroupsAdapter(
+            "Subscribed groups",
+            mainViewModel.user.value?.username ?: "",
+            viewModel.subscribedGroups.value!!,
+            true) {
             override fun onUnsubscribeListener(position: Int) {
                 viewModel.unsubscribeTo(position)
             }
@@ -80,7 +94,19 @@ class GroupsFragment : Fragment() {
         concatAdapter = ConcatAdapter(adapterRole, adapterSubscribed)
         binding.recyclerViewGroups.adapter = concatAdapter
 
-        viewModel.status.observe(requireActivity(), {
+        mainViewModel.userStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                UserStatus.SUCCESS -> {
+                    adapterRole.username = mainViewModel.user.value?.username ?: ""
+                    adapterSubscribed.username = mainViewModel.user.value?.username ?: ""
+                }
+                UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
+                UserStatus.ERROR -> Log.d(TAG, "onCreateView: error in loading user")
+                else -> Log.d(TAG, "onCreateView: prevent null")
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, {
             when(it) {
                 GroupsStatus.Success -> {
                     binding.progressGroups.visibility = View.GONE
@@ -98,13 +124,13 @@ class GroupsFragment : Fragment() {
             }
         })
 
-        viewModel.subscribedGroups.observe(requireActivity(), {
+        viewModel.subscribedGroups.observe(viewLifecycleOwner, {
             Log.d(TAG, "onCreateView: notify subscribedGroups, size ${it.size}")
             adapterSubscribed.items = it
             adapterSubscribed.notifyDataSetChanged()
         })
 
-        viewModel.groupsWithRole.observe(requireActivity(), {
+        viewModel.groupsWithRole.observe(viewLifecycleOwner, {
             Log.d(TAG, "onCreateView: notify groupsWithRole, size ${it.size}")
             adapterRole.items = it
             adapterRole.notifyDataSetChanged()

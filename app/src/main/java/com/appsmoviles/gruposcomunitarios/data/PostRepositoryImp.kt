@@ -82,7 +82,11 @@ class PostRepositoryImp(
             .get()
             .addOnSuccessListener {
                 val post = it.toObject(Post::class.java)
-                trySend(Res.Success(post))
+
+                if (post != null) {
+                    post.documentId = it.id
+                    trySend(Res.Success(post))
+                }
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
@@ -155,6 +159,7 @@ class PostRepositoryImp(
             .collection(GROUP_SUBCOLLECTION_POSTS)
             .document(postId)
             .collection(POST_SUBCOLLECTION_COMMENTS)
+            .orderBy("createdAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener {
                 val comments = ArrayList<PostComment>()
@@ -166,7 +171,7 @@ class PostRepositoryImp(
                     comments.add(comment)
                 }
 
-                trySend(Res.Success())
+                trySend(Res.Success(comments))
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
@@ -180,6 +185,26 @@ class PostRepositoryImp(
         postId: String,
         comment: PostComment
     ): Flow<Res<Nothing>> = callbackFlow {
+        val postRef = db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .collection(GROUP_SUBCOLLECTION_POSTS)
+            .document(postId)
+
+        db.runTransaction { transaction ->
+            transaction.update(postRef, "commentsCount", FieldValue.increment(1))
+            transaction.set(
+                postRef.collection(POST_SUBCOLLECTION_COMMENTS).document(),
+                comment
+            )
+            }
+            .addOnSuccessListener {
+            trySend(Res.Success())
+            }
+            .addOnFailureListener {
+            trySend(Res.Error(it.message))
+            Log.d(TAG, "postComment: ${it.message}")
+            }
+
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
             .collection(GROUP_SUBCOLLECTION_POSTS)
@@ -250,6 +275,52 @@ class PostRepositoryImp(
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "unlikePost: error")
+            }
+        awaitClose { channel.close() }
+    }
+
+    override fun likeComment(
+        groupId: String,
+        postId: String,
+        commentId: String,
+        username: String
+    ): Flow<Res<Nothing>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .collection(GROUP_SUBCOLLECTION_POSTS)
+            .document(postId)
+            .collection(POST_SUBCOLLECTION_COMMENTS)
+            .document(commentId)
+            .update("likes", FieldValue.arrayUnion(username))
+            .addOnSuccessListener {
+                trySend(Res.Success())
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "likeComment: error: ${it.message}")
+            }
+        awaitClose { channel.close() }
+    }
+
+    override fun unlikeComment(
+        groupId: String,
+        postId: String,
+        commentId: String,
+        username: String
+    ): Flow<Res<Nothing>> = callbackFlow {
+        db.collection(GROUPS_COLLECTION)
+            .document(groupId)
+            .collection(GROUP_SUBCOLLECTION_POSTS)
+            .document(postId)
+            .collection(POST_SUBCOLLECTION_COMMENTS)
+            .document(commentId)
+            .update("likes", FieldValue.arrayRemove(username))
+            .addOnSuccessListener {
+                trySend(Res.Success())
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "unlikeComment: error: ${it.message}")
             }
         awaitClose { channel.close() }
     }

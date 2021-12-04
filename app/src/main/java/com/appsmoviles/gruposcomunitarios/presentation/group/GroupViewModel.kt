@@ -53,17 +53,24 @@ class GroupViewModel @Inject constructor(
 
     private val _posts: MutableLiveData<List<Post>> = MutableLiveData(ArrayList())
     val posts: LiveData<List<Post>> get() = _posts
-    
-    val username: String = "matibf99"
 
     fun setGroup(group: Group) {
+        Log.d(TAG, "setGroup: set group")
+        if (this.group.value?.documentId == group.documentId)
+            return
+        Log.d(TAG, "setGroup: set group2")
+
         _group.value = group
         _groupStatus.value = GroupStatus.Success
         getPosts()
     }
 
     fun setGroupId(groupId: String) {
+        Log.d(TAG, "setGroupId: set groupId")
+        Log.d(TAG, "setGroupId: ${group.value?.documentId} = $groupId")
         viewModelScope.launch {
+            Log.d(TAG, "setGroupId: set groupId2")
+
             getGroupUseCase.getGroup(groupId).collect {
                 when(it) {
                     is Res.Success -> {
@@ -95,7 +102,7 @@ class GroupViewModel @Inject constructor(
         }
     }
 
-    fun likePost(position: Int) {
+    fun likePost(position: Int, username: String) {
         val post = posts.value!![position]
         Log.d(TAG, "likePost: $post")
         val likePost: Boolean

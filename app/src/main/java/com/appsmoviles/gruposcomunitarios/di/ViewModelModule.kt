@@ -70,4 +70,24 @@ class ViewModelModule {
     @Provides
     fun provideGetGroupUseCase(groupRepository: GroupRepository): GetGroupUseCase =
         GetGroupUseCaseImp(groupRepository)
+
+    @Provides
+    fun provideGetCommentsFromPostUseCase(postRepository: PostRepository): GetCommentsFromPostUseCase =
+        GetCommentsFromPostUseCaseImp(postRepository)
+
+    @Provides
+    fun provideLikeCommentUseCase(postRepository: PostRepository): LikeCommentUseCase =
+        LikeCommentUseCaseImp(postRepository)
+
+    @Provides
+    fun provideUnlikeCommentUseCase(postRepository: PostRepository): UnlikeCommentUseCase =
+        UnlikeCommentUseCaseImp(postRepository)
+
+    @Provides
+    fun provideGetPostFromGroupUseCase(postRepository: PostRepository): GetPostFromGroupUseCase =
+        GetPostFromGroupUseCaseImp(postRepository)
+
+    @Provides
+    fun provideCreateCommentUseCase(postRepository: PostRepository): CreateCommentUseCase =
+        CreateCommentUseCaseImp(postRepository)
 }

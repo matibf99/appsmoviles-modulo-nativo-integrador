@@ -13,7 +13,7 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.bumptech.glide.Glide
 
 abstract class SearchAdapter(
-    private val username: String,
+    var username: String,
     var items: List<Group>
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
@@ -49,14 +49,14 @@ abstract class SearchAdapter(
         else
             holder.btnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-        holder.btnSubscribe.setOnClickListener { onSubscribeListener(position) }
+        holder.btnSubscribe.setOnClickListener { onSubscribeListener(position, username) }
 
         holder.layout.setOnClickListener { onOpenGroupListener(position) }
     }
 
     override fun getItemCount(): Int = items.size
 
-    abstract fun onSubscribeListener(position: Int)
+    abstract fun onSubscribeListener(position: Int, username: String)
 
     abstract fun onOpenGroupListener(position: Int)
 

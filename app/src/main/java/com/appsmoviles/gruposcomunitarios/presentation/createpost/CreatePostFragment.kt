@@ -53,7 +53,7 @@ class CreatePostFragment : Fragment() {
         binding.editPostTitle.editText?.setText(viewModel.title.value ?: "")
         binding.editPostContent.editText?.setText(viewModel.content.value ?: "")
 
-        viewModel.createPostStatus.observe(requireActivity(), {
+        viewModel.createPostStatus.observe(viewLifecycleOwner, {
             when(it) {
                 CreatePostStatus.Successful -> {
                     binding.progressCreatePost.visibility = View.GONE
@@ -73,7 +73,7 @@ class CreatePostFragment : Fragment() {
             }
         })
 
-        viewModel.imageUri.observe(requireActivity(), {
+        viewModel.imageUri.observe(viewLifecycleOwner, {
             if (it != null) {
                 binding.layoutPostCreateImage.visibility = View.VISIBLE
 
@@ -160,7 +160,7 @@ class CreatePostFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> activity?.onBackPressed()
+            android.R.id.home -> findNavController().popBackStack()
         }
 
         return super.onOptionsItemSelected(item)

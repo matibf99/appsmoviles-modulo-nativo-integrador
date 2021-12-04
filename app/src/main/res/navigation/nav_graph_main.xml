@@ -20,6 +20,13 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_postFragment"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/groupsFragment"
@@ -89,6 +96,13 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_groupFragment_to_postFragment"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
@@ -98,5 +112,67 @@
         <argument
             android:name="group"
             app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.post.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="post"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Post" />
+        <action
+            android:id="@+id/action_postFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+        <action
+            android:id="@+id/action_postFragment_to_postCommentsFragment"
+            app:destination="@id/postCommentsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_postFragment_to_createCommentFragment"
+            app:destination="@id/createCommentFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/postCommentsFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.postcomments.PostCommentsFragment"
+        android:label="fragment_post_comments"
+        tools:layout="@layout/fragment_post_comments" >
+        <argument
+            android:name="comments"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment[]" />
+        <argument
+            android:name="parent"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment" />
+        <argument
+            android:name="post"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Post" />
+        <action
+            android:id="@+id/action_postCommentsFragment_to_createCommentFragment"
+            app:destination="@id/createCommentFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCommentFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.createcomment.CreateCommentFragment"
+        android:label="fragment_create_comment"
+        tools:layout="@layout/fragment_create_comment" >
+        <argument
+            android:name="post"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Post" />
+        <argument
+            android:name="commentParent"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

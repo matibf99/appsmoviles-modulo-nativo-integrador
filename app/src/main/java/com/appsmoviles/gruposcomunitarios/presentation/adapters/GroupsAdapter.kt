@@ -14,9 +14,9 @@ import com.bumptech.glide.Glide
 
 abstract class GroupsAdapter(
     private val title: String,
-    private val username: String,
+    var username: String,
     var items: List<Group>,
-    private val displaySubscribeButton: Boolean
+    private val displaySubscribeButton: Boolean,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {

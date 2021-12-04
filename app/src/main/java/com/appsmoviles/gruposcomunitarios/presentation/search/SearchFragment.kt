@@ -12,7 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentSearchBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
 import com.appsmoviles.gruposcomunitarios.presentation.adapters.SearchAdapter
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -22,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
+    private val mainViewModel: MainAcitivityViewModel by viewModels()
 
     // Only is valid between onCreateView and onDestroyView
     private var _binding: FragmentSearchBinding? = null
@@ -38,13 +41,40 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val view = binding.root
 
         (activity as AppCompatActivity).supportActionBar!!.title = "Search"
+        viewModel.loadGroups(viewModel.sortBy.value!!)
 
-        viewModel.status.observe(requireActivity(), { status ->
+        linearLayoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewSearch.layoutManager = linearLayoutManager
+
+        adapter = object : SearchAdapter(mainViewModel.user.value?.username ?: "", viewModel.groups.value!!) {
+            override fun onSubscribeListener(position: Int, username: String) {
+                viewModel.subscribeToGroup(position, username)
+                adapter.notifyItemChanged(position)
+            }
+
+            override fun onOpenGroupListener(position: Int) {
+                val group = viewModel.groups.value!![position]
+                val action = SearchFragmentDirections.actionSearchFragmentToGroupFragment(group)
+                findNavController().navigate(action)
+            }
+        }
+        binding.recyclerViewSearch.adapter = adapter
+
+        mainViewModel.userStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                UserStatus.SUCCESS -> adapter.username = mainViewModel.user.value?.username ?: ""
+                UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
+                UserStatus.ERROR -> Log.d(TAG, "onCreateView: error in loading user")
+                else -> Log.d(TAG, "onCreateView: prevent null")
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, { status ->
             when(status) {
                 SearchGroupsStatus.Loading -> {
                     binding.progressSearch.visibility = View.VISIBLE
@@ -62,30 +92,13 @@ class SearchFragment : Fragment() {
             }
         })
 
-        linearLayoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewSearch.layoutManager = linearLayoutManager
-
-        adapter = object : SearchAdapter(viewModel.username, viewModel.groups.value!!) {
-            override fun onSubscribeListener(position: Int) {
-                viewModel.subscribeToGroup(position)
-                adapter.notifyItemChanged(position)
-            }
-
-            override fun onOpenGroupListener(position: Int) {
-                val group = viewModel.groups.value!![position]
-                val action = SearchFragmentDirections.actionSearchFragmentToGroupFragment(group)
-                findNavController().navigate(action)
-            }
-        }
-        binding.recyclerViewSearch.adapter = adapter
-
-        viewModel.groups.observe(requireActivity(), { list ->
+        viewModel.groups.observe(viewLifecycleOwner, { list ->
             Log.d(TAG, "onCreateView: new groups list")
             adapter.items = list
             adapter.notifyDataSetChanged()
         })
 
-        viewModel.sortBy.observe(requireActivity(), { sortBy ->
+        viewModel.sortBy.observe(viewLifecycleOwner, { sortBy ->
             binding.textSortBy.text = when(sortBy) {
                 SortBy.NAME_DESCENDING -> "name, descending"
                 SortBy.NAME_ASCENDING -> "name, ascending"
@@ -128,12 +141,11 @@ class SearchFragment : Fragment() {
 
         searchView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
-                Log.d(TAG, "onViewAttachedToWindow: searchview opened")
+                Log.d(TAG, "onViewAttachedToWindow: SearchView opened")
             }
 
             override fun onViewDetachedFromWindow(v: View?) {
-                // Searchview collapsed
-                Log.d(TAG, "onCreateOptionsMenu: searchview closed")
+                Log.d(TAG, "onCreateOptionsMenu: SearchView closed")
                 viewModel.loadGroups()
             }
 

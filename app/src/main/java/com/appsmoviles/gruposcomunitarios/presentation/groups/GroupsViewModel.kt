@@ -39,13 +39,7 @@ class GroupsViewModel @Inject constructor(
     private val _groupsWithRole: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
     val groupsWithRole: LiveData<List<Group>> get() = _groupsWithRole
 
-    val username: String = "matibf99"
-
-    init {
-        loadGroups()
-    }
-
-    private fun loadGroups() {
+    fun loadGroups() {
         viewModelScope.launch {
             getSubscribedGroupsUseCase.getSubscribedGroups().collect {
                 when(it) {

@@ -1,6 +1,8 @@
 package com.appsmoviles.gruposcomunitarios.presentation.group
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,15 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentGroupBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.adapters.PostsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class GroupFragment : Fragment() {
@@ -25,6 +31,7 @@ class GroupFragment : Fragment() {
     private val args: GroupFragmentArgs by navArgs()
 
     private val viewModel: GroupViewModel by viewModels()
+    private val mainViewModel: MainAcitivityViewModel by activityViewModels()
 
     private var _binding: FragmentGroupBinding? = null
     private val binding get() = _binding!!
@@ -52,49 +59,6 @@ class GroupFragment : Fragment() {
                 viewModel.setGroupId(it.groupId!!)
         }
 
-        viewModel.groupStatus.observe(requireActivity(), {
-            when(it) {
-                GroupStatus.Success -> {
-                    if (viewModel.status.value == GroupPostsStatus.Success)
-                        binding.progressGroupPosts.visibility = View.GONE
-
-                    (activity as AppCompatActivity).supportActionBar?.title = viewModel.group.value!!.name
-                    viewModel.getPosts()
-                    Log.d(TAG, "onCreateView: success")
-                }
-                GroupStatus.Loading -> {
-                    binding.progressGroupPosts.visibility = View.VISIBLE
-                    Log.d(TAG, "onCreateView: loading")
-                }
-                is GroupStatus.Error -> {
-                    if (viewModel.status.value == GroupPostsStatus.Success)
-                        binding.progressGroupPosts.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                    Log.d(TAG, "onCreateView: error: ${it.message}")
-                }
-            }
-        })
-        
-        viewModel.status.observe(requireActivity(), {
-            when(it) {
-                GroupPostsStatus.Success -> {
-                    if (viewModel.groupStatus.value == GroupStatus.Success)
-                        binding.progressGroupPosts.visibility = View.GONE
-                    Log.d(TAG, "onCreateView: success")
-                }
-                GroupPostsStatus.Loading -> {
-                    binding.progressGroupPosts.visibility = View.VISIBLE
-                    Log.d(TAG, "onCreateView: loading")
-                }
-                is GroupPostsStatus.Error -> {
-                    if (viewModel.groupStatus.value == GroupStatus.Success)
-                        binding.progressGroupPosts.visibility = View.GONE
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                    Log.d(TAG, "onCreateView: error: ${it.message}")
-                }
-            }
-        })
-
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewGroupPosts.layoutManager = linearLayoutManager
         binding.recyclerViewGroupPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -108,12 +72,18 @@ class GroupFragment : Fragment() {
             }
         })
 
-        adapter = object : PostsAdapter(viewModel.username, viewModel.posts.value!!) {
+        adapter = object : PostsAdapter(
+            mainViewModel.user.value?.username ?: "",
+            viewModel.posts.value!!
+        ) {
             override fun onPostClickListener(position: Int) {
+                val post = viewModel.posts.value!![position]
+                val action = GroupFragmentDirections.actionGroupFragmentToPostFragment(post)
+                findNavController().navigate(action)
             }
 
-            override fun onLikeListener(position: Int) {
-                viewModel.likePost(position)
+            override fun onLikeListener(position: Int, username: String) {
+                viewModel.likePost(position, username)
                 adapter.notifyItemChanged(position)
             }
 
@@ -122,10 +92,66 @@ class GroupFragment : Fragment() {
         }
         binding.recyclerViewGroupPosts.adapter = adapter
 
-        viewModel.posts.observe(requireActivity(), {
+        viewModel.groupStatus.observe(viewLifecycleOwner, {
+            Log.d(TAG, "onCreateView: observing groupStatus")
+            when(it) {
+                GroupStatus.Success -> {
+                    if (viewModel.status.value !is GroupPostsStatus.Loading)
+                        binding.progressGroupPosts.visibility = View.GONE
+
+                    viewModel.getPosts()
+                    (activity as AppCompatActivity).supportActionBar?.title = viewModel.group.value!!.name
+                    Log.d(TAG, "onCreateView: success loading group")
+                }
+                GroupStatus.Loading -> {
+                    binding.progressGroupPosts.visibility = View.VISIBLE
+                    Log.d(TAG, "onCreateView: loading group")
+                }
+                is GroupStatus.Error -> {
+                    if (viewModel.status.value !is GroupPostsStatus.Loading)
+                        binding.progressGroupPosts.visibility = View.GONE
+
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "onCreateView: error loading group: ${it.message}")
+                }
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, {
+            Log.d(TAG, "onCreateView: observing status")
+            when(it) {
+                GroupPostsStatus.Success -> {
+                    if (viewModel.groupStatus.value !is GroupStatus.Loading)
+                        binding.progressGroupPosts.visibility = View.GONE
+
+                    binding.swipeRefreshGroup.isRefreshing = false
+                    Log.d(TAG, "onCreateView: success loading posts")
+                }
+                GroupPostsStatus.Loading -> {
+                    binding.progressGroupPosts.visibility = View.VISIBLE
+                    Log.d(TAG, "onCreateView: loading loading posts")
+                }
+                is GroupPostsStatus.Error -> {
+                    if (viewModel.groupStatus.value !is GroupStatus.Loading)
+                        binding.progressGroupPosts.visibility = View.GONE
+
+                    binding.swipeRefreshGroup.isRefreshing = false
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "onCreateView: error posts: ${it.message}")
+                }
+            }
+        })
+
+        viewModel.posts.observe(viewLifecycleOwner, {
+            Log.d(TAG, "onCreateView: observing posts")
             adapter.items = it
             adapter.notifyDataSetChanged()
         })
+
+        binding.swipeRefreshGroup.setOnRefreshListener {
+            Log.d(TAG, "onCreateView: refreshing")
+            viewModel.getPosts()
+        }
 
         binding.createPostFab.setOnClickListener {
             val group = viewModel.group.value!!
@@ -148,7 +174,7 @@ class GroupFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> activity?.onBackPressed()
+            android.R.id.home -> findNavController().popBackStack()
         }
 
         return super.onOptionsItemSelected(item)

@@ -63,6 +63,7 @@ class CreatePostViewModel @Inject constructor(
         viewModelScope.launch {
             createPostUseCase.createPost(
                 groupId = group.value?.documentId!!,
+                groupName = group.value?.name!!,
                 title = title.value!!,
                 content = content.value!!,
                 imageBitmap = bitmap

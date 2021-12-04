@@ -15,6 +15,7 @@ import kotlin.collections.ArrayList
 interface CreatePostUseCase {
     fun createPost(
         groupId: String,
+        groupName: String,
         title: String,
         content: String,
         imageBitmap: Bitmap?
@@ -28,6 +29,7 @@ class CreatePostUseCaseImp(
 ) : CreatePostUseCase {
     override fun createPost(
         groupId: String,
+        groupName: String,
         title: String,
         content: String,
         imageBitmap: Bitmap?
@@ -61,6 +63,7 @@ class CreatePostUseCaseImp(
             createdAt = Date(),
             createdBy = userIdRes.data,
             groupId = groupId,
+            groupName = groupName,
             likes = ArrayList()
         )
 

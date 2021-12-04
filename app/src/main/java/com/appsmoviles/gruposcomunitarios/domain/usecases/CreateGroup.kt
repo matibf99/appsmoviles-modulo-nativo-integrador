@@ -45,7 +45,8 @@ class CreateGroupUseCaseImp(
             photo = imageUrlRes.data,
             createdBy = userIdRes.data,
             createdAt = Date(),
-            moderators = ArrayList()
+            moderators = ArrayList(),
+            subscribed = ArrayList()
         )
 
         val groupRes = groupRepository.createGroup(group).first()

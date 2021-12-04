@@ -18,4 +18,6 @@ interface PostRepository {
     fun modifyComment(groupId: String, postId: String, commentId: String, comment: PostComment): Flow<Res<Nothing>>
     fun likePost(groupId: String, postId: String, userId: String): Flow<Res<Nothing>>
     fun unlikePost(groupId: String, postId: String, userId: String): Flow<Res<Nothing>>
+    fun likeComment(groupId: String, postId: String, commentId: String, username: String): Flow<Res<Nothing>>
+    fun unlikeComment(groupId: String, postId: String, commentId: String, username: String): Flow<Res<Nothing>>
 }

@@ -2,6 +2,7 @@ package com.appsmoviles.gruposcomunitarios.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.navigation.ui.NavigationUI
 import com.appsmoviles.gruposcomunitarios.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,6 +13,8 @@ import com.appsmoviles.gruposcomunitarios.R
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    val viewModel: MainAcitivityViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
 

@@ -47,7 +47,7 @@ class CreateGroupFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar!!.title = "Create new group"
         
-        viewModel.status.observe(requireActivity(), {
+        viewModel.status.observe(viewLifecycleOwner, {
             when(it) {
                 CreateGroupStatus.Success -> {
                     binding.progressCreateGroup.visibility = View.GONE
@@ -65,7 +65,7 @@ class CreateGroupFragment : Fragment() {
             }
         })
 
-        viewModel.imageUri.observe(requireActivity(), {
+        viewModel.imageUri.observe(viewLifecycleOwner, {
             Glide.with(requireContext())
                 .load(it)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

@@ -38,14 +38,15 @@ class HomeViewModel @Inject constructor(
     private val _posts: MutableLiveData<List<Post>> = MutableLiveData(ArrayList())
     val posts: LiveData<List<Post>> get() = _posts
 
-    val username: String = "matibf99"
-
     init {
+        Log.d(TAG, "init: viewmodel created")
         getPosts()
     }
 
     fun getPosts() {
         viewModelScope.launch {
+            _status.postValue(HomePostsStatus.Loading)
+
             getPostsFromAllGroupsUseCase.getPosts(SortBy.CREATED_AT_DESCENDING).collect {
                 when(it) {
                     is Res.Success -> {
@@ -53,13 +54,13 @@ class HomeViewModel @Inject constructor(
                         _posts.postValue(it.data!!)
                     }
                     is Res.Loading -> _status.postValue(HomePostsStatus.Loading)
-                    is Res.Success -> _status.postValue(HomePostsStatus.Error(it.message))
+                    is Res.Error -> _status.postValue(HomePostsStatus.Error(it.message))
                 }
             }
         }
     }
 
-    fun likePost(position: Int) {
+    fun likePost(position: Int, username: String) {
         val post = posts.value!![position]
         Log.d(TAG, "likePost: $post")
         val likePost: Boolean

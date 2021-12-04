@@ -93,7 +93,7 @@ class GroupRepositoryImp(
 
     override suspend fun createGroup(group: Group): Flow<Res<Nothing>> = callbackFlow {
         db.collection(GROUPS_COLLECTION)
-            .document(group.name!!)
+            .document()
             .set(group)
             .addOnSuccessListener {
                 trySend(Res.Success())

@@ -39,12 +39,6 @@ class SearchViewModel @Inject constructor(
     private var _sortBy: MutableLiveData<SortBy> = MutableLiveData(SortBy.NAME_ASCENDING)
     val sortBy: LiveData<SortBy> get() = _sortBy
 
-    val username: String = "matibf99"
-
-    init {
-        loadGroups()
-    }
-
     fun loadGroups(sortBy: SortBy = SortBy.NAME_DESCENDING) {
         viewModelScope.launch {
             getGroupsUseCase.getGroups(sortBy).collect {
@@ -85,7 +79,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun subscribeToGroup(position: Int) {
+    fun subscribeToGroup(position: Int, username: String) {
         val group = groups.value!![position]
 
         val isSubscribed = group.subscribed?.contains(username) == true
