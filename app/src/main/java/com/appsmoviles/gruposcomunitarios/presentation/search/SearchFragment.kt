@@ -161,7 +161,8 @@ class SearchFragment : Fragment() {
             R.id.menu_search_filter -> {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Order by")
-                    .setItems(options) { dialog, which ->
+                    .setSingleChoiceItems(options, 1) { dialog, which ->
+                        Log.d(TAG, "onOptionsItemSelected: new order selected - which: $which")
                         when(which) {
                             0 -> viewModel.setSortBy(SortBy.NAME_ASCENDING)
                             1 -> viewModel.setSortBy(SortBy.NAME_DESCENDING)
@@ -169,6 +170,8 @@ class SearchFragment : Fragment() {
                             3 -> viewModel.setSortBy(SortBy.CREATED_AT_DESCENDING)
                         }
                     }
+                    .setPositiveButton("SELECT", null)
+                    .setNegativeButton("CANCEL", null)
                     .show()
             }
         }

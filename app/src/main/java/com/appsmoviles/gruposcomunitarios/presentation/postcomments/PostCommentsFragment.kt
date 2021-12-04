@@ -73,17 +73,40 @@ class PostCommentsFragment : Fragment() {
         }
         binding.recyclerViewComments.adapter = adapter
 
-        viewModel.parent.observe(requireActivity(), {
+        viewModel.post.observe(viewLifecycleOwner, {
+            (activity as MainActivity?)!!.supportActionBar?.title = it.title
+        })
+
+        viewModel.parent.observe(viewLifecycleOwner, {
             adapter.parent = it
             adapter.notifyItemChanged(0)
         })
 
-        viewModel.comments.observe(requireActivity(), {
+        viewModel.comments.observe(viewLifecycleOwner, {
             adapter.comments = it
             adapter.notifyDataSetChanged()
         })
 
-        mainViewModel.userStatus.observe(requireActivity(), {
+        viewModel.commentsStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                PostCommentsStatus.Success -> {
+                    binding.progressPostComments.visibility = View.GONE
+                    binding.swipeRefreshComments.isRefreshing = false
+                    Log.d(TAG, "onCreateView: success loading comments")
+                }
+                is PostCommentsStatus.Loading -> {
+                    binding.progressPostComments.visibility = View.VISIBLE
+                    Log.d(TAG, "onCreateView: loading comments")
+                }
+                is PostCommentsStatus.Error -> {
+                    binding.progressPostComments.visibility = View.GONE
+                    binding.swipeRefreshComments.isRefreshing = false
+                    Log.d(TAG, "onCreateView: error loading comments: ${it.message}")
+                }
+            }
+        })
+
+        mainViewModel.userStatus.observe(viewLifecycleOwner, {
             when(it) {
                 UserStatus.SUCCESS -> {
                     adapter.username = mainViewModel.user.value?.username ?: ""
@@ -101,6 +124,12 @@ class PostCommentsFragment : Fragment() {
             val action = PostCommentsFragmentDirections.actionPostCommentsFragmentToCreateCommentFragment(post, parent)
 
             findNavController().navigate(action)
+        }
+
+        binding.swipeRefreshComments.setOnRefreshListener {
+            Log.d(TAG, "onCreateView: SwipeRefresh triggered")
+
+            viewModel.loadComments()
         }
 
         return binding.root

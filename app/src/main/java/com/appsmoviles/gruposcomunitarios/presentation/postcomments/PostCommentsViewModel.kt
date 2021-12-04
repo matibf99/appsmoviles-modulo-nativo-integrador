@@ -7,19 +7,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
+import com.appsmoviles.gruposcomunitarios.domain.usecases.GetCommentsFromPostUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.LikeCommentUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.UnlikeCommentUseCase
 import com.appsmoviles.gruposcomunitarios.presentation.post.PostViewModel
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+sealed class PostCommentsStatus(val message: String? = null) {
+    object Success : PostCommentsStatus()
+    object Loading : PostCommentsStatus()
+    class Error(message: String?) : PostCommentsStatus(message)
+}
+
 @HiltViewModel
 class PostCommentsViewModel @Inject constructor(
     private val likeCommentUseCase: LikeCommentUseCase,
-    private val unlikeCommentUseCase: UnlikeCommentUseCase
+    private val unlikeCommentUseCase: UnlikeCommentUseCase,
+    private val getCommentsFromPostUseCase: GetCommentsFromPostUseCase
 ) : ViewModel() {
 
     private val _post: MutableLiveData<Post> = MutableLiveData()
@@ -31,8 +40,12 @@ class PostCommentsViewModel @Inject constructor(
     private val _comments: MutableLiveData<List<PostComment>> = MutableLiveData()
     val comments: LiveData<List<PostComment>> get() = _comments
 
+    private val _commentsStatus: MutableLiveData<PostCommentsStatus> = MutableLiveData()
+    val commentsStatus: LiveData<PostCommentsStatus> get() = _commentsStatus
+
     fun setPost(post: Post) {
         _post.value = post
+        loadComments()
     }
 
     fun setParent(postComment: PostComment) {
@@ -68,7 +81,7 @@ class PostCommentsViewModel @Inject constructor(
             likePost = true
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = if (likePost) likeCommentUseCase.likeComment(
                 post.value?.groupId!!,
                 post.value?.documentId!!,
@@ -89,6 +102,28 @@ class PostCommentsViewModel @Inject constructor(
                     is Res.Error -> Log.d(TAG, "likeComment: loading like error")
                 }
             }
+        }
+    }
+
+    fun loadComments() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getCommentsFromPostUseCase
+                .getComments(post.value!!.groupId!!, post.value!!.documentId!!)
+                .collect {
+                    when(it) {
+                        is Res.Success -> {
+                            val comments = it.data!!
+
+                            if (parent.value != null)
+                                _parent.postValue(comments.first { item -> item.documentId == parent.value!!.documentId!! })
+
+                            _comments.postValue(comments.filter { item -> item.parent == parent.value!!.documentId})
+                            _commentsStatus.postValue(PostCommentsStatus.Success)
+                        }
+                        is Res.Loading -> _commentsStatus.postValue(PostCommentsStatus.Loading)
+                        is Res.Error -> _commentsStatus.postValue(PostCommentsStatus.Error(it.message))
+                    }
+                }
         }
     }
 
