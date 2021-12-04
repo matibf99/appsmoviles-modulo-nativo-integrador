@@ -37,16 +37,29 @@ class UserViewModel @Inject constructor(
     private var _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> get() = _user
 
+    private var _email: MutableLiveData<String> = MutableLiveData()
+    val email: LiveData<String> get() = _email
 
-    init {
-        loadUsers()
-    }
+    private var _password: MutableLiveData<String> = MutableLiveData()
+    val password: LiveData<String> get() = _password
+
+    private var _name: MutableLiveData<String> = MutableLiveData()
+    val name: LiveData<String> get() = _name
+
+    private var _surname: MutableLiveData<String> = MutableLiveData()
+    val surname: LiveData<String> get() = _surname
+
+    private var _username: MutableLiveData<String> = MutableLiveData()
+    val username: LiveData<String> get() = _username
+
+
+
 
     private fun loadUsers() {
 
-        viewModelScope.launch  {
+        viewModelScope.launch {
             getUserInfoUseCase.getUserInfo().collect {
-                when(it) {
+                when (it) {
                     is Res.Loading -> {
                         _status.postValue(UserStatus.LOADING)
                         _user.postValue(it.data!!)
@@ -67,46 +80,64 @@ class UserViewModel @Inject constructor(
 
     }
 
-        private fun signIn(email:String, password:String) {
-            viewModelScope.launch {
-                singInUserCase.signIn(email,password).collect {
-                    when(it) {
-                        is Res.Loading -> {
-                            _status.postValue(UserStatus.LOADING)
-                            _user.postValue(it.data!!)
+    fun setName (name:String) {
+        _name.value = name
+    }
+    fun setSurname (surname:String) {
+        _surname.value = surname
+    }
+    fun setUsername (username:String) {
+        _username.value = username
+    }
+    fun setEmail (email:String) {
+        _email.value = email
+    }
+    fun setPassword (password:String) {
+        _password.value = password
+    }
 
-                        }
-                        is Res.Success -> {
-                            _status.postValue(UserStatus.LOADED)
-                        }
-                        is Res.Error -> {
-                            _status.postValue(UserStatus.FAILED)
-                        }
+    fun signIn() {
+        viewModelScope.launch {
+            singInUserCase.signIn(email.value!!, password.value!!).collect {
+                when (it) {
+                    is Res.Loading -> {
+                        _status.postValue(UserStatus.LOADING)
+
+
                     }
-                }
-            }
-        }
+                    is Res.Success -> {
+                        _user.postValue(it.data!!)
+                        _status.postValue(UserStatus.LOADED)
 
-        private fun registerUser(user: User, password:String) {
-            viewModelScope.launch {
-                registerUserCase.registerUser(user,password).collect {
-                    when(it) {
-                        is Res.Loading -> {
-                            _status.postValue(UserStatus.LOADING)
-                            _user.postValue(it.data!!)
-
-                        }
-                        is Res.Success -> {
-                            _status.postValue(UserStatus.LOADED)
-                        }
-                        is Res.Error -> {
-                            _status.postValue(UserStatus.FAILED)
-                        }
+                    }
+                    is Res.Error -> {
+                        _status.postValue(UserStatus.FAILED)
                     }
                 }
             }
         }
     }
+
+    fun registerUser() {
+        viewModelScope.launch {
+            registerUserCase.registerUser(user.value!!, password.value!!).collect {
+                when (it) {
+                    is Res.Loading -> {
+                        _status.postValue(UserStatus.LOADING)
+                        _user.postValue(it.data!!)
+
+                    }
+                    is Res.Success -> {
+                        _status.postValue(UserStatus.LOADED)
+                    }
+                    is Res.Error -> {
+                        _status.postValue(UserStatus.FAILED)
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 

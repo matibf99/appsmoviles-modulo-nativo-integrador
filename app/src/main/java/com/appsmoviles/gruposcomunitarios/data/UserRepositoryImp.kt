@@ -26,7 +26,6 @@ class UserRepositoryImp(
     }
 
     override suspend fun registerUser(user: User, password: String): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
 
         auth.createUserWithEmailAndPassword(user.email!!, password)
             .addOnSuccessListener {
@@ -63,12 +62,13 @@ class UserRepositoryImp(
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                trySend(Res.Success())
+                trySend(Res.Success<Nothing>())
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "signIn: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override suspend fun getCurrentUserInfo(): Flow<Res<User>> = callbackFlow {
