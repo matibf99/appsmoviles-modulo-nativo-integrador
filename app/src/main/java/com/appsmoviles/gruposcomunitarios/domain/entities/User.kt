@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.domain.entities
 
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
 data class User(
@@ -9,7 +10,7 @@ data class User(
     val name: String? = null,
     val surname: String? = null,
     val email: String? = null,
-    val createdAt: Date? = null,
+    @ServerTimestamp val createdAt: Date? = null,
     val modifiedAt: Date? = null,
     val photo: String? = null,
 )

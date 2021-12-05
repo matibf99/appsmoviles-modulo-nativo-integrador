@@ -2,6 +2,7 @@ package com.appsmoviles.gruposcomunitarios.domain.entities
 
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ServerTimestamp
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
@@ -14,7 +15,7 @@ data class Post(
     val commentsCount: Long? = null,
     val groupName: String? = null,
     val groupId: String? = null,
-    val createdAt: Date? = null,
+    @ServerTimestamp val createdAt: Date? = null,
     val createdBy: String? = null,
     var likes: List<String>? = null,
     val latitude: String? = null,

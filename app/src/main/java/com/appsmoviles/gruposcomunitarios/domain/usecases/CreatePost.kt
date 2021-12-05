@@ -5,6 +5,7 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
 import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -57,7 +58,6 @@ class CreatePostUseCaseImp(
             content = content,
             commentsCount = 0,
             photo = imageUrl,
-            createdAt = Date(),
             createdBy = username,
             groupId = groupId,
             groupName = groupName,

@@ -12,6 +12,7 @@ interface PostRepository {
     fun deletePost(groupId: String, postId: String): Flow<Res<Nothing>>
     fun getPost(groupId: String, postId: String): Flow<Res<Post>>
     fun getPosts(groupId: String, sortBy: SortBy): Flow<Res<List<Post>>>
+    fun getPostsFromUser(username: String, sortBy: SortBy): Flow<Res<List<Post>>>
     fun getPostsFromAllGroups(sortBy: SortBy): Flow<Res<List<Post>>>
     fun getComments(groupId: String, postId: String): Flow<Res<List<PostComment>>>
     fun postComment(groupId: String, postId: String, comment: PostComment): Flow<Res<Nothing>>

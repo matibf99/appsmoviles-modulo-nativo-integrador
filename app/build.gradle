@@ -112,4 +112,8 @@ dependencies {
     // PhotoView
     var photo_view = "2.0.0"
     implementation "com.github.chrisbanes:PhotoView:$photo_view"
+
+    // WorkManager
+    var work_manager = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:$work_manager"
 }

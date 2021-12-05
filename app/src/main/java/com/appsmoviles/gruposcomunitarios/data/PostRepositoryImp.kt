@@ -16,6 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.lang.reflect.Field
 
 @ExperimentalCoroutinesApi
 class PostRepositoryImp(
@@ -124,6 +125,35 @@ class PostRepositoryImp(
         awaitClose { channel.close() }
     }
 
+    override fun getPostsFromUser(username: String, sortBy: SortBy): Flow<Res<List<Post>>> = callbackFlow {
+        db.collectionGroup(GROUP_SUBCOLLECTION_POSTS)
+            .whereEqualTo("createdBy", username)
+            .orderBy("createdAt", when(sortBy) {
+                SortBy.CREATED_AT_ASCENDING -> Query.Direction.ASCENDING
+                SortBy.CREATED_AT_DESCENDING -> Query.Direction.DESCENDING
+                else -> Query.Direction.ASCENDING
+            })
+            .get()
+            .addOnSuccessListener {
+                val posts = ArrayList<Post>()
+
+                for (documentSnapshot in it) {
+                    val post = documentSnapshot.toObject(Post::class.java)
+                    post.documentId = documentSnapshot.id
+
+                    posts.add(post)
+                }
+
+                trySend(Res.Success(posts))
+                Log.d(TAG, "getPostsFromUser: success")
+            }
+            .addOnFailureListener {
+                trySend(Res.Error(it.message))
+                Log.d(TAG, "getPostsFromUser: error: ${it.message}")
+            }
+    }
+
+
     override fun getPostsFromAllGroups(sortBy: SortBy): Flow<Res<List<Post>>> = callbackFlow {
         db.collectionGroup(GROUP_SUBCOLLECTION_POSTS)
             .orderBy("createdAt", when(sortBy) {
@@ -191,7 +221,9 @@ class PostRepositoryImp(
             .document(postId)
 
         db.runTransaction { transaction ->
-            transaction.update(postRef, "commentsCount", FieldValue.increment(1))
+            transaction.update(postRef,
+                "commentsCount", FieldValue.increment(1),
+            )
             transaction.set(
                 postRef.collection(POST_SUBCOLLECTION_COMMENTS).document(),
                 comment

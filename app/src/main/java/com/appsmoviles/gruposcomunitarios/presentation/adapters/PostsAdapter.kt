@@ -42,8 +42,7 @@ abstract class PostsAdapter(
 
         if (item.photo != null) {
             binding.textPostContent.visibility = View.GONE
-            binding.postImage.visibility = View.VISIBLE
-            binding.postImageBackground.visibility = View.VISIBLE
+            binding.layoutPostImage.visibility = View.VISIBLE
 
             if (height == 0)
                 height = calculateImageHeight()
@@ -61,8 +60,7 @@ abstract class PostsAdapter(
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.postImage)
         } else {
-            binding.postImage.visibility = View.GONE
-            binding.postImageBackground.visibility = View.GONE
+            binding.layoutPostImage.visibility = View.GONE
 
             binding.textPostContent.visibility = View.VISIBLE
             binding.textPostContent.text = item.content

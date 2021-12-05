@@ -48,7 +48,6 @@ class CreateGroupUseCaseImp(
             tags = tags.lowercase().replace("\\s*,\\s*".toRegex(), ",").split(",").toList(),
             photo = imageUrlRes.data,
             createdBy = createdBy,
-            createdAt = Date(),
             moderators = ArrayList(),
             subscribed = ArrayList()
         )

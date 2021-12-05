@@ -34,7 +34,6 @@ class CreateCommentUseCaseImp(
         val comment = PostComment(
             username = username,
             content = content,
-            createdAt = Date(),
             likes = ArrayList(),
             parent = parentId
         )

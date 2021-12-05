@@ -2,6 +2,7 @@ package com.appsmoviles.gruposcomunitarios.domain.entities
 
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ServerTimestamp
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
@@ -11,7 +12,7 @@ data class Group(
     val name: String? = null,
     val description: String? = null,
     var photo: String? = null,
-    val createdAt: Date? = null,
+    @ServerTimestamp val createdAt: Date? = null,
     val modifiedAt: Date? = null,
     val createdBy: String? = null,
     val tags: List<String>? = null,
