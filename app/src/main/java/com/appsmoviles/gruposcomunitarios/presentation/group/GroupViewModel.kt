@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
-import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupUseCase
-import com.appsmoviles.gruposcomunitarios.domain.usecases.GetPostsFromGroupUseCase
-import com.appsmoviles.gruposcomunitarios.domain.usecases.LikePostUseCase
-import com.appsmoviles.gruposcomunitarios.domain.usecases.UnlikePostUseCase
+import com.appsmoviles.gruposcomunitarios.domain.usecases.*
+import com.appsmoviles.gruposcomunitarios.presentation.search.SearchViewModel
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,7 +38,9 @@ class GroupViewModel @Inject constructor(
     private val getGroupUseCase: GetGroupUseCase,
     private val getPostsFromGroupUseCase: GetPostsFromGroupUseCase,
     private val likePostUseCase: LikePostUseCase,
-    private val unlikePostUseCase: UnlikePostUseCase
+    private val unlikePostUseCase: UnlikePostUseCase,
+    private val unsubscribeToGroupUseCase: UnsubscribeToGroupUseCase,
+    private val subscribeToGroupUseCase: SubscribeToGroupUseCase
 ) : ViewModel() {
 
     private val _groupStatus: MutableLiveData<GroupStatus> = MutableLiveData()
@@ -64,9 +64,15 @@ class GroupViewModel @Inject constructor(
         _group.value = group
         _groupStatus.value = GroupStatus.Success
         getPosts()
+
+        loadGroup(group.documentId!!)
     }
 
     fun setGroupId(groupId: String) {
+        loadGroup(groupId)
+    }
+
+    private fun loadGroup(groupId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getGroupUseCase.getGroup(groupId).collect {
                 when(it) {
@@ -124,6 +130,34 @@ class GroupViewModel @Inject constructor(
                     is Res.Success -> Log.d(TAG, "likePost: success")
                     is Res.Loading -> Log.d(TAG, "likePost: loading")
                     is Res.Error -> Log.d(TAG, "likePost: error")
+                }
+            }
+        }
+    }
+
+    fun subscribeToGroup(username: String) {
+        val group = group.value!!
+
+        val isSubscribed = group.subscribed?.contains(username) == true
+        val subscribed = group.subscribed!!.toMutableList()
+
+        if (isSubscribed)
+            subscribed.remove(username)
+        else
+            subscribed.add(username)
+
+        _group.value!!.subscribed = subscribed
+        _group.value = group
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = if (isSubscribed) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!, username)
+            else subscribeToGroupUseCase.subscribeToGroup(group.documentId!!, username)
+
+            res.collect {
+                when(it) {
+                    is Res.Success-> Log.d(TAG, "subscribeToGroup: success...")
+                    is Res.Error -> Log.d(TAG, "subscribeToGroup: error...")
+                    is Res.Loading -> Log.d(TAG, "subscribeToGroup: loading...")
                 }
             }
         }

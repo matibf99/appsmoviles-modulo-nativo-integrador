@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
-            android:text="in"
+            android:text="@string/post_in"
             android:textAppearance="?attr/textAppearanceOverline"
             app:layout_constraintLeft_toRightOf="@id/text_post_username"
             app:layout_constraintBottom_toBottomOf="@id/text_post_username" />

@@ -1,5 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.presentation
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.navigation.fragment.NavHostFragment
 import com.appsmoviles.gruposcomunitarios.R
+import com.appsmoviles.gruposcomunitarios.utils.locale.LocaleHelper
 
 
 @AndroidEntryPoint
@@ -18,6 +20,10 @@ class MainActivity : AppCompatActivity() {
     val viewModel: MainAcitivityViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

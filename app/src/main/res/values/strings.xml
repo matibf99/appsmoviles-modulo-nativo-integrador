@@ -109,6 +109,7 @@
     <string name="btn_location">Location</string>
     <string name="btn_like_comment">Like comment</string>
     <string name="comments_count">Comments count</string>
+    <string name="post_in">in</string>
 
     <!-- Menus -->
     <string name="menu_open_post">Open post</string>

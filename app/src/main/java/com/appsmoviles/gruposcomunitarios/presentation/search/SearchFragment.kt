@@ -51,7 +51,8 @@ class SearchFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewSearch.layoutManager = linearLayoutManager
 
-        adapter = object : SearchAdapter(mainViewModel.user.value?.username ?: "", viewModel.groups.value!!) {
+        adapter = object :
+            SearchAdapter(mainViewModel.user.value?.username ?: "", viewModel.groups.value!!) {
             override fun onSubscribeListener(position: Int, username: String) {
                 viewModel.subscribeToGroup(position, username)
                 adapter.notifyItemChanged(position)
@@ -77,7 +78,7 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.adapter = adapter
 
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
-            when(it) {
+            when (it) {
                 UserStatus.SUCCESS -> adapter.username = mainViewModel.user.value?.username ?: ""
                 UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
                 UserStatus.ERROR -> Log.d(TAG, "onCreateView: error in loading user")
@@ -86,7 +87,7 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.status.observe(viewLifecycleOwner, { status ->
-            when(status) {
+            when (status) {
                 SearchGroupsStatus.Loading -> {
                     binding.progressSearch.visibility = View.VISIBLE
                     Log.d(TAG, "onCreateView: loading")
@@ -110,13 +111,15 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.sortBy.observe(viewLifecycleOwner, { sortBy ->
-            binding.textSortBy.setText(when(sortBy) {
-                SortBy.NAME_DESCENDING -> R.string.order_by_name_descending
-                SortBy.NAME_ASCENDING -> R.string.order_by_name_ascending
-                SortBy.CREATED_AT_DESCENDING -> R.string.order_by_created_at_descending
-                SortBy.CREATED_AT_ASCENDING -> R.string.order_by_created_at_ascending
-                else -> R.string.order_by_nothing
-            })
+            binding.textSortBy.setText(
+                when (sortBy) {
+                    SortBy.NAME_DESCENDING -> R.string.order_by_name_descending
+                    SortBy.NAME_ASCENDING -> R.string.order_by_name_ascending
+                    SortBy.CREATED_AT_DESCENDING -> R.string.order_by_created_at_descending
+                    SortBy.CREATED_AT_ASCENDING -> R.string.order_by_created_at_ascending
+                    else -> R.string.order_by_nothing
+                }
+            )
         })
 
         return view
@@ -168,13 +171,21 @@ class SearchFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val options = resources.getStringArray(R.array.fragment_search_dialog_sort_by)
 
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menu_search_filter -> {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(R.string.fragment_search_dialog_order_by)
-                    .setSingleChoiceItems(options, 1) { dialog, which ->
+                    .setSingleChoiceItems(
+                        options, when (viewModel.sortBy.value) {
+                            SortBy.NAME_ASCENDING -> 0
+                            SortBy.NAME_DESCENDING -> 1
+                            SortBy.CREATED_AT_ASCENDING -> 2
+                            SortBy.CREATED_AT_DESCENDING -> 3
+                            else -> 0
+                        }
+                    ) { dialog, which ->
                         Log.d(TAG, "onOptionsItemSelected: new order selected - which: $which")
-                        when(which) {
+                        when (which) {
                             0 -> viewModel.setSortBy(SortBy.NAME_ASCENDING)
                             1 -> viewModel.setSortBy(SortBy.NAME_DESCENDING)
                             2 -> viewModel.setSortBy(SortBy.CREATED_AT_ASCENDING)
