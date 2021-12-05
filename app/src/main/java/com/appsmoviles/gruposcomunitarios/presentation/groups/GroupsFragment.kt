@@ -1,5 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.presentation.groups
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -37,10 +38,11 @@ class GroupsFragment : Fragment() {
     private lateinit var adapterSubscribed: GroupsAdapter
     private lateinit var concatAdapter: ConcatAdapter
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d(TAG, "onCreateView: initiating")
         _binding = FragmentGroupsBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -55,6 +57,7 @@ class GroupsFragment : Fragment() {
                 )
                 UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
                 UserStatus.ERROR -> Log.d(TAG, "onCreateView: error loading user")
+                else -> Log.d(TAG, "onCreateView: unknown status")
             }
         })
 
@@ -171,8 +174,8 @@ class GroupsFragment : Fragment() {
         })
 
         binding.groupsFab.setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(R.id.action_groupsFragment_to_createGroupFragment)
+            val action = GroupsFragmentDirections.actionGroupsFragmentToCreateGroupFragment()
+            findNavController().navigate(action)
         }
 
         return view
