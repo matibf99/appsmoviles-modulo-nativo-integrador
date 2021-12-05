@@ -118,16 +118,19 @@ class UserViewModel @Inject constructor(
     }
 
     fun registerUser() {
+        val user: User  = User(username = username.value,name= name.value,surname = surname.value, email = email.value )
         viewModelScope.launch {
-            registerUserCase.registerUser(user.value!!, password.value!!).collect {
+            registerUserCase.registerUser(user, password.value!!).collect {
                 when (it) {
                     is Res.Loading -> {
                         _status.postValue(UserStatus.LOADING)
-                        _user.postValue(it.data!!)
+
 
                     }
                     is Res.Success -> {
+                        _user.postValue(it.data!!)
                         _status.postValue(UserStatus.LOADED)
+
                     }
                     is Res.Error -> {
                         _status.postValue(UserStatus.FAILED)
@@ -136,6 +139,7 @@ class UserViewModel @Inject constructor(
             }
         }
     }
+
 }
 
 

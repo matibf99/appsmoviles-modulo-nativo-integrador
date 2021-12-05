@@ -23,22 +23,22 @@ class GetGroupsUseCaseImp(
         val userInfo = userRepository.getCurrentUserInfo().first()
 
         val groupsRes = groupRepository.getGroups(sortBy).first()
-        val subscribedGroupsRes = userInfo.data?.let { groupRepository.getSubscribedGroups(it.groups!!).first() }
+       // val subscribedGroupsRes = userInfo.data?.let { groupRepository.getSubscribedGroups(it.groups!!).first() }
 
-        if (groupsRes !is Res.Success || userInfo !is Res.Success || subscribedGroupsRes !is Res.Success) {
-            emit(Res.Error())
-            return@flow
-        }
-
-        val groups = groupsRes.data
-        val subscribedGroups = subscribedGroupsRes.data
-
-        if (subscribedGroups != null && groups != null) {
-            for (subs in subscribedGroups) {
-                groups.find { it.documentId == subs.documentId }?.subscribed = true
-            }
-        }
-
-        emit(Res.Success(groups))
+//        if (groupsRes !is Res.Success || userInfo !is Res.Success || subscribedGroupsRes !is Res.Success) {
+//            emit(Res.Error())
+//            return@flow
+//        }
+//
+//        val groups = groupsRes.data
+//        val subscribedGroups = subscribedGroupsRes.data
+//
+//        if (subscribedGroups != null && groups != null) {
+//            for (subs in subscribedGroups) {
+//                groups.find { it.documentId == subs.documentId }?.subscribed = true
+//            }
+//        }
+//
+//        emit(Res.Success(groups))
     }
 }

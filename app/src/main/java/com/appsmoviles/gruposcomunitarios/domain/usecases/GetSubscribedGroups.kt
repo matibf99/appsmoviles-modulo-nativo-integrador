@@ -23,23 +23,23 @@ class GetSubscribedGroupsUseCaseImp(
         if (userInfo !is Res.Success)
             return@flow
 
-        val subscribedGroups = userInfo.data?.groups
-        val res = groupRepository.getSubscribedGroups(subscribedGroups!!).first()
-
-        if (res !is Res.Success) {
-            emit(res)
-            return@flow
-        }
-
-        val groups = res.data!!
-        for (group in groups) {
-            group.userRol = when {
-                userInfo.data.username == group.createdBy -> "Owner"
-                group.moderators!!.contains(userInfo.data.username!!) -> "Moderator"
-                else -> "User"
-            }
-        }
-
-        emit(Res.Success(groups))
+//        val subscribedGroups = userInfo.data?.groups
+//        val res = groupRepository.getSubscribedGroups(subscribedGroups!!).first()
+//
+//        if (res !is Res.Success) {
+//            emit(res)
+//            return@flow
+//        }
+//
+//        val groups = res.data!!
+//        for (group in groups) {
+//            group.userRol = when {
+//                userInfo.data.username == group.createdBy -> "Owner"
+//                group.moderators!!.contains(userInfo.data.username!!) -> "Moderator"
+//                else -> "User"
+//            }
+//        }
+//
+//        emit(Res.Success(groups))
     }
 }

@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.data
 
 import android.util.Log
+import android.widget.Toast
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
 import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
 import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.USERS_COLLECTION
@@ -36,7 +37,7 @@ class UserRepositoryImp(
                         .document(documentId)
                         .set(user)
                         .addOnSuccessListener {
-                            trySend(Res.Success())
+                            Log.d(TAG,"SI SE REGISTRO")
                         }
                         .addOnFailureListener {
                             trySend(Res.Error(it.message))
@@ -51,6 +52,7 @@ class UserRepositoryImp(
                 trySend(Res.Error(it.message))
                 Log.d(TAG, "registerUser: ${it.message}")
             }
+        awaitClose { channel.close() }
     }
 
     override  fun registeredUser(): Boolean {
