@@ -39,9 +39,9 @@ class GroupsViewModel @Inject constructor(
     private val _groupsWithRole: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
     val groupsWithRole: LiveData<List<Group>> get() = _groupsWithRole
 
-    fun loadGroups() {
+    fun loadGroups(username: String) {
         viewModelScope.launch {
-            getSubscribedGroupsUseCase.getSubscribedGroups().collect {
+            getSubscribedGroupsUseCase.getSubscribedGroups(username).collect {
                 when(it) {
                     is Res.Success -> {
                         _status.postValue(GroupsStatus.Success)
@@ -58,7 +58,7 @@ class GroupsViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            getGroupsWithRoleUseCase.getGroupsWithUseCase().collect {
+            getGroupsWithRoleUseCase.getGroups(username).collect {
                 when(it) {
                     is Res.Success -> {
                         _status.postValue(GroupsStatus.Success)

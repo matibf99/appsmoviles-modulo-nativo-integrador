@@ -46,7 +46,15 @@ class GroupsFragment : Fragment() {
         val view = binding.root
 
         (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_groups_title)
-        viewModel.loadGroups()
+        viewModel.loadGroups(mainViewModel.user.value!!.username ?: "")
+
+        mainViewModel.userStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                UserStatus.SUCCESS -> viewModel.loadGroups(mainViewModel.user.value!!.username ?: "")
+                UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
+                UserStatus.ERROR -> Log.d(TAG, "onCreateView: error loading user")
+            }
+        })
 
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewGroups.layoutManager = linearLayoutManager

@@ -46,6 +46,8 @@ class HomeFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_home_title)
 
+        viewModel.getPosts()
+
         linearLayoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewHome.layoutManager = linearLayoutManager
 

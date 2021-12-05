@@ -9,23 +9,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 interface GetGroupsWithRoleUseCase {
-    fun getGroupsWithUseCase() : Flow<Res<List<Group>>>
+    fun getGroups(username: String) : Flow<Res<List<Group>>>
 }
 
 class GetGroupsWithRoleUseCaseImp(
     private val groupRepository: GroupRepository,
     private val userRepository: UserRepository
 ) : GetGroupsWithRoleUseCase {
-    override fun getGroupsWithUseCase(): Flow<Res<List<Group>>> = flow {
+    override fun getGroups(username: String): Flow<Res<List<Group>>> = flow {
         emit(Res.Loading())
-        val userInfo = userRepository.getCurrentUserInfo().first()
-
-        if (userInfo !is Res.Success) {
-            emit(Res.Error(userInfo.message))
-            return@flow
-        }
-
-        val username = userInfo.data!!.username!!
         val groupsWithRole = groupRepository.getGroupsWithRole(username).first()
         emit(groupsWithRole)
     }

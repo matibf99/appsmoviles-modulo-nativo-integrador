@@ -105,9 +105,9 @@ class GroupRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override suspend fun getSubscribedGroups(userId: String): Flow<Res<List<Group>>> = callbackFlow {
+    override suspend fun getSubscribedGroups(username: String): Flow<Res<List<Group>>> = callbackFlow {
         db.collection(GROUPS_COLLECTION)
-            .whereArrayContains("subscribed", userId)
+            .whereArrayContains("subscribed", username)
             .get()
             .addOnSuccessListener {
                 val groups = ArrayList<Group>()
@@ -161,10 +161,10 @@ class GroupRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override suspend fun subscribeToGroup(groupId: String, userId: String): Flow<Res<Nothing>> = callbackFlow {
+    override suspend fun subscribeToGroup(groupId: String, username: String): Flow<Res<Nothing>> = callbackFlow {
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
-            .update("subscribed", FieldValue.arrayUnion(userId))
+            .update("subscribed", FieldValue.arrayUnion(username))
             .addOnSuccessListener { 
                 trySend(Res.Success())
                 Log.d(TAG, "subscribeToGroup: success")
@@ -176,10 +176,10 @@ class GroupRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override suspend fun unsubscribeToGroup(groupId: String, userId: String): Flow<Res<Nothing>> = callbackFlow {
+    override suspend fun unsubscribeToGroup(groupId: String, username: String): Flow<Res<Nothing>> = callbackFlow {
         db.collection(GROUPS_COLLECTION)
             .document(groupId)
-            .update("subscribed", FieldValue.arrayRemove(userId))
+            .update("subscribed", FieldValue.arrayRemove(username))
             .addOnSuccessListener {
                 trySend(Res.Success())
                 Log.d(TAG, "unsubscribeToGroup: success")

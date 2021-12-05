@@ -15,7 +15,6 @@ class LikePostUseCaseImp(
 ) : LikePostUseCase {
     override fun likePost(groupId: String, postId: String, userId: String): Flow<Res<Nothing>> = flow{
         emit(Res.Loading())
-
         val likeRes = postRepository.likePost(groupId, postId, userId).first()
         emit(likeRes)
     }

@@ -9,21 +9,16 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 interface  GetSubscribedGroupsUseCase {
-    fun getSubscribedGroups(): Flow<Res<List<Group>>>
+    fun getSubscribedGroups(username: String): Flow<Res<List<Group>>>
 }
 
 class GetSubscribedGroupsUseCaseImp(
     private val groupRepository: GroupRepository,
     private val userRepository: UserRepository
 ) : GetSubscribedGroupsUseCase {
-    override fun getSubscribedGroups(): Flow<Res<List<Group>>> = flow {
+    override fun getSubscribedGroups(username: String): Flow<Res<List<Group>>> = flow {
         emit(Res.Loading())
-
-        val userInfo = userRepository.getCurrentUserDocumentId().first()
-        if (userInfo !is Res.Success)
-            return@flow
-
-        val res = groupRepository.getSubscribedGroups(userInfo.data!!).first()
+        val res = groupRepository.getSubscribedGroups(username).first()
         emit(res)
     }
 }

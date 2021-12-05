@@ -16,7 +16,6 @@ class GetGroupUseCaseImp(
 ) : GetGroupUseCase {
     override fun getGroup(groupId: String): Flow<Res<Group>> = flow {
         emit(Res.Loading())
-
         val groupRes = groupRepository.getGroupInfo(groupId).first()
         emit(groupRes)
     }

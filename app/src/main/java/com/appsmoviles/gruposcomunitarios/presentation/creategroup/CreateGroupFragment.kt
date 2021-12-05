@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraIntent
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
@@ -20,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateGroupBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 
@@ -31,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CreateGroupFragment : Fragment() {
 
     private val viewModel: CreateGroupFragmentViewModel by viewModels()
+    private val mainViewModel: MainAcitivityViewModel by activityViewModels()
 
     private var _binding: FragmentCreateGroupBinding? = null
     private val binding get() = _binding!!
@@ -150,7 +153,10 @@ class CreateGroupFragment : Fragment() {
                     requireActivity().contentResolver,
                     viewModel.imageUri.value
                 )
-                viewModel.createGroup(bitmap)
+                viewModel.createGroup(
+                    mainViewModel.user.value!!.username ?: "",
+                    bitmap
+                )
             }
         }
 

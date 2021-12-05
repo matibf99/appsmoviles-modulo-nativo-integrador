@@ -114,9 +114,15 @@ class CreateGroupFragmentViewModel @Inject constructor(
             _formImageStatus.value = FieldStatus.VALID
     }
 
-    fun createGroup(bitmap: Bitmap) {
+    fun createGroup(username: String, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
-            createGroupUseCase.createGroup(name.value!!, description.value!!, tags.value?: "", bitmap).collect {
+            createGroupUseCase.createGroup(
+                name.value!!,
+                description.value!!,
+                tags.value ?: "",
+                username,
+                bitmap
+            ).collect {
                 when (it) {
                     is Res.Success -> _status.postValue(CreateGroupStatus.Success)
                     is Res.Loading -> _status.postValue(CreateGroupStatus.Loading)

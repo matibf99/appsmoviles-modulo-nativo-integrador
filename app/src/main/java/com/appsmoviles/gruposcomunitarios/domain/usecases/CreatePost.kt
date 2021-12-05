@@ -15,6 +15,7 @@ import kotlin.collections.ArrayList
 
 interface CreatePostUseCase {
     fun createPost(
+        username: String,
         groupId: String,
         groupName: String,
         title: String,
@@ -31,6 +32,7 @@ class CreatePostUseCaseImp(
     private val storageRepository: StorageRepository
 ) : CreatePostUseCase {
     override fun createPost(
+        username: String,
         groupId: String,
         groupName: String,
         title: String,
@@ -40,13 +42,6 @@ class CreatePostUseCaseImp(
         longitude: String?,
     ): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
-
-        val userIdRes = userRepository.getCurrentUserDocumentId().first()
-
-        if (userIdRes !is Res.Success) {
-            emit(Res.Error(userIdRes.message))
-            return@flow
-        }
 
         var imageUrl: String? = null
         if (imageBitmap != null) {
@@ -66,7 +61,7 @@ class CreatePostUseCaseImp(
             commentsCount = 0,
             photo = imageUrl,
             createdAt = Date(),
-            createdBy = userIdRes.data,
+            createdBy = username,
             groupId = groupId,
             groupName = groupName,
             likes = ArrayList(),

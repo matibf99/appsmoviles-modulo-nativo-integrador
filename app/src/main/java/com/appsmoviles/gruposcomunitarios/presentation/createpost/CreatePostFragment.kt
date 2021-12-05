@@ -15,11 +15,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.documentfile.provider.DocumentFile
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreatePostBinding
+import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.utils.MapLocation
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
@@ -36,6 +38,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class CreatePostFragment : Fragment() {
 
     private val viewModel: CreatePostViewModel by viewModels()
+    private val mainViewModel: MainAcitivityViewModel by activityViewModels()
+
     private val args: CreatePostFragmentArgs by navArgs()
 
     private var _binding: FragmentCreatePostBinding? = null
@@ -179,9 +183,11 @@ class CreatePostFragment : Fragment() {
                         requireActivity().contentResolver,
                         viewModel.imageUri.value
                     )
-                    viewModel.createPost(bitmap)
+                    viewModel.createPost(
+                        mainViewModel.user.value!!.username ?: "",
+                        bitmap)
                 } else {
-                    viewModel.createPost()
+                    viewModel.createPost(mainViewModel.user.value!!.username ?: "")
                 }
             }
         }

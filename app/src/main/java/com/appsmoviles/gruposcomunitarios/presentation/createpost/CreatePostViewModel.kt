@@ -106,13 +106,14 @@ class CreatePostViewModel @Inject constructor(
         }
     }
 
-    fun createPost(bitmap: Bitmap? = null) {
+    fun createPost(username: String, bitmap: Bitmap? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             createPostUseCase.createPost(
                 groupId = group.value?.documentId!!,
                 groupName = group.value?.name!!,
                 title = title.value!!,
                 content = content.value ?: "",
+                username = username,
                 imageBitmap = bitmap,
                 latitude = location.value?.latitude.toString(),
                 longitude = location.value?.longitude.toString(),

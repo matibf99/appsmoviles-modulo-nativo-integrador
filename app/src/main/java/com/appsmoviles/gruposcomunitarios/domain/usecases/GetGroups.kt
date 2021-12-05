@@ -18,7 +18,6 @@ class GetGroupsUseCaseImp(
 ) : GetGroupsUseCase {
     override suspend fun getGroups(sortBy: SortBy): Flow<Res<List<Group>>> = flow {
         emit(Res.Loading())
-
         val groupsRes = groupRepository.getGroups(sortBy).first()
         emit(groupsRes)
     }

@@ -13,7 +13,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 interface CreateGroupUseCase {
-    fun createGroup(name: String, description: String, tags: String, imageBitmap: Bitmap): Flow<Res<Nothing>>
+    fun createGroup(
+        name: String,
+        description: String,
+        tags: String,
+        createdBy: String,
+        imageBitmap: Bitmap
+    ): Flow<Res<Nothing>>
 }
 
 class CreateGroupUseCaseImp(
@@ -21,17 +27,17 @@ class CreateGroupUseCaseImp(
     private val userRepository: UserRepository,
     private val storageRepository: StorageRepository
 ) : CreateGroupUseCase {
-    override fun createGroup(name: String, description: String, tags: String, imageBitmap: Bitmap): Flow<Res<Nothing>> = flow {
+    override fun createGroup(
+        name: String,
+        description: String,
+        tags: String,
+        createdBy: String,
+        imageBitmap: Bitmap
+    ): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
 
-        val userIdRes = userRepository.getCurrentUserDocumentId().first()
-
-        if (userIdRes !is Res.Success) {
-            emit(Res.Error(userIdRes.message))
-            return@flow
-        }
-
-        val imageUrlRes = storageRepository.loadImageToStorage(userIdRes.data!!, name, imageBitmap).first()
+        val imageUrlRes =
+            storageRepository.loadImageToStorage(createdBy, name, imageBitmap).first()
 
         if (imageUrlRes !is Res.Success) {
             emit(Res.Error(imageUrlRes.message))
@@ -43,7 +49,7 @@ class CreateGroupUseCaseImp(
             description = description,
             tags = tags.lowercase().replace("\\s*,\\s*".toRegex(), ",").split(",").toList(),
             photo = imageUrlRes.data,
-            createdBy = userIdRes.data,
+            createdBy = createdBy,
             createdAt = Date(),
             moderators = ArrayList(),
             subscribed = ArrayList()
