@@ -15,6 +15,8 @@ class GetLocationUseCaseImp(
     private val locationRepository: LocationRepository
 ) : GetLocationUseCase {
     override fun getLocation(): Flow<Res<Location>> = flow {
+        emit(Res.Loading())
+
         locationRepository.getLocation().collect {
             emit(it)
         }

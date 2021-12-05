@@ -21,8 +21,6 @@ class LocationRepositoryImp(
 ) : LocationRepository {
 
     override fun getLocation(): Flow<Res<Location>> = callbackFlow {
-        trySend(Res.Loading())
-
         val locationRequest = LocationRequest.create()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
