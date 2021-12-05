@@ -107,4 +107,8 @@ class ViewModelModule {
     @Provides
     fun providesRegisterUserUseCase(userRepository: UserRepository): RegisterUserUseCase =
         RegisterUserUseCaseImp(userRepository)
+
+    @Provides
+    fun providesLogOutUseCase(userRepository: UserRepository): LogOutUserUseCase =
+        LogOutUserUseCaseImp(userRepository)
 }

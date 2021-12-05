@@ -10,4 +10,5 @@ interface UserRepository {
     suspend fun logIn(email: String, password: String): Flow<Res<Nothing>>
     suspend fun getCurrentUserInfo(): Flow<Res<User>>
     fun getCurrentUserDocumentId(): String?
+    fun logOut()
 }

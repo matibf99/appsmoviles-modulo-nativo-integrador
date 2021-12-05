@@ -2,6 +2,7 @@ package com.appsmoviles.gruposcomunitarios.presentation.userlogin
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -55,9 +56,22 @@ class UserLoginFragment : Fragment() {
 
         viewModel.logInStatus.observe(viewLifecycleOwner, {
             when(it) {
-                UserLogInStatus.Success -> Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
-                UserLogInStatus.Loading -> Toast.makeText(requireContext(), "Loading!", Toast.LENGTH_SHORT).show()
-                is UserLogInStatus.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                UserLogInStatus.Success -> {
+                    binding.progressUserLogin.visibility = View.GONE
+                    findNavController().popBackStack()
+
+                    Log.d(TAG, "onCreateView: success in login")
+                }
+                UserLogInStatus.Loading -> {
+                    binding.progressUserLogin.visibility = View.VISIBLE
+                    Log.d(TAG, "onCreateView: loading login")
+                }
+                is UserLogInStatus.Error -> {
+                    binding.progressUserLogin.visibility = View.GONE
+
+                    Log.d(TAG, "onCreateView: error in login: ${it.message}")
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
             }
         })
 
@@ -83,6 +97,8 @@ class UserLoginFragment : Fragment() {
     }
 
     companion object {
+        private const val TAG = "UserLoginFragment"
+
         fun newInstance() = UserLoginFragment()
     }
 

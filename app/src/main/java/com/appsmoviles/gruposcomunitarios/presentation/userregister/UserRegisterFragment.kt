@@ -69,6 +69,7 @@ class UserRegisterFragment : Fragment() {
                 UserRegisterStatus.Success -> {
                     binding.progressRegister.visibility = View.GONE
                     findNavController().popBackStack()
+
                     Log.d(TAG, "onCreateView: register success")
                 }
                 UserRegisterStatus.Loading -> {

@@ -69,4 +69,6 @@
     <string name="create_post_dialog_permission_denied_message">No es posible acceder a su ubicación</string>
     <string name="create_post_dialog_permission_denied_positive_button">OK</string>
     <string name="fragment_photo_title">Imagen</string>
+    <string name="btn_location">Localización</string>
+    <string name="fragment_user_title">Usuario</string>
 </resources>

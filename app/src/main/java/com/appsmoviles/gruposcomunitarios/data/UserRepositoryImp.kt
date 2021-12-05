@@ -99,4 +99,8 @@ class UserRepositoryImp(
     override fun getCurrentUserDocumentId(): String? {
         return auth.currentUser?.email
     }
+
+    override fun logOut() {
+        auth.signOut()
+    }
 }

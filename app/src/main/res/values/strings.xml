@@ -90,6 +90,11 @@
     <string name="fragment_photo_title">Image</string>
 
     <!-- UserFragment -->
+    <string name="fragment_user_title">User</string>
+
+    <!-- UserRegisterFragment -->
+
+    <!-- UserLoginFragment -->
 
     <!-- SortBy -->
     <string name="order_by_nothing">no order</string>
