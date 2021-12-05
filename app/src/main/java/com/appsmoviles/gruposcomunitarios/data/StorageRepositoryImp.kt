@@ -1,11 +1,9 @@
 package com.appsmoviles.gruposcomunitarios.data
 
 import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import com.appsmoviles.gruposcomunitarios.utils.storage.resize
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi

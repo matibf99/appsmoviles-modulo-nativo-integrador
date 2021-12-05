@@ -2,7 +2,7 @@ package com.appsmoviles.gruposcomunitarios.domain.usecases
 
 import android.location.Location
 import com.appsmoviles.gruposcomunitarios.domain.repository.LocationRepository
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow

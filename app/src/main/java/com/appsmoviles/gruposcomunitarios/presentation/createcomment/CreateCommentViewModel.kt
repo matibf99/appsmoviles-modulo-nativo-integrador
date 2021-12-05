@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.domain.usecases.CreateCommentUseCase
-import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

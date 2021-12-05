@@ -1,9 +1,8 @@
 package com.appsmoviles.gruposcomunitarios.domain.repository
 
 import android.graphics.Bitmap
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface StorageRepository {
     fun loadImageToStorage(root: String, filename: String, bitmap: Bitmap): Flow<Res<String>>

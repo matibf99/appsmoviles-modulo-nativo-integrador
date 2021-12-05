@@ -9,7 +9,7 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsWithRoleUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetSubscribedGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.UnsubscribeToGroupUseCase
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

@@ -9,9 +9,8 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetPostsFromAllGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.LikePostUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.UnlikePostUseCase
-import com.appsmoviles.gruposcomunitarios.presentation.group.GroupViewModel
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

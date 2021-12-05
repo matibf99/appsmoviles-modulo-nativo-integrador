@@ -18,7 +18,7 @@ import com.appsmoviles.gruposcomunitarios.databinding.FragmentPostBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
-import com.appsmoviles.gruposcomunitarios.utils.MapLocation
+import com.appsmoviles.gruposcomunitarios.utils.helpers.MapLocation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

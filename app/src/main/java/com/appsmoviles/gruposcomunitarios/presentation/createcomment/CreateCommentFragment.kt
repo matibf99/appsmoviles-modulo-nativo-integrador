@@ -18,7 +18,7 @@ import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateCommentBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
-import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

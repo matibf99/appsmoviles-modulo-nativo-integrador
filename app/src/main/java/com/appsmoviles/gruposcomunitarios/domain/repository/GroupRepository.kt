@@ -1,8 +1,8 @@
 package com.appsmoviles.gruposcomunitarios.domain.repository
 
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import kotlinx.coroutines.flow.Flow
 
 interface GroupRepository {

@@ -11,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.usecases.CreatePostUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetLocationUseCase
-import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

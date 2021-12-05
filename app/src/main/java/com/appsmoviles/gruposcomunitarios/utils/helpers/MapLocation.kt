@@ -1,4 +1,4 @@
-package com.appsmoviles.gruposcomunitarios.utils
+package com.appsmoviles.gruposcomunitarios.utils.helpers
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

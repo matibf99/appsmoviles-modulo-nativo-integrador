@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Looper
 import com.appsmoviles.gruposcomunitarios.domain.repository.LocationRepository
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest

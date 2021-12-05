@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.domain.usecases.*
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

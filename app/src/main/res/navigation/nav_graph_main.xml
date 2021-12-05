@@ -239,10 +239,10 @@
         android:id="@+id/mapFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.map.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" >
+        tools:layout="@layout/fragment_map">
         <argument
             android:name="location"
-            app:argType="com.appsmoviles.gruposcomunitarios.utils.MapLocation" />
+            app:argType="com.appsmoviles.gruposcomunitarios.utils.helpers.MapLocation" />
     </fragment>
     <fragment
         android:id="@+id/photoFragment"

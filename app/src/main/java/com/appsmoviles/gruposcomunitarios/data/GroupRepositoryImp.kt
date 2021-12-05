@@ -3,11 +3,9 @@ package com.appsmoviles.gruposcomunitarios.data
 import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.repository.GroupRepository
-import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.GROUPS_COLLECTION
-import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.USERS_COLLECTION
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
-import com.google.android.gms.tasks.Task
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FirestoreConstants.GROUPS_COLLECTION
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

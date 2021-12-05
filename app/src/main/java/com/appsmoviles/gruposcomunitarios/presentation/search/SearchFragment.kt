@@ -16,7 +16,7 @@ import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
 import com.appsmoviles.gruposcomunitarios.presentation.adapters.SearchAdapter
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 

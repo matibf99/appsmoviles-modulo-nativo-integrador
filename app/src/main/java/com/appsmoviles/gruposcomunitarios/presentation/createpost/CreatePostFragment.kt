@@ -22,9 +22,9 @@ import androidx.navigation.fragment.navArgs
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreatePostBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
-import com.appsmoviles.gruposcomunitarios.utils.MapLocation
+import com.appsmoviles.gruposcomunitarios.utils.helpers.MapLocation
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
-import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.permissions.PermissionsManager
 import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraIntent

@@ -1,7 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.domain.repository
 
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

@@ -1,4 +1,4 @@
-package com.appsmoviles.gruposcomunitarios.utils
+package com.appsmoviles.gruposcomunitarios.utils.helpers
 
 object FirestoreConstants {
     const val GROUPS_COLLECTION = "groups"

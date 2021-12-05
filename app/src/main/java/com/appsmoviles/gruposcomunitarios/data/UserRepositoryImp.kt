@@ -3,12 +3,10 @@ package com.appsmoviles.gruposcomunitarios.data
 import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
 import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
-import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.USERS_COLLECTION
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FirestoreConstants.USERS_COLLECTION
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

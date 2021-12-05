@@ -22,7 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreateGroupBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
-import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 
 import com.bumptech.glide.Glide

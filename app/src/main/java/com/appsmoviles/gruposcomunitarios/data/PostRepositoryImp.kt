@@ -4,11 +4,11 @@ import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
-import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.GROUPS_COLLECTION
-import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.GROUP_SUBCOLLECTION_POSTS
-import com.appsmoviles.gruposcomunitarios.utils.FirestoreConstants.POST_SUBCOLLECTION_COMMENTS
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FirestoreConstants.GROUPS_COLLECTION
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FirestoreConstants.GROUP_SUBCOLLECTION_POSTS
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FirestoreConstants.POST_SUBCOLLECTION_COMMENTS
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query

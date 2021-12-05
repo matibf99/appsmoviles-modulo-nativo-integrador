@@ -7,8 +7,8 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsByTagUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.SubscribeToGroupUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.UnsubscribeToGroupUseCase
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
