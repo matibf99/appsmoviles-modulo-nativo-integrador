@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_search"
-        android:title="Search"
+        android:title="@string/menu_search"
         android:icon="@drawable/ic_baseline_search_24"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView"
@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/menu_search_filter"
-        android:title="Filter"
+        android:title="@string/menu_filter"
         android:icon="@drawable/ic_baseline_filter_list_24"
         app:showAsAction="always"/>
 </menu>

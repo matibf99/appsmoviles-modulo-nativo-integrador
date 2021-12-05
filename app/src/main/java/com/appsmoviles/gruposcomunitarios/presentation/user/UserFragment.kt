@@ -1,19 +1,23 @@
 package com.appsmoviles.gruposcomunitarios.presentation.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
+import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
+import com.appsmoviles.gruposcomunitarios.utils.locale.LocaleManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.util.*
 
 class UserFragment : Fragment() {
 
@@ -22,6 +26,11 @@ class UserFragment : Fragment() {
     // Only is valid between onCreateView and onDestroyView
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +100,56 @@ class UserFragment : Fragment() {
     override fun onResume() {
         (activity as MainActivity?)!!.displayHomeButton(false)
         super.onResume()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_user, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.menu_language -> {
+                showChangeLanguageDialog()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showChangeLanguageDialog() {
+        val options = resources.getStringArray(R.array.language_options)
+        var position = 0
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.select_language_title)
+            .setSingleChoiceItems(options, 0) { dialog, which ->
+                position = which
+            }
+            .setPositiveButton(R.string.dialog_positive_button_select) { _, _ ->
+                when(position) {
+                    0 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_ES)
+                    1 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_EN)
+                    2 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_PT)
+                }
+
+                showDialogRestartApp()
+            }
+            .setNegativeButton(R.string.dialog_negative_button_cancel, null)
+            .show()
+    }
+
+    private fun showDialogRestartApp() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.select_language_changed_title)
+            .setMessage(R.string.select_language_changed_content)
+            .setCancelable(false)
+            .setPositiveButton(R.string.select_language_changed_positive_action) { _, _ ->
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                requireActivity().finish()
+            }
+            .setNegativeButton(R.string.dialog_negative_button_cancel, null)
+            .show()
     }
 
     companion object {

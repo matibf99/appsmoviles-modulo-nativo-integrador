@@ -4,6 +4,12 @@
     <string name="file_provider_name" translatable="false">.fileProvider</string>
     <string name="select_capture_image">Please select or capture image</string>
 
+    <!-- BottomNavigationBar -->
+    <string name="menu_home">Home</string>
+    <string name="menu_groups">Groups</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_user">User</string>
+
     <!-- HomeFragment -->
     <string name="fragment_home_title">Home</string>
 
@@ -104,8 +110,8 @@
     <string name="order_by_created_at_descending">created at, descending</string>
 
     <!-- Dialogs -->
-    <string name="dialog_positive_button_select">Select</string>
-    <string name="dialog_negative_button_cancel">Cancel</string>
+    <string name="dialog_positive_button_select">SELECT</string>
+    <string name="dialog_negative_button_cancel">CANCEL</string>
 
     <!-- Adapters -->
     <string name="btn_image_subscribe">Subscribe</string>
@@ -124,6 +130,19 @@
     <string name="menu_unsubscribe">Unsubscribe</string>
     <string name="menu_like">Like</string>
     <string name="menu_unlike">Unlike</string>
+    <string name="menu_language">Select language</string>
+    <string name="menu_filter">Order by</string>
+
+    <!-- Locale Settings -->
+    <string name="select_language_title">Select a language</string>
+    <string-array name="language_options">
+        <item>Spanish</item>
+        <item>English</item>
+        <item>Portuguese</item>
+    </string-array>
+    <string name="select_language_changed_title">Language selected</string>
+    <string name="select_language_changed_content">A restart is required to show changes</string>
+    <string name="select_language_changed_positive_action">OK</string>
 
     <!-- Notification worker -->
     <string name="notification_new_comments_in_post">This post has new comments</string>

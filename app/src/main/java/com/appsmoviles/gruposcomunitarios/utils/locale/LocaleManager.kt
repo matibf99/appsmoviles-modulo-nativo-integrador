@@ -9,9 +9,13 @@ object LocaleManager {
     private const val PREFERENCES_LOCALE = "PREFERENCES_LANGUAGE"
     private const val PREFERENCE_LOCALE = "LOCALE"
 
+    const val LOCALE_EN = "en"
+    const val LOCALE_ES = "es"
+    const val LOCALE_PT = "pt"
+
     fun getLocale(context: Context): String {
         val sharedPreferences = context.getSharedPreferences(PREFERENCES_LOCALE, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(PREFERENCES_LOCALE, Locale.getDefault().language)!!
+        return sharedPreferences.getString(PREFERENCE_LOCALE, Locale.getDefault().language)!!
     }
 
     fun setLocale(context: Context, language: String) {
