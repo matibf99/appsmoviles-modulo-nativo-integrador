@@ -11,6 +11,8 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
+import com.appsmoviles.gruposcomunitarios.databinding.ItemPostCommentBinding
+import com.appsmoviles.gruposcomunitarios.databinding.ItemPostDetailBinding
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.utils.calculateImageHeight
@@ -33,7 +35,7 @@ abstract class PostAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
-        return when(position) {
+        return when (position) {
             0 -> POST_DETAIL_TYPE
             else -> POST_COMMENT_TYPE
         }
@@ -41,83 +43,90 @@ abstract class PostAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == POST_DETAIL_TYPE)
-                PostDetailHolder(LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_post_detail,
+            PostDetailHolder(
+                ItemPostDetailBinding.inflate(
+                    LayoutInflater.from(parent.context),
                     parent,
                     false
-                ))
-            else
-                PostCommentHolder(LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_post_comment,
+                )
+            )
+        else
+            PostCommentHolder(
+                ItemPostCommentBinding.inflate(
+                    LayoutInflater.from(parent.context),
                     parent,
                     false
-                ))
+                )
+            )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder) {
+        when (holder) {
             is PostDetailHolder -> onBindPostDetailHolder(holder)
             is PostCommentHolder -> onBindPostCommentHolder(holder, position - 1)
         }
     }
 
     private fun onBindPostDetailHolder(holder: PostDetailHolder) {
-        holder.tvUsername.text = post.createdBy
-        holder.tvGroup.text = post.groupName
-        holder.tvTime.text = post.createdAt?.getTimeAgo()
-        holder.tvTitle.text = post.title
-        holder.tvContent.text = post.content
+        val binding = holder.binding
+
+        binding.textPostDetailUsername.text = post.createdBy
+        binding.textPostDetailGroup.text = post.groupName
+        binding.textPostDetailTime.text = post.createdAt?.getTimeAgo()
+        binding.textPostDetailTitle.text = post.title
+        binding.textPostDetailContent.text = post.content
 
         post.photo?.let {
-            holder.layoutImage.layoutParams.height = calculateImageHeight()
+            binding.layoutPostDetailImage.layoutParams.height = calculateImageHeight()
 
-            Glide.with(holder.imageView.context)
+            Glide.with(binding.root.context)
                 .load(it)
                 .transform(MultiTransformation(CenterCrop(), BlurTransformation(25, 3)))
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.imageViewBackground)
+                .into(binding.postDetailImageBackground)
 
-            Glide.with(holder.itemView.context)
+            Glide.with(binding.root.context)
                 .load(it)
                 .fitCenter()
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.imageView)
+                .into(binding.postDetailImage)
         }
 
         if (post.latitude == null && post.longitude == null)
-            holder.btnLocation.visibility = View.GONE
+            binding.btnPostLocation.visibility = View.GONE
 
-        holder.btnLike.setImageResource(
+        binding.btnPostDetailLike.setImageResource(
             if (post.likes?.contains(username) == true) R.drawable.ic_baseline_favorite_24
             else R.drawable.ic_baseline_favorite_border_24
         )
 
-        holder.tvCommentsCount.text = post.commentsCount.toString()
-        holder.tvLikesCount.text = post.likes?.count().toString()
+        binding.postDetailTextCommentsCount.text = post.commentsCount.toString()
+        binding.postDetailLikesCount.text = post.likes?.count().toString()
 
-        holder.tvGroup.setOnClickListener { onOpenGroupListener() }
-        holder.btnLike.setOnClickListener { likePost(username) }
-        holder.btnLocation.setOnClickListener { onOpenLocationListener() }
-        holder.imageViewBackground.setOnClickListener { onOpenImageListener() }
-        holder.imageView.setOnClickListener { onOpenImageListener() }
+        binding.textPostDetailGroup.setOnClickListener { onOpenGroupListener() }
+        binding.btnPostDetailLike.setOnClickListener { likePost(username) }
+        binding.btnPostLocation.setOnClickListener { onOpenLocationListener() }
+        binding.layoutPostDetailImage.setOnClickListener { onOpenImageListener() }
     }
 
     private fun onBindPostCommentHolder(holder: PostCommentHolder, position: Int) {
         val comment = parentComments[position]
+        val binding = holder.binding
 
-        holder.tvUsername.text = comment.username
-        holder.tvTime.text = comment.createdAt?.getTimeAgo()
-        holder.tvContent.text = comment.content
-        holder.tvCommentsCount.text = allComments.filter { it.parent == comment.documentId }.count().toString()
-        holder.tvLikesCount.text = comment.likes?.count().toString()
+        binding.textCommentUsername.text = comment.username
+        binding.textCommentTime.text = comment.createdAt?.getTimeAgo()
+        binding.textCommentContent.text = comment.content
+        binding.textCommentCommentsCount.text =
+            allComments.filter { it.parent == comment.documentId }.count().toString()
+        binding.textCommentLikesCount.text = comment.likes?.count().toString()
 
-        holder.btnLike.setImageResource(
+        binding.btnCommentLike.setImageResource(
             if (comment.likes?.contains(username) == true) R.drawable.ic_baseline_favorite_24
             else R.drawable.ic_baseline_favorite_border_24
         )
 
-        holder.btnLike.setOnClickListener { likeComment(position, username) }
-        holder.layout.setOnClickListener { onOpenCommentListener(position) }
+        binding.btnCommentLike.setOnClickListener { likeComment(position, username) }
+        binding.cardComment.setOnClickListener { onOpenCommentListener(position) }
     }
 
     override fun getItemCount(): Int = parentComments.count() + 1
@@ -134,30 +143,14 @@ abstract class PostAdapter(
 
     abstract fun onOpenLocationListener()
 
-    inner class PostDetailHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val card: CardView = view.findViewById(R.id.card_post_detail)
-        val tvUsername: TextView = view.findViewById(R.id.text_post_detail_username)
-        val tvGroup: TextView = view.findViewById(R.id.text_post_detail_group)
-        val tvTime: TextView = view.findViewById(R.id.text_post_detail_time)
-        val tvTitle: TextView = view.findViewById(R.id.text_post_detail_title)
-        val tvContent: TextView = view.findViewById(R.id.text_post_detail_content)
-        val layoutImage: ConstraintLayout = view.findViewById(R.id.layout_post_detail_image)
-        val imageView: ImageView = view.findViewById(R.id.post_detail_image)
-        val imageViewBackground: ImageView = view.findViewById(R.id.post_detail_image_background)
-        val btnLike: ImageButton = view.findViewById(R.id.btn_post_detail_like)
-        val btnLocation: ImageButton = view.findViewById(R.id.btn_post_location)
-        val tvLikesCount: TextView = view.findViewById(R.id.post_detail_likes_count)
-        val tvCommentsCount: TextView = view.findViewById(R.id.post_detail_text_comments_count)
+    inner class PostDetailHolder(val binding: ItemPostDetailBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
     }
 
-    inner class PostCommentHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val layout: ConstraintLayout = view.findViewById(R.id.card_comment)
-        val tvUsername: TextView = view.findViewById(R.id.text_comment_username)
-        val tvTime: TextView = view.findViewById(R.id.text_comment_time)
-        val tvContent: TextView = view.findViewById(R.id.text_comment_content)
-        val tvCommentsCount: TextView = view.findViewById(R.id.text_comment_comments_count)
-        val tvLikesCount: TextView = view.findViewById(R.id.text_comment_likes_count)
-        val btnLike: ImageButton = view.findViewById(R.id.btn_comment_like)
+    inner class PostCommentHolder(val binding: ItemPostCommentBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
     }
 
     companion object {

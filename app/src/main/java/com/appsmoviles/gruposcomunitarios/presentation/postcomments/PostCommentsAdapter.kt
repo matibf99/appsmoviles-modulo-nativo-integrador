@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
+import com.appsmoviles.gruposcomunitarios.databinding.ItemPostCommentChildBinding
+import com.appsmoviles.gruposcomunitarios.databinding.ItemPostCommentParentBinding
 import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.utils.time.getTimeAgo
 
@@ -18,53 +20,67 @@ abstract class PostCommentsAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
-        return when(position) {
-            0 -> PARENT
-            else -> COMMENT
+        return when (position) {
+            0 -> ITEM_PARENT
+            else -> ITEM_COMMENT
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == PARENT)
-            ParentCommentHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_post_comment_parent, parent, false))
+        return if (viewType == ITEM_PARENT)
+            ParentCommentHolder(
+                ItemPostCommentParentBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent, false
+                )
+            )
         else
-            ChildCommentHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_post_comment_child, parent, false))
+            ChildCommentHolder(
+                ItemPostCommentChildBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent, false
+                )
+            )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ParentCommentHolder)
-           onBindParentCommentHolder(holder)
+            onBindParentCommentHolder(holder)
         else if (holder is ChildCommentHolder)
             onBindChildCommentHolder(holder, position - 1)
     }
 
     private fun onBindParentCommentHolder(holder: ParentCommentHolder) {
-        holder.tvUsername.text = parent.username
-        holder.tvTime.text = parent.createdAt?.getTimeAgo()
-        holder.tvCommentsCount.text = comments.count().toString()
-        holder.tvContent.text = parent.content
-        holder.tvLikesCount.text = parent.likes?.count().toString()
+        val binding = holder.binding
 
-        holder.btnLike.setImageResource(
+        binding.textCommentParentUsername.text = parent.username
+        binding.textCommentParentTime.text = parent.createdAt?.getTimeAgo()
+        binding.textCommentParentCommentsCount.text = comments.count().toString()
+        binding.textCommentParentContent.text = parent.content
+        binding.textCommentParentLikesCount.text = parent.likes?.count().toString()
+
+        binding.btnCommentParentLike.setImageResource(
             if (parent.likes?.contains(username) == true) R.drawable.ic_baseline_favorite_24
             else R.drawable.ic_baseline_favorite_border_24
         )
-        holder.btnLike.setOnClickListener { likeParentComment(username) }
+        binding.btnCommentParentLike.setOnClickListener { likeParentComment(username) }
     }
 
     private fun onBindChildCommentHolder(holder: ChildCommentHolder, position: Int) {
         val comment = comments[position]
-        holder.tvUsername.text = comment.username
-        holder.tvTime.text = comment.createdAt?.getTimeAgo()
-        holder.tvContent.text = comment.content
-        holder.tvLikesCount.text = comment.likes?.count().toString()
+        val binding = holder.binding
 
-        holder.btnLike.setImageResource(
+        binding.textCommentChildUsername.text = comment.username
+        binding.textCommentChildTime.text = comment.createdAt?.getTimeAgo()
+        binding.textCommentChildContent.text = comment.content
+        binding.textCommentChildLikesCount.text = comment.likes?.count().toString()
+
+        binding.btnCommentChildLike.setImageResource(
             if (comment.likes?.contains(username) == true) R.drawable.ic_baseline_favorite_24
             else R.drawable.ic_baseline_favorite_border_24
         )
-        holder.btnLike.setOnClickListener { likeChildComment(position, username) }
-        holder.card.setOnClickListener {  }
+        binding.btnCommentChildLike.setOnClickListener { likeChildComment(position, username) }
+        binding.cardChildComment.setOnClickListener { }
     }
 
     override fun getItemCount(): Int = comments.count() + 1
@@ -74,27 +90,18 @@ abstract class PostCommentsAdapter(
     abstract fun likeChildComment(position: Int, username: String)
 
     companion object {
-        const val PARENT = 0
-        const val COMMENT = 1
+        const val ITEM_PARENT = 0
+        const val ITEM_COMMENT = 1
     }
 
-    inner class ParentCommentHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val layout: ConstraintLayout = view.findViewById(R.id.card_parent_comment)
-        val tvUsername: TextView = view.findViewById(R.id.text_comment_parent_username)
-        val tvTime: TextView = view.findViewById(R.id.text_comment_parent_time)
-        val tvContent: TextView = view.findViewById(R.id.text_comment_parent_content)
-        val tvCommentsCount: TextView = view.findViewById(R.id.text_comment_parent_comments_count)
-        val tvLikesCount: TextView = view.findViewById(R.id.text_comment_parent_likes_count)
-        val btnLike: ImageButton = view.findViewById(R.id.btn_comment_parent_like)
+    inner class ParentCommentHolder(val binding: ItemPostCommentParentBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
     }
 
-    inner class ChildCommentHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val card: ConstraintLayout = view.findViewById(R.id.card_child_comment)
-        val tvUsername: TextView = view.findViewById(R.id.text_comment_child_username)
-        val tvTime: TextView = view.findViewById(R.id.text_comment_child_time)
-        val tvContent: TextView = view.findViewById(R.id.text_comment_child_content)
-        val tvLikesCount: TextView = view.findViewById(R.id.text_comment_child_likes_count)
-        val btnLike: ImageButton = view.findViewById(R.id.btn_comment_child_like)
+    inner class ChildCommentHolder(val binding: ItemPostCommentChildBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
     }
 
 }
