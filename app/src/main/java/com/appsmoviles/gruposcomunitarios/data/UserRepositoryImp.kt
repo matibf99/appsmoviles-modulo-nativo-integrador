@@ -11,7 +11,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
 
 @ExperimentalCoroutinesApi
 class UserRepositoryImp(
@@ -23,49 +22,55 @@ class UserRepositoryImp(
         private const val TAG = "UserRepositoryImp"
     }
 
-    override suspend fun registerUser(user: User, password: String): Flow<Res<Nothing>> = callbackFlow {
-        auth.createUserWithEmailAndPassword(user.email!!, password)
-            .addOnSuccessListener {
-                val documentId = auth.currentUser?.getIdToken(false)?.result?.token
-
-                if (documentId != null) {
-                    db.collection(USERS_COLLECTION)
-                        .document(documentId)
-                        .set(user)
-                        .addOnSuccessListener {
-                            trySend(Res.Success())
-                        }
-                        .addOnFailureListener {
-                            trySend(Res.Error(it.message))
-                            Log.d(TAG, "registerUser: ${it.message}")
-                        }
-                } else {
-                    trySend(Res.Error("Can't obtain the user data"))
-                    Log.d(TAG, "registerUser: can't obtain documentId")
+    override suspend fun registerUserAuth(email: String, password: String): Flow<Res<Nothing>> =
+        callbackFlow {
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    trySend(Res.Success())
                 }
-            }
-            .addOnFailureListener {
-                trySend(Res.Error(it.message))
-                Log.d(TAG, "registerUser: ${it.message}")
-            }
+                .addOnFailureListener {
+                    trySend(Res.Error(it.message))
+                    Log.d(TAG, "registerUser: ${it.message}")
+                }
+            awaitClose { channel.close() }
+        }
+
+    override suspend fun registerUserFirestore(user: User): Flow<Res<Nothing>> = callbackFlow {
+        val documentId = getCurrentUserDocumentId()
+
+        if (documentId != null) {
+            db.collection(USERS_COLLECTION)
+                .document(documentId)
+                .set(user)
+                .addOnSuccessListener {
+                    trySend(Res.Success())
+                }
+                .addOnFailureListener {
+                    trySend(Res.Error(it.message))
+                    Log.d(TAG, "registerUser: ${it.message}")
+                }
+        } else {
+            trySend(Res.Error("Document ID is empty"))
+            Log.d(TAG, "registerUserFirestore: documentId is empty")
+        }
+        awaitClose { channel.close() }
     }
 
-    override suspend fun signIn(email: String, password: String): Flow<Res<Nothing>> = callbackFlow {
-        trySend(Res.Loading())
-
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                trySend(Res.Success())
-            }
-            .addOnFailureListener {
-                trySend(Res.Error(it.message))
-                Log.d(TAG, "signIn: ${it.message}")
-            }
-    }
+    override suspend fun logIn(email: String, password: String): Flow<Res<Nothing>> =
+        callbackFlow {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    trySend(Res.Success())
+                }
+                .addOnFailureListener {
+                    trySend(Res.Error(it.message))
+                    Log.d(TAG, "signIn: ${it.message}")
+                }
+            awaitClose { channel.close() }
+        }
 
     override suspend fun getCurrentUserInfo(): Flow<Res<User>> = callbackFlow {
-        //val documentId = auth.currentUser?.getIdToken(false)?.result?.token
-        val documentId = "matibf99"
+        val documentId = getCurrentUserDocumentId()
 
         if (documentId != null) {
             db.collection(USERS_COLLECTION)
@@ -73,7 +78,12 @@ class UserRepositoryImp(
                 .get()
                 .addOnSuccessListener {
                     val user = it.toObject(User::class.java)
-                    trySend(Res.Success(user))
+
+                    if (user != null) {
+                        trySend(Res.Success(user))
+                    } else {
+                        trySend(Res.Error("No user found"))
+                    }
                 }
                 .addOnFailureListener {
                     trySend(Res.Error(it.message))
@@ -86,7 +96,7 @@ class UserRepositoryImp(
         awaitClose { channel.close() }
     }
 
-    override suspend fun getCurrentUserDocumentId(): Flow<Res<String>> = flow {
-        emit(Res.Success("matibf99"))
+    override fun getCurrentUserDocumentId(): String? {
+        return auth.currentUser?.email
     }
 }

@@ -207,7 +207,7 @@ class GroupFragment : Fragment() {
     }
 
     private fun changeSubscribeMenuItem(group: Group) {
-        val username = mainViewModel.user.value!!.username
+        val username = mainViewModel.user.value?.username ?: ""
         val isSubscribed = group.subscribed?.contains(username) == true
 
         val menuItem = this.menu?.findItem(R.id.menu_like)

@@ -3,41 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Santi/StudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/fragment_groups.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Santi/StudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/fragment_user.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/custom_email_icon.xml" value="0.3609375" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/custom_input.xml" value="0.21510416666666668" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/custom_lock_icon.xml" value="0.11481481481481481" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_email.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_email_focused.xml" value="0.3609375" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_filter_list_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_focused.xml" value="0.3609375" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/fragment_groups.xml" value="0.19655797101449277" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/fragment_home.xml" value="0.19655797101449277" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/fragment_search.xml" value="0.19655797101449277" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/fragment_user.xml" value="0.33" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/item_group.xml" value="0.19655797101449277" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/item_group_header.xml" value="0.25" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/layout/item_search.xml" value="0.19882246376811594" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14444444444444443" />
-        <entry key="..\:/Users/facun/AndroidStudioProjects/appsmoviles-modulo-nativo-integrador/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.23229166666666667" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.21458333333333332" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/dialog_create_comment.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_create_comment.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_create_group.xml" value="0.5248833592534993" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_create_group_dialog.xml" value="0.3515625" />
-        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_create_post.xml" value="0.603042876901798" />
+        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_create_post.xml" value="0.5834053586862575" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_group.xml" value="0.3515625" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_groups.xml" value="0.253125" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_home.xml" value="0.38645833333333335" />
@@ -48,6 +20,8 @@
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_search.xml" value="0.2749094202898551" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_search_sort_by.xml" value="0.3515625" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_user.xml" value="0.1984375" />
+        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_user_login.xml" value="0.22" />
+        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_user_register.xml" value="0.25" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_group.xml" value="0.5" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_group_header.xml" value="0.3515625" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_post.xml" value="0.33" />
@@ -71,12 +45,5 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.33" />
-      </ProjectState>
-    </option>
   </component>
 </project>

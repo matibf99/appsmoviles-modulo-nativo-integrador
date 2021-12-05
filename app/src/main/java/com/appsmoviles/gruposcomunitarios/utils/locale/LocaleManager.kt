@@ -17,7 +17,7 @@ object LocaleManager {
     fun setLocale(context: Context, language: String) {
         val editSharedPreferences = context.getSharedPreferences(PREFERENCES_LOCALE, Context.MODE_PRIVATE).edit()
         editSharedPreferences.putString(PREFERENCE_LOCALE, language)
-        editSharedPreferences.commit()
+        editSharedPreferences.apply()
     }
 
 

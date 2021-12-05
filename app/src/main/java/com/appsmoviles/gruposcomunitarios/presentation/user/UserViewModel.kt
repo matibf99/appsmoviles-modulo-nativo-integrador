@@ -1,18 +1,13 @@
 package com.appsmoviles.gruposcomunitarios.presentation.user
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetUserInfoUseCase
-import com.appsmoviles.gruposcomunitarios.domain.usecases.GetUserRegisteredUseCase
-import com.appsmoviles.gruposcomunitarios.domain.usecases.RegisterUserCase
-import com.appsmoviles.gruposcomunitarios.domain.usecases.SingInUserCase
-import com.appsmoviles.gruposcomunitarios.presentation.search.SearchGroupsStatus
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.domain.usecases.RegisterUserUseCase
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,12 +15,11 @@ enum class UserStatus {
     LOADING, LOADED, FAILED
 }
 
+@InternalCoroutinesApi
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getUserRegistered: GetUserRegisteredUseCase,
-    private val singInUserCase: SingInUserCase,
-    private val registerUserCase: RegisterUserCase
+    private val registerUserCase: RegisterUserUseCase
 ) : ViewModel() {
 
     private var _status: MutableLiveData<UserStatus> = MutableLiveData(UserStatus.LOADING)
@@ -52,9 +46,6 @@ class UserViewModel @Inject constructor(
     private var _username: MutableLiveData<String> = MutableLiveData()
     val username: LiveData<String> get() = _username
 
-
-
-
     private fun loadUsers() {
 
         viewModelScope.launch {
@@ -73,11 +64,6 @@ class UserViewModel @Inject constructor(
                 }
             }
         }
-
-        //Status change view
-        val registered = getUserRegistered.registeredUser()
-        _statusRegistered.value = registered
-
     }
 
     fun setName (name:String) {
@@ -94,50 +80,6 @@ class UserViewModel @Inject constructor(
     }
     fun setPassword (password:String) {
         _password.value = password
-    }
-
-    fun signIn() {
-        viewModelScope.launch {
-            singInUserCase.signIn(email.value!!, password.value!!).collect {
-                when (it) {
-                    is Res.Loading -> {
-                        _status.postValue(UserStatus.LOADING)
-
-                    }
-                    is Res.Success -> {
-                        _user.postValue(it.data!!)
-                        _status.postValue(UserStatus.LOADED)
-
-                    }
-                    is Res.Error -> {
-                        _status.postValue(UserStatus.FAILED)
-                    }
-                }
-            }
-        }
-    }
-
-    fun registerUser() {
-        val user: User  = User(username = username.value,name= name.value,surname = surname.value, email = email.value )
-        viewModelScope.launch {
-            registerUserCase.registerUser(user, password.value!!).collect {
-                when (it) {
-                    is Res.Loading -> {
-                        _status.postValue(UserStatus.LOADING)
-
-
-                    }
-                    is Res.Success -> {
-                        _user.postValue(it.data!!)
-                        _status.postValue(UserStatus.LOADED)
-
-                    }
-                    is Res.Error -> {
-                        _status.postValue(UserStatus.FAILED)
-                    }
-                }
-            }
-        }
     }
 
 }

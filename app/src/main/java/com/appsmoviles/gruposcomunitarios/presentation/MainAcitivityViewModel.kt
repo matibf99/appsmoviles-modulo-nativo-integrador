@@ -1,5 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.appsmoviles.gruposcomunitarios.domain.entities.User
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetUserInfoUseCase
 import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -38,11 +40,22 @@ class MainAcitivityViewModel @Inject constructor(
                     is Res.Success -> {
                         _user.postValue(it.data!!)
                         _userStatus.postValue(UserStatus.SUCCESS)
+                        Log.d(TAG, "loadUser: success loading user")
                     }
-                    is Res.Error -> _userStatus.postValue(UserStatus.ERROR)
-                    is Res.Loading -> _userStatus.postValue(UserStatus.LOADING)
+                    is Res.Error -> {
+                        _userStatus.postValue(UserStatus.ERROR)
+                        Log.d(TAG, "loadUser: error loading user: ${it.message}")
+                    }
+                    is Res.Loading -> {
+                        _userStatus.postValue(UserStatus.LOADING)
+                        Log.d(TAG, "loadUser: loading user")
+                    }
                 }
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "MainActivityViewModel"
     }
 }

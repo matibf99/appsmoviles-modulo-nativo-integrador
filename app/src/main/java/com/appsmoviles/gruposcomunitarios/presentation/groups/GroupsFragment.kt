@@ -48,7 +48,7 @@ class GroupsFragment : Fragment() {
         val view = binding.root
 
         (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_groups_title)
-        viewModel.loadGroups(mainViewModel.user.value!!.username ?: "")
+        viewModel.loadGroups(mainViewModel.user.value?.username ?: "")
 
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
             when (it) {

@@ -5,7 +5,6 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -100,4 +99,12 @@ class ViewModelModule {
     @Provides
     fun provideGetUpdatedPostsFromUserUseCase(postRepository: PostRepository): GetUpdatedPostsFromUserUseCase =
         GetUpdatedPostsFromUserUseCaseImp(postRepository)
+
+    @Provides
+    fun providesLogInUseCase(userRepository: UserRepository): LogInUserUseCase =
+        LogInUserUseCaseImp(userRepository)
+
+    @Provides
+    fun providesRegisterUserUseCase(userRepository: UserRepository): RegisterUserUseCase =
+        RegisterUserUseCaseImp(userRepository)
 }

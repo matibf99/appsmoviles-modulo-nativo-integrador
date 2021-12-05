@@ -89,7 +89,22 @@
         android:id="@+id/userFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.user.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_userRegisterFragment"
+            app:destination="@id/userRegisterFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_userFragment_to_userLoginFragment"
+            app:destination="@id/userLoginFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/createGroupFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.creategroup.CreateGroupFragment"
@@ -258,4 +273,12 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/userRegisterFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.userregister.UserRegisterFragment"
+        android:label="UserRegisterFragment" />
+    <fragment
+        android:id="@+id/userLoginFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.userlogin.UserLoginFragment"
+        android:label="UserLoginFragment" />
 </navigation>
