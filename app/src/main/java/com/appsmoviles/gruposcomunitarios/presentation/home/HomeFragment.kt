@@ -66,6 +66,15 @@ class HomeFragment : Fragment() {
                 val action = HomeFragmentDirections.actionHomeFragmentToGroupFragment(groupId = groupId)
                 findNavController().navigate(action)
             }
+
+            override fun onOpenImageListener(position: Int) {
+                val post = viewModel.posts.value!![position]
+                val action = HomeFragmentDirections.actionHomeFragmentToPhotoFragment(
+                    imageUrl = post.photo ?: "",
+                    title = post.title
+                )
+                findNavController().navigate(action)
+            }
         }
         binding.recyclerViewHome.adapter = adapter
 

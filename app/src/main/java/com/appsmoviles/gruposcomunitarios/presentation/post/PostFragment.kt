@@ -7,25 +7,19 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentPostBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
-import com.appsmoviles.gruposcomunitarios.presentation.adapters.PostsAdapter
-import com.google.android.material.textfield.TextInputLayout
+import com.appsmoviles.gruposcomunitarios.utils.MapLocation
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
@@ -88,6 +82,31 @@ class PostFragment : Fragment() {
 
                 val action = PostFragmentDirections.actionPostFragmentToPostCommentsFragment(childComments, parent, viewModel.post.value!!)
                 findNavController().navigate(action)
+            }
+
+            override fun onOpenImageListener() {
+                val post = viewModel.post.value!!
+                val action = PostFragmentDirections.actionPostFragmentToPhotoFragment(
+                    imageUrl = post.photo ?: "",
+                    title = post.title
+                )
+                findNavController().navigate(action)
+            }
+
+            override fun onOpenLocationListener() {
+                val post = viewModel.post.value!!
+                val latitude = post.latitude
+                val longitude = post.longitude
+
+                if (latitude != null && longitude != null) {
+                    val action = PostFragmentDirections.actionPostFragmentToMapFragment(
+                        MapLocation(
+                            latitude.toDouble(),
+                            longitude.toDouble()
+                        )
+                    )
+                    findNavController().navigate(action)
+                }
             }
         }
         binding.recyclerViewPost.adapter = adapter

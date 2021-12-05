@@ -65,7 +65,8 @@ class GroupsFragment : Fragment() {
             R.string.fragment_groups_category_my_groups,
             mainViewModel.user.value?.username ?: "",
             viewModel.groupsWithRole.value!!,
-            false) {
+            false
+        ) {
             override fun onUnsubscribeListener(position: Int) {
             }
 
@@ -74,12 +75,24 @@ class GroupsFragment : Fragment() {
                 val action = GroupsFragmentDirections.actionGroupsFragmentToGroupFragment(group)
                 findNavController().navigate(action)
             }
+
+            override fun onOpenImageListener(position: Int) {
+                val image = viewModel.groupsWithRole.value!![position].photo
+
+                if (image != null) {
+                    val action = GroupsFragmentDirections.actionGroupsFragmentToPhotoFragment(
+                        imageUrl = image
+                    )
+                    findNavController().navigate(action)
+                }
+            }
         }
         adapterSubscribed = object : GroupsAdapter(
             R.string.fragment_groups_category_subscribed_groups,
             mainViewModel.user.value?.username ?: "",
             viewModel.subscribedGroups.value!!,
-            true) {
+            true
+        ) {
             override fun onUnsubscribeListener(position: Int) {
                 viewModel.unsubscribeTo(position)
             }
@@ -90,12 +103,23 @@ class GroupsFragment : Fragment() {
                 findNavController().navigate(action)
             }
 
+            override fun onOpenImageListener(position: Int) {
+                val image = viewModel.subscribedGroups.value!![position].photo
+
+                if (image != null) {
+                    val action = GroupsFragmentDirections.actionGroupsFragmentToPhotoFragment(
+                        imageUrl = image
+                    )
+                    findNavController().navigate(action)
+                }
+            }
+
         }
         concatAdapter = ConcatAdapter(adapterRole, adapterSubscribed)
         binding.recyclerViewGroups.adapter = concatAdapter
 
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
-            when(it) {
+            when (it) {
                 UserStatus.SUCCESS -> {
                     adapterRole.username = mainViewModel.user.value?.username ?: ""
                     adapterSubscribed.username = mainViewModel.user.value?.username ?: ""
@@ -107,7 +131,7 @@ class GroupsFragment : Fragment() {
         })
 
         viewModel.status.observe(viewLifecycleOwner, {
-            when(it) {
+            when (it) {
                 GroupsStatus.Success -> {
                     binding.progressGroups.visibility = View.GONE
                     Log.d(TAG, "onCreateView: success")

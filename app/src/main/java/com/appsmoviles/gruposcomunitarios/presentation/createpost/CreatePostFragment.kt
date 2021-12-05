@@ -147,6 +147,16 @@ class CreatePostFragment : Fragment() {
             )
         }
 
+        binding.layoutPostCreateImage.setOnClickListener {
+            val image = viewModel.imageUri.value
+            if (image != null) {
+                val action = CreatePostFragmentDirections.actionCreatePostFragmentToPhotoFragment(
+                    imageUrl = image.toString()
+                )
+                findNavController().navigate(action)
+            }
+        }
+
         binding.btnPostAddLocation.setOnClickListener {
             getLocation()
         }

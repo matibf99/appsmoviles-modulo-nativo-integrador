@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 abstract class SearchAdapter(
     var username: String,
@@ -42,6 +43,7 @@ abstract class SearchAdapter(
         Glide.with(holder.itemView.context)
             .load(item.photo)
             .circleCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
 
         if (item.subscribed?.contains(username) == true)
@@ -50,8 +52,8 @@ abstract class SearchAdapter(
             holder.btnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
         holder.btnSubscribe.setOnClickListener { onSubscribeListener(position, username) }
-
         holder.layout.setOnClickListener { onOpenGroupListener(position) }
+        holder.imageView.setOnClickListener { onOpenImageListener(position) }
     }
 
     override fun getItemCount(): Int = items.size
@@ -59,6 +61,8 @@ abstract class SearchAdapter(
     abstract fun onSubscribeListener(position: Int, username: String)
 
     abstract fun onOpenGroupListener(position: Int)
+
+    abstract fun onOpenImageListener(position: Int)
 
     inner class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val layout: ConstraintLayout = view.findViewById(R.id.item_search_layout)

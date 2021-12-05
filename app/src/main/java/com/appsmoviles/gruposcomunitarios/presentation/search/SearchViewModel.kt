@@ -10,6 +10,7 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.UnsubscribeToGroupUseC
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,7 +41,7 @@ class SearchViewModel @Inject constructor(
     val sortBy: LiveData<SortBy> get() = _sortBy
 
     fun loadGroups(sortBy: SortBy = SortBy.NAME_DESCENDING) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getGroupsUseCase.getGroups(sortBy).collect {
                 when(it) {
                     is Res.Loading -> {
@@ -60,7 +61,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchGroups(tag: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getGroupsByTagUseCase.getGroupsByTag(tag).collect {
                 when(it) {
                     is Res.Loading -> {
@@ -92,7 +93,7 @@ class SearchViewModel @Inject constructor(
 
         _groups.value!![position].subscribed = subscribed
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = if (isSubscribed) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!)
                 else subscribeToGroupUseCase.subscribeToGroup(group.documentId!!)
 

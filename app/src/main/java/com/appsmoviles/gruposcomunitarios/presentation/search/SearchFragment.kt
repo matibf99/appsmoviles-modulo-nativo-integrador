@@ -62,6 +62,17 @@ class SearchFragment : Fragment() {
                 val action = SearchFragmentDirections.actionSearchFragmentToGroupFragment(group)
                 findNavController().navigate(action)
             }
+
+            override fun onOpenImageListener(position: Int) {
+                val image = viewModel.groups.value!![position].photo
+
+                if (image != null) {
+                    val action = SearchFragmentDirections.actionSearchFragmentToPhotoFragment(
+                        imageUrl = image
+                    )
+                    findNavController().navigate(action)
+                }
+            }
         }
         binding.recyclerViewSearch.adapter = adapter
 
@@ -183,7 +194,6 @@ class SearchFragment : Fragment() {
         private const val TAG = "SearchFragment"
 
         @JvmStatic
-        fun newInstance() =
-            SearchFragment()
+        fun newInstance() = SearchFragment()
     }
 }

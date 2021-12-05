@@ -20,6 +20,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import jp.wasabeef.glide.transformations.BlurTransformation
@@ -73,13 +74,18 @@ abstract class PostAdapter(
             Glide.with(holder.imageView.context)
                 .load(it)
                 .transform(MultiTransformation(CenterCrop(), BlurTransformation(25, 3)))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageViewBackground)
 
             Glide.with(holder.itemView.context)
                 .load(it)
                 .fitCenter()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView)
         }
+
+        if (post.latitude == null && post.longitude == null)
+            holder.btnLocation.visibility = View.GONE
 
         holder.btnLike.setImageResource(
             if (post.likes?.contains(username) == true) R.drawable.ic_baseline_favorite_24
@@ -91,6 +97,9 @@ abstract class PostAdapter(
 
         holder.tvGroup.setOnClickListener { onOpenGroupListener() }
         holder.btnLike.setOnClickListener { likePost(username) }
+        holder.btnLocation.setOnClickListener { onOpenLocationListener() }
+        holder.imageViewBackground.setOnClickListener { onOpenImageListener() }
+        holder.imageView.setOnClickListener { onOpenImageListener() }
     }
 
     private fun onBindPostCommentHolder(holder: PostCommentHolder, position: Int) {
@@ -121,6 +130,10 @@ abstract class PostAdapter(
 
     abstract fun onOpenCommentListener(position: Int)
 
+    abstract fun onOpenImageListener()
+
+    abstract fun onOpenLocationListener()
+
     inner class PostDetailHolder(view: View) : RecyclerView.ViewHolder(view) {
         val card: CardView = view.findViewById(R.id.card_post_detail)
         val tvUsername: TextView = view.findViewById(R.id.text_post_detail_username)
@@ -132,6 +145,7 @@ abstract class PostAdapter(
         val imageView: ImageView = view.findViewById(R.id.post_detail_image)
         val imageViewBackground: ImageView = view.findViewById(R.id.post_detail_image_background)
         val btnLike: ImageButton = view.findViewById(R.id.btn_post_detail_like)
+        val btnLocation: ImageButton = view.findViewById(R.id.btn_post_location)
         val tvLikesCount: TextView = view.findViewById(R.id.post_detail_likes_count)
         val tvCommentsCount: TextView = view.findViewById(R.id.post_detail_text_comments_count)
     }

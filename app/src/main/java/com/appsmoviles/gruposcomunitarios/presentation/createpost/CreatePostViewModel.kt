@@ -107,15 +107,17 @@ class CreatePostViewModel @Inject constructor(
     }
 
     fun createPost(bitmap: Bitmap? = null) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             createPostUseCase.createPost(
                 groupId = group.value?.documentId!!,
                 groupName = group.value?.name!!,
                 title = title.value!!,
                 content = content.value ?: "",
-                imageBitmap = bitmap
+                imageBitmap = bitmap,
+                latitude = location.value?.latitude.toString(),
+                longitude = location.value?.longitude.toString(),
             ).collect {
-                Log.d(TAG, "createPost: ${it.toString()}")
+                Log.d(TAG, "createPost: $it")
                 when(it) {
                     is Res.Success -> _createPostStatus.postValue(CreatePostStatus.Successful)
                     is Res.Error -> _createPostStatus.postValue(CreatePostStatus.Error(it.message))

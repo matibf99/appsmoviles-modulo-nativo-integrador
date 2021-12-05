@@ -7,6 +7,7 @@ import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.UserRepository
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import java.util.*
@@ -18,7 +19,9 @@ interface CreatePostUseCase {
         groupName: String,
         title: String,
         content: String,
-        imageBitmap: Bitmap?
+        imageBitmap: Bitmap?,
+        latitude: String? = null,
+        longitude: String? = null,
     ) : Flow<Res<Nothing>>
 }
 
@@ -32,7 +35,9 @@ class CreatePostUseCaseImp(
         groupName: String,
         title: String,
         content: String,
-        imageBitmap: Bitmap?
+        imageBitmap: Bitmap?,
+        latitude: String?,
+        longitude: String?,
     ): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
 
@@ -64,11 +69,13 @@ class CreatePostUseCaseImp(
             createdBy = userIdRes.data,
             groupId = groupId,
             groupName = groupName,
-            likes = ArrayList()
+            likes = ArrayList(),
+            latitude = latitude,
+            longitude = longitude
         )
 
-        val postRes = postRepository.createPost(groupId, post).first()
-        emit(postRes)
+        val res = postRepository.createPost(groupId, post).first()
+        emit(res)
     }
 
 }

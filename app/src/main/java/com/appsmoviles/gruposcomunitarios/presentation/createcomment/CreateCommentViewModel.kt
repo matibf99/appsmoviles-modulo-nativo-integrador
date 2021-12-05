@@ -10,6 +10,7 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.CreateCommentUseCase
 import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -66,7 +67,7 @@ class CreateCommentViewModel @Inject constructor(
     }
 
     fun createComment(username: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             createCommentUseCase.createComment(
                 groupId = post.value?.groupId!!,
                 postId = post.value?.documentId!!,

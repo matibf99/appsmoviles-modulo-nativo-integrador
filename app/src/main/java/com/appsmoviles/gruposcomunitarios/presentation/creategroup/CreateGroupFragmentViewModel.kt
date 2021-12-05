@@ -10,6 +10,7 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.CreateGroupUseCase
 import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -114,7 +115,7 @@ class CreateGroupFragmentViewModel @Inject constructor(
     }
 
     fun createGroup(bitmap: Bitmap) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             createGroupUseCase.createGroup(name.value!!, description.value!!, tags.value?: "", bitmap).collect {
                 when (it) {
                     is Res.Success -> _status.postValue(CreateGroupStatus.Success)

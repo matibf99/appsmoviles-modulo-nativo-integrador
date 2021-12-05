@@ -14,6 +14,7 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.UnlikePostUseCase
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -66,11 +67,7 @@ class GroupViewModel @Inject constructor(
     }
 
     fun setGroupId(groupId: String) {
-        Log.d(TAG, "setGroupId: set groupId")
-        Log.d(TAG, "setGroupId: ${group.value?.documentId} = $groupId")
-        viewModelScope.launch {
-            Log.d(TAG, "setGroupId: set groupId2")
-
+        viewModelScope.launch(Dispatchers.IO) {
             getGroupUseCase.getGroup(groupId).collect {
                 when(it) {
                     is Res.Success -> {
@@ -85,7 +82,7 @@ class GroupViewModel @Inject constructor(
     }
 
     fun getPosts() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getPostsFromGroupUseCase.getPosts(
                 _group.value!!.documentId!!,
                 SortBy.CREATED_AT_DESCENDING
@@ -118,7 +115,7 @@ class GroupViewModel @Inject constructor(
             likePost = true
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = if (likePost) likePostUseCase.likePost(post.groupId!!, post.documentId!!, username)
                 else unlikePostUseCase.unlikePost(post.groupId!!, post.documentId!!, username)
             

@@ -14,6 +14,7 @@
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_groups.xml" value="0.253125" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_home.xml" value="0.38645833333333335" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_map.xml" value="0.18958333333333333" />
+        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_photo.xml" value="0.3515625" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_post.xml" value="0.3515625" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_post_comments.xml" value="0.3515625" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_search.xml" value="0.2749094202898551" />
@@ -21,7 +22,7 @@
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/fragment_user.xml" value="0.1984375" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_group.xml" value="0.5" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_group_header.xml" value="0.3515625" />
-        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_post.xml" value="0.67" />
+        <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_post.xml" value="0.33" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_post_comment.xml" value="0.5" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_post_comment_child.xml" value="0.67" />
         <entry key="..\:/Users/matib/AndroidStudioProjects/GruposComunitarios/app/src/main/res/layout/item_post_comment_parent.xml" value="0.67" />

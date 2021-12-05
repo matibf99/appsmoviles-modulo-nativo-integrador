@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 abstract class GroupsAdapter(
     @StringRes private val title: Int,
@@ -38,43 +39,48 @@ abstract class GroupsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is GroupViewHolder) {
-            val i = position - 1
+        if (holder is GroupHeaderViewHolder)
+            onBindHeaderHolder(holder)
+        else if (holder is GroupViewHolder)
+            onBindGroupViewHolder(holder, position - 1)
+    }
 
-            val item = items[i]
+    private fun onBindHeaderHolder(holder: GroupHeaderViewHolder) {
+        holder.tvTitle.setText(title)
+    }
 
-            holder.tvTitle.text = item.name!!
+    private fun onBindGroupViewHolder(holder: GroupViewHolder, position: Int) {
+        val item = items[position]
 
-            holder.tvSubtitle.setText(when {
-                username == item.createdBy -> R.string.adapter_groups_rol_owner
-                item.moderators?.contains(username) == true -> R.string.adapter_groups_rol_moderator
-                else -> R.string.adapter_groups_rol_user
-            })
+        holder.tvTitle.text = item.name!!
 
-            Glide.with(holder.itemView.context)
-                .load(item.photo)
-                .circleCrop()
-                .into(holder.imageView)
+        holder.tvSubtitle.setText(when {
+            username == item.createdBy -> R.string.adapter_groups_rol_owner
+            item.moderators?.contains(username) == true -> R.string.adapter_groups_rol_moderator
+            else -> R.string.adapter_groups_rol_user
+        })
 
-            holder.btnUnsubscribe.setOnClickListener {
-                onUnsubscribeListener(i)
-            }
+        Glide.with(holder.itemView.context)
+            .load(item.photo)
+            .circleCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(holder.imageView)
 
-            if (displaySubscribeButton) {
-                if (item.subscribed?.contains(username) == true)
-                    holder.btnUnsubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
-                else
-                    holder.btnUnsubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-            } else {
-                holder.btnUnsubscribe.visibility = View.GONE
-            }
-
-            holder.layout.setOnClickListener {
-                onOpenGroupListener(i)
-            }
-        } else if (holder is GroupHeaderViewHolder) {
-            holder.tvTitle.setText(title)
+        holder.btnUnsubscribe.setOnClickListener {
+            onUnsubscribeListener(position)
         }
+
+        if (displaySubscribeButton) {
+            if (item.subscribed?.contains(username) == true)
+                holder.btnUnsubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
+            else
+                holder.btnUnsubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        } else {
+            holder.btnUnsubscribe.visibility = View.GONE
+        }
+
+        holder.layout.setOnClickListener { onOpenGroupListener(position) }
+        holder.imageView.setOnClickListener { onOpenImageListener(position) }
     }
 
     override fun getItemCount(): Int = items.size + 1
@@ -82,6 +88,8 @@ abstract class GroupsAdapter(
     abstract fun onUnsubscribeListener(position: Int)
 
     abstract fun onOpenGroupListener(position: Int)
+
+    abstract fun onOpenImageListener(position: Int)
 
     inner class GroupHeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvTitle: TextView = view.findViewById(R.id.item_group_header_text)

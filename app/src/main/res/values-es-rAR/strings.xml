@@ -68,4 +68,5 @@
     <string name="create_post_dialog_permission_denied_title">Permiso denegado</string>
     <string name="create_post_dialog_permission_denied_message">No es posible acceder a su ubicación</string>
     <string name="create_post_dialog_permission_denied_positive_button">OK</string>
+    <string name="fragment_photo_title">Imagen</string>
 </resources>

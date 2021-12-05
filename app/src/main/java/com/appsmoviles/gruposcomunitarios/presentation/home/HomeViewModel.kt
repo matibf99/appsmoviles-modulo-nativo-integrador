@@ -13,6 +13,7 @@ import com.appsmoviles.gruposcomunitarios.presentation.group.GroupViewModel
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import com.appsmoviles.gruposcomunitarios.utils.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,7 +45,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getPosts() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _status.postValue(HomePostsStatus.Loading)
 
             getPostsFromAllGroupsUseCase.getPosts(SortBy.CREATED_AT_DESCENDING).collect {
@@ -76,7 +77,7 @@ class HomeViewModel @Inject constructor(
             likePost = true
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = if (likePost) likePostUseCase.likePost(post.groupId!!, post.documentId!!, username)
             else unlikePostUseCase.unlikePost(post.groupId!!, post.documentId!!, username)
 

@@ -10,6 +10,7 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.PostComment
 import com.appsmoviles.gruposcomunitarios.domain.usecases.*
 import com.appsmoviles.gruposcomunitarios.utils.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,7 +63,7 @@ class PostViewModel @Inject constructor(
     }
 
     fun getPost() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getPostFromGroupUseCase.getGroup(post.value!!.groupId!!, post.value!!.documentId!!).collect {
                 when(it) {
                     is Res.Success -> {
@@ -77,7 +78,7 @@ class PostViewModel @Inject constructor(
     }
 
     fun getComments() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getCommentsFromPostUseCase.getComments(post.value!!.groupId!!, post.value!!.documentId!!).collect {
                 when(it) {
                     is Res.Success -> {
@@ -109,7 +110,7 @@ class PostViewModel @Inject constructor(
             likePost = true
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = if (likePost) likePostUseCase.likePost(p.groupId!!, p.documentId!!, username)
             else unlikePostUseCase.unlikePost(p.groupId!!, p.documentId!!, username)
 
@@ -138,7 +139,7 @@ class PostViewModel @Inject constructor(
             likePost = true
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val res = if (likePost) likeCommentUseCase.likeComment(
                     post.value?.groupId!!,
                     post.value?.documentId!!,

@@ -78,6 +78,17 @@ class CreateGroupFragment : Fragment() {
                 .into(binding.photoPreview)
         })
 
+        binding.photoPreview.setOnClickListener {
+            val imageUri = viewModel.imageUri.value
+
+            if (imageUri != null) {
+                val action = CreateGroupFragmentDirections.actionCreateGroupFragmentToPhotoFragment(
+                    imageUrl = imageUri.toString()
+                )
+                findNavController().navigate(action)
+            }
+        }
+
         binding.editName.editText?.setText(viewModel.name.value)
         binding.editDescription.editText?.setText(viewModel.description.value)
         binding.editTags.editText?.setText(viewModel.tags.value)

@@ -1,8 +1,6 @@
 package com.appsmoviles.gruposcomunitarios.presentation.group
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,9 +19,8 @@ import com.appsmoviles.gruposcomunitarios.databinding.FragmentGroupBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.adapters.PostsAdapter
+import com.appsmoviles.gruposcomunitarios.presentation.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class GroupFragment : Fragment() {
@@ -88,6 +85,15 @@ class GroupFragment : Fragment() {
             }
 
             override fun onOpenGroupListener(position: Int) {
+            }
+
+            override fun onOpenImageListener(position: Int) {
+                val post = viewModel.posts.value!![position]
+                val action = GroupFragmentDirections.actionGroupFragmentToPhotoFragment(
+                    imageUrl = post.photo ?: "",
+                    title = post.title
+                )
+                findNavController().navigate(action)
             }
         }
         binding.recyclerViewGroupPosts.adapter = adapter

@@ -108,4 +108,8 @@ dependencies {
     // Maps
     var osmdroid = "6.1.11"
     implementation "org.osmdroid:osmdroid-android:$osmdroid"
+
+    // PhotoView
+    var photo_view = "2.0.0"
+    implementation "com.github.chrisbanes:PhotoView:$photo_view"
 }

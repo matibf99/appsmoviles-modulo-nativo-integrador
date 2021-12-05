@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.3"
@@ -13,6 +14,14 @@ buildscript {
         // in the individual module build.gradle files
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.40.1"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0-beta02"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 

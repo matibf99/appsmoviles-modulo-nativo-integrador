@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
     <string name="app_name">Community Groups</string>
-    <!-- TODO: Remove or change this placeholder text -->
 
     <string name="file_provider_name" translatable="false">.fileProvider</string>
     <string name="select_capture_image">Please select or capture image</string>
@@ -87,6 +86,9 @@
     <!-- MapFragment -->
     <string name="fragment_map_title">Map</string>
 
+    <!-- PhotoFragment -->
+    <string name="fragment_photo_title">Image</string>
+
     <!-- UserFragment -->
 
     <!-- SortBy -->
@@ -104,6 +106,7 @@
     <string name="btn_image_subscribe">Subscribe</string>
     <string name="group_photo">Group photo</string>
     <string name="btn_like_post">Like post</string>
+    <string name="btn_location">Location</string>
     <string name="btn_like_comment">Like comment</string>
     <string name="comments_count">Comments count</string>
 </resources>
