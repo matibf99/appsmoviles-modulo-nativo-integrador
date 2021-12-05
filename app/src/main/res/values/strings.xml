@@ -1,5 +1,125 @@
-<resources>
-    <string name="app_name">Grupos Comunitarios</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+    <string name="app_name">Community Groups</string>
+
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="select_capture_image">Please select or capture image</string>
+
+    <!-- HomeFragment -->
+    <string name="fragment_home_title">Home</string>
+
+    <!-- GroupsFragment -->
+    <string name="fragment_groups_title">Groups</string>
+    <string name="fragment_groups_category_my_groups">My groups</string>
+    <string name="fragment_groups_category_subscribed_groups">Subscribed groups</string>
+    <string name="fragment_groups_fab">Create group</string>
+
+    <!-- GroupsAdapter -->
+    <string name="adapter_groups_rol_owner">Owner</string>
+    <string name="adapter_groups_rol_moderator">Moderator</string>
+    <string name="adapter_groups_rol_user">User</string>
+
+    <!-- SearchFragment -->
+    <string name="fragment_search_title">Search</string>
+    <string name="fragment_search_dialog_order_by">Order by</string>
+    <string-array name="fragment_search_dialog_sort_by">
+        <item>Name - Ascending</item>
+        <item>Name - Descending</item>
+        <item>Created at - Ascending</item>
+        <item>Created at - Descending</item>
+    </string-array>
+    <string name="fragment_search_sorting_by">Sorting by</string>
+
+    <!-- GroupFragment -->
+    <string name="fragment_group_fab">Create post</string>
+
+    <!-- PostFragment -->
+    <string name="fragment_post_fab">New comment</string>
+
+    <!-- PostCommentsFragment -->
+    <string name="fragment_posts_fab">New comment</string>
+
+    <!-- CreateGroupFragment -->
+    <string name="fragment_create_group_title">Create new group</string>
+    <string name="create_group_header_group_info">Group information</string>
+    <string name="create_group_label_group_name">Name</string>
+    <string name="create_group_hint_group_name">Group name</string>
+    <string name="create_group_label_group_description">Description</string>
+    <string name="create_group_hint_group_description">Group description</string>
+    <string name="create_group_label_tags_description">Tags</string>
+    <string name="create_group_hint_tags_description">Introduce the tags separated by commas</string>
+    <string name="create_group_header_photo">Photo</string>
+    <string name="create_group_btn_camera">Pick photo from camera</string>
+    <string name="create_group_btn_storage">Pick photo from gallery</string>
+    <string name="create_group_btn_create_group">Create group</string>
+    <string name="create_group_image_description">Group photo</string>
+    <string name="create_group_validation_name_invalid">Name can not be empty</string>
+    <string name="create_group_validation_description_invalid">Description can not be empty</string>
+    <string name="create_group_validation_tags_invalid">You need to add at least one tag</string>
+    <string name="create_group_validation_image_invalid">You need to select an image</string>
+
+    <!-- CreatePostFragment -->
+    <string name="fragment_create_post_title">Create new post</string>
+    <string name="create_post_header_post_info">Post details</string>
+    <string name="create_post_label_title">Title</string>
+    <string name="create_post_header_content">Content</string>
+    <string name="create_post_label_content">Content</string>
+    <string name="create_post_btn_create">Create post</string>
+    <string name="create_post_image_description_pick_camera">Pick a photo from camera</string>
+    <string name="create_post_image_description_pick_storage">Pick a photo from gallery</string>
+    <string name="create_post_add_location">Add location</string>
+    <string name="create_post_validation_title_invalid">Title can not be empty</string>
+    <string name="create_post_error">Can\'t create post</string>
+    <string name="create_post_dialog_location_title">Location</string>
+    <string name="create_post_dialog_location_message">To use this feature you need to activate location access</string>
+    <string name="create_post_dialog_location_positive_action">ACTIVATE NOW</string>
+    <string name="create_post_dialog_location_negative_action">CANCEL</string>
+    <string name="create_post_dialog_permission_denied_title">Permission denied</string>
+    <string name="create_post_dialog_permission_denied_message">Can not access your location</string>
+    <string name="create_post_dialog_permission_denied_positive_button">OK</string>
+
+    <!-- CreateCommentFragment -->
+    <string name="fragment_create_comment_title">Create a new comment</string>
+    <string name="create_comment_hint">Comment</string>
+    <string name="button_create_comment">Create comment</string>
+    <string name="create_comment_validation_content_invalid">Comment can not be empty</string>
+
+    <!-- MapFragment -->
+    <string name="fragment_map_title">Map</string>
+
+    <!-- PhotoFragment -->
+    <string name="fragment_photo_title">Image</string>
+
+    <!-- UserFragment -->
+
+    <!-- SortBy -->
+    <string name="order_by_nothing">no order</string>
+    <string name="order_by_name_ascending">name, ascending</string>
+    <string name="order_by_name_descending">name, descending</string>
+    <string name="order_by_created_at_ascending">created at, ascending</string>
+    <string name="order_by_created_at_descending">created at, descending</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_positive_button_select">Select</string>
+    <string name="dialog_negative_button_cancel">Cancel</string>
+
+    <!-- Adapters -->
+    <string name="btn_image_subscribe">Subscribe</string>
+    <string name="group_photo">Group photo</string>
+    <string name="btn_like_post">Like post</string>
+    <string name="btn_location">Location</string>
+    <string name="btn_like_comment">Like comment</string>
+    <string name="comments_count">Comments count</string>
+    <string name="post_in">in</string>
+
+    <!-- Menus -->
+    <string name="menu_open_post">Open post</string>
+    <string name="menu_open_image">Open image</string>
+    <string name="menu_open_group">Open group</string>
+    <string name="menu_subscribe">Subscribe</string>
+    <string name="menu_unsubscribe">Unsubscribe</string>
+    <string name="menu_like">Like</string>
+    <string name="menu_unlike">Unlike</string>
+
+    <!-- Notification worker -->
+    <string name="notification_new_comments_in_post">This post has new comments</string>
 </resources>
