@@ -7,16 +7,20 @@ import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsByTagUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.SubscribeToGroupUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.UnsubscribeToGroupUseCase
-import com.appsmoviles.gruposcomunitarios.utils.Res
-import com.appsmoviles.gruposcomunitarios.utils.SortBy
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.SortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class SearchGroupsStatus {
-    LOADING, LOADED, FAILED, UNKNOWN
+sealed class SearchGroupsStatus(
+    val message: String? = null
+) {
+    object Success : SearchGroupsStatus()
+    object Loading : SearchGroupsStatus()
+    class Error(message: String?) : SearchGroupsStatus(message)
 }
 
 @HiltViewModel
@@ -27,33 +31,29 @@ class SearchViewModel @Inject constructor(
     private val getGroupsByTagUseCase: GetGroupsByTagUseCase
 ) : ViewModel() {
 
-    private var _status: MutableLiveData<SearchGroupsStatus> = MutableLiveData(SearchGroupsStatus.LOADING)
+    private var _status: MutableLiveData<SearchGroupsStatus> = MutableLiveData()
     val status: LiveData<SearchGroupsStatus> get() = _status
 
-    private var _groups: MutableLiveData<List<Group>> = MutableLiveData()
+    private var _groups: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
     val groups: LiveData<List<Group>> get() = _groups
 
-    private var _sortBy: MutableLiveData<SortBy> = MutableLiveData(SortBy.NAME_DESCENDING)
+    private var _sortBy: MutableLiveData<SortBy> = MutableLiveData(SortBy.NAME_ASCENDING)
     val sortBy: LiveData<SortBy> get() = _sortBy
 
-    init {
-        loadGroups()
-    }
-
     fun loadGroups(sortBy: SortBy = SortBy.NAME_DESCENDING) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getGroupsUseCase.getGroups(sortBy).collect {
                 when(it) {
                     is Res.Loading -> {
-                        _status.postValue(SearchGroupsStatus.LOADING)
+                        _status.postValue(SearchGroupsStatus.Loading)
                     }
                     is Res.Success -> {
                         _groups.postValue(it.data!!)
-                        _status.postValue(SearchGroupsStatus.LOADED)
+                        _status.postValue(SearchGroupsStatus.Success)
                         Log.d(TAG, "groups: ${it.data}")
                     }
                     is Res.Error -> {
-                        _status.postValue(SearchGroupsStatus.FAILED)
+                        _status.postValue(SearchGroupsStatus.Error(it.message))
                     }
                 }
             }
@@ -61,35 +61,41 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchGroups(tag: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getGroupsByTagUseCase.getGroupsByTag(tag).collect {
                 when(it) {
                     is Res.Loading -> {
-                        _status.postValue(SearchGroupsStatus.LOADING)
+                        _status.postValue(SearchGroupsStatus.Loading)
                     }
                     is Res.Success -> {
                         _groups.postValue(it.data!!)
-                        _status.postValue(SearchGroupsStatus.LOADED)
+                        _status.postValue(SearchGroupsStatus.Success)
                         Log.d(TAG, "groups: ${it.data}")
                     }
                     is Res.Error -> {
-                        _status.postValue(SearchGroupsStatus.FAILED)
+                        _status.postValue(SearchGroupsStatus.Error(it.message))
                     }
                 }
             }
         }
     }
 
-    fun subscribeToGroup(position: Int) {
+    fun subscribeToGroup(position: Int, username: String) {
         val group = groups.value!![position]
 
-        val isSubscribed = group.subscribed
-        group.subscribed = !isSubscribed!!
-        _groups.value = _groups.value
+        val isSubscribed = group.subscribed?.contains(username) == true
+        val subscribed = group.subscribed!!.toMutableList()
 
-        viewModelScope.launch {
-            val res = if (isSubscribed == true) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!)
-                else subscribeToGroupUseCase.subscribeToGroup(group.documentId!!)
+        if (isSubscribed)
+            subscribed.remove(username)
+        else
+            subscribed.add(username)
+
+        _groups.value!![position].subscribed = subscribed
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = if (isSubscribed) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!, username)
+                else subscribeToGroupUseCase.subscribeToGroup(group.documentId!!, username)
 
             res.collect {
                 when(it) {

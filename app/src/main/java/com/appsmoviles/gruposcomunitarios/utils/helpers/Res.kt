@@ -1,4 +1,4 @@
-package com.appsmoviles.gruposcomunitarios.utils
+package com.appsmoviles.gruposcomunitarios.utils.helpers
 
 sealed class Res<T>(
     val data: T? = null,

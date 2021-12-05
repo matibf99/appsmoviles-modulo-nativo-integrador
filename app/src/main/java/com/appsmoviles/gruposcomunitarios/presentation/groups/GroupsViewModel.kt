@@ -9,14 +9,18 @@ import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsWithRoleUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetSubscribedGroupsUseCase
 import com.appsmoviles.gruposcomunitarios.domain.usecases.UnsubscribeToGroupUseCase
-import com.appsmoviles.gruposcomunitarios.utils.Res
+import com.appsmoviles.gruposcomunitarios.utils.helpers.Res
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class GroupsStatus {
-    LOADING, LOADED, FAILED
+sealed class GroupsStatus(
+    val message: String? = null
+) {
+    object Success : GroupsStatus()
+    object Loading : GroupsStatus()
+    class Error(message: String?) : GroupsStatus(message)
 }
 
 @HiltViewModel
@@ -26,7 +30,7 @@ class GroupsViewModel @Inject constructor(
     private val unsubscribeToGroupUseCase: UnsubscribeToGroupUseCase,
 ) : ViewModel() {
 
-    private val _status: MutableLiveData<GroupsStatus> = MutableLiveData(GroupsStatus.LOADING)
+    private val _status: MutableLiveData<GroupsStatus> = MutableLiveData()
     val status: LiveData<GroupsStatus> get() = _status
 
     private val _subscribedGroups: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
@@ -35,47 +39,43 @@ class GroupsViewModel @Inject constructor(
     private val _groupsWithRole: MutableLiveData<List<Group>> = MutableLiveData(ArrayList())
     val groupsWithRole: LiveData<List<Group>> get() = _groupsWithRole
 
-    init {
-        loadGroups()
-    }
-
-    private fun loadGroups() {
+    fun loadGroups(username: String) {
         viewModelScope.launch {
-            getSubscribedGroupsUseCase.getSubscribedGroups().collect {
+            getSubscribedGroupsUseCase.getSubscribedGroups(username).collect {
                 when(it) {
                     is Res.Success -> {
-                        _status.postValue(GroupsStatus.LOADED)
+                        _status.postValue(GroupsStatus.Success)
                         _subscribedGroups.postValue(it.data!!)
                     }
                     is Res.Error -> {
-                        _status.postValue(GroupsStatus.FAILED)
+                        _status.postValue(GroupsStatus.Error(it.message))
                     }
                     is Res.Loading -> {
-                        _status.postValue(GroupsStatus.LOADING)
+                        _status.postValue(GroupsStatus.Loading)
                     }
                 }
             }
         }
 
         viewModelScope.launch {
-            getGroupsWithRoleUseCase.getGroupsWithUseCase().collect {
+            getGroupsWithRoleUseCase.getGroups(username).collect {
                 when(it) {
                     is Res.Success -> {
-                        _status.postValue(GroupsStatus.LOADED)
+                        _status.postValue(GroupsStatus.Success)
                         _groupsWithRole.postValue(it.data!!)
                     }
                     is Res.Error -> {
-                        _status.postValue(GroupsStatus.FAILED)
+                        _status.postValue(GroupsStatus.Error(it.message))
                     }
                     is Res.Loading -> {
-                        _status.postValue(GroupsStatus.LOADING)
+                        _status.postValue(GroupsStatus.Loading)
                     }
                 }
             }
         }
     }
 
-    fun unsubscribeTo(position: Int) {
+    fun unsubscribeTo(position: Int, username: String) {
         viewModelScope.launch {
             val group = subscribedGroups.value?.get(position) ?: return@launch
 
@@ -83,7 +83,7 @@ class GroupsViewModel @Inject constructor(
             groups.removeAt(position)
             _subscribedGroups.postValue(groups)
 
-            unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!).collect {
+            unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!, username).collect {
                 when (it) {
                     is Res.Success -> Log.d(TAG, "unsubscribeTo: unsubscribed successfully")
                     is Res.Loading -> Log.d(TAG, "unsubscribeTo: unsubscribing...")

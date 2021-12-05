@@ -9,20 +9,276 @@
         android:id="@+id/homeFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <argument
+            android:name="group"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+        <action
+            android:id="@+id/action_homeFragment_to_groupFragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_postFragment"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/groupsFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.groups.GroupsFragment"
         android:label="fragment_groups"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_groups" >
+        <action
+            android:id="@+id/action_groupsFragment_to_createGroupFragment"
+            app:destination="@id/createGroupFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_groupsFragment_to_groupFragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_groupsFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_groupFragment"
+            app:destination="@id/groupFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="group"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+        <action
+            android:id="@+id/action_searchFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.user.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_userRegisterFragment"
+            app:destination="@id/userRegisterFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_userFragment_to_userLoginFragment"
+            app:destination="@id/userLoginFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGroupFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.creategroup.CreateGroupFragment"
+        android:label="fragment_create_group"
+        tools:layout="@layout/fragment_create_group" >
+        <action
+            android:id="@+id/action_createGroupFragment_to_photoFragment"
+            app:destination="@id/photoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.group.GroupFragment"
+        android:label="fragment_group"
+        tools:layout="@layout/fragment_group" >
+        <action
+            android:id="@+id/action_groupFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <argument
+            android:name="group"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="groupId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_groupFragment_to_postFragment"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_groupFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.createpost.CreatePostFragment"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" >
+        <argument
+            android:name="group"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+        <action
+            android:id="@+id/action_createPostFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_createPostFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.post.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="post"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Post" />
+        <action
+            android:id="@+id/action_postFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+        <action
+            android:id="@+id/action_postFragment_to_postCommentsFragment"
+            app:destination="@id/postCommentsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_postFragment_to_createCommentFragment"
+            app:destination="@id/createCommentFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_postFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_postFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/postCommentsFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.postcomments.PostCommentsFragment"
+        android:label="fragment_post_comments"
+        tools:layout="@layout/fragment_post_comments" >
+        <argument
+            android:name="comments"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment[]" />
+        <argument
+            android:name="parent"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment" />
+        <argument
+            android:name="post"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Post" />
+        <action
+            android:id="@+id/action_postCommentsFragment_to_createCommentFragment"
+            app:destination="@id/createCommentFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCommentFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.createcomment.CreateCommentFragment"
+        android:label="fragment_create_comment"
+        tools:layout="@layout/fragment_create_comment" >
+        <argument
+            android:name="post"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Post" />
+        <argument
+            android:name="commentParent"
+            app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map">
+        <argument
+            android:name="location"
+            app:argType="com.appsmoviles.gruposcomunitarios.utils.helpers.MapLocation" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.photo.PhotoFragment"
+        android:label="fragment_photo"
+        tools:layout="@layout/fragment_photo" >
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRegisterFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.userregister.UserRegisterFragment"
+        android:label="UserRegisterFragment" />
+    <fragment
+        android:id="@+id/userLoginFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.userlogin.UserLoginFragment"
+        android:label="UserLoginFragment" />
 </navigation>
