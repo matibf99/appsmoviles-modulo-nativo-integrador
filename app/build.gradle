@@ -116,4 +116,8 @@ dependencies {
     // WorkManager
     var work_manager = "2.7.1"
     implementation "androidx.work:work-runtime-ktx:$work_manager"
+
+    // Gson
+    var gson = "2.8.9"
+    implementation "com.google.code.gson:gson:$gson"
 }

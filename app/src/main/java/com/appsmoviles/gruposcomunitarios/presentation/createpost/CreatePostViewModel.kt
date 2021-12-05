@@ -115,8 +115,8 @@ class CreatePostViewModel @Inject constructor(
                 content = content.value ?: "",
                 username = username,
                 imageBitmap = bitmap,
-                latitude = location.value?.latitude.toString(),
-                longitude = location.value?.longitude.toString(),
+                latitude = location.value?.latitude,
+                longitude = location.value?.longitude,
             ).collect {
                 Log.d(TAG, "createPost: $it")
                 when(it) {

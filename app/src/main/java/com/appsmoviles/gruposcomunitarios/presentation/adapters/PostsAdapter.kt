@@ -34,13 +34,14 @@ abstract class PostsAdapter(
         val item = items[position]
         val binding = holder.binding
         val liked = item.likes?.contains(username) == true
+        val hasImage = item.photo != null
 
         binding.textPostUsername.text = item.createdBy
         binding.textPostGroup.text = item.groupName
         binding.textPostTime.text = item.createdAt?.getTimeAgo()
         binding.textPostTitle.text = item.title
 
-        if (item.photo != null) {
+        if (hasImage) {
             binding.textPostContent.visibility = View.GONE
             binding.layoutPostImage.visibility = View.VISIBLE
 
@@ -82,13 +83,12 @@ abstract class PostsAdapter(
         binding.layoutPostImage.setOnLongClickListener { false }
 
         binding.cardPost.setOnCreateContextMenuListener { menu, v, menuInfo ->
-            createContextMenu(menu, position, liked)
+            createContextMenu(menu, position, liked, hasImage)
         }
     }
 
-    private fun createContextMenu(menu: ContextMenu, position: Int, liked: Boolean) {
+    private fun createContextMenu(menu: ContextMenu, position: Int, liked: Boolean, hasImage: Boolean) {
         val openPost = menu.add(Menu.NONE, MENU_OPEN_POST, 1, R.string.menu_open_post)
-        val openImage = menu.add(Menu.NONE, MENU_OPEN_IMAGE, 2, R.string.menu_open_image)
         val like = menu.add(
             Menu.NONE, MENU_LIKE, 3,
             if (liked) R.string.menu_unlike else R.string.menu_like
@@ -99,14 +99,19 @@ abstract class PostsAdapter(
             true
         }
 
-        openImage.setOnMenuItemClickListener {
-            onOpenImageListener(position)
-            true
-        }
+
 
         like.setOnMenuItemClickListener {
             onLikeListener(position, username)
             true
+        }
+        
+        if (hasImage) {
+            val openImage = menu.add(Menu.NONE, MENU_OPEN_IMAGE, 2, R.string.menu_open_image)
+            openImage.setOnMenuItemClickListener {
+                onOpenImageListener(position)
+                true
+            }
         }
     }
 

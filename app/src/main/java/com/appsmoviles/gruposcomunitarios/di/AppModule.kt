@@ -2,6 +2,7 @@ package com.appsmoviles.gruposcomunitarios.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.work.WorkerFactory
 import com.appsmoviles.gruposcomunitarios.data.*
 import com.appsmoviles.gruposcomunitarios.domain.repository.*
 import com.appsmoviles.gruposcomunitarios.domain.usecases.GetGroupsUseCase
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -19,5 +19,7 @@ data class Post(
     val createdBy: String? = null,
     var likes: List<String>? = null,
     val latitude: String? = null,
-    val longitude: String? = null
+    val longitude: String? = null,
+    val lastCommentTimestamp: Date? = null,
+    val lastLikeTimestamp: Date? = null,
 ) : Parcelable

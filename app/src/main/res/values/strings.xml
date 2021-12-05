@@ -119,4 +119,7 @@
     <string name="menu_unsubscribe">Unsubscribe</string>
     <string name="menu_like">Like</string>
     <string name="menu_unlike">Unlike</string>
+
+    <!-- Notification worker -->
+    <string name="notification_new_comments_in_post">This post has new comments</string>
 </resources>

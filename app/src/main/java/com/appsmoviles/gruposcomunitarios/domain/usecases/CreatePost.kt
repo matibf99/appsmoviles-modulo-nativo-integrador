@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.domain.usecases
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.domain.repository.PostRepository
 import com.appsmoviles.gruposcomunitarios.domain.repository.StorageRepository
@@ -20,8 +21,8 @@ interface CreatePostUseCase {
         title: String,
         content: String,
         imageBitmap: Bitmap?,
-        latitude: String? = null,
-        longitude: String? = null,
+        latitude: Double? = null,
+        longitude: Double? = null,
     ) : Flow<Res<Nothing>>
 }
 
@@ -36,8 +37,8 @@ class CreatePostUseCaseImp(
         title: String,
         content: String,
         imageBitmap: Bitmap?,
-        latitude: String?,
-        longitude: String?,
+        latitude: Double?,
+        longitude: Double?,
     ): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
 
@@ -53,6 +54,9 @@ class CreatePostUseCaseImp(
             imageUrl = imageUrlRes.data!!
         }
 
+        Log.d("CreatePost", "createPost: latitude: $latitude")
+        Log.d("CreatePost", "createPost: longitude: $longitude")
+
         val post = Post(
             title = title,
             content = content,
@@ -62,8 +66,8 @@ class CreatePostUseCaseImp(
             groupId = groupId,
             groupName = groupName,
             likes = ArrayList(),
-            latitude = latitude,
-            longitude = longitude
+            latitude = latitude?.toString(),
+            longitude = longitude?.toString()
         )
 
         val res = postRepository.createPost(groupId, post).first()

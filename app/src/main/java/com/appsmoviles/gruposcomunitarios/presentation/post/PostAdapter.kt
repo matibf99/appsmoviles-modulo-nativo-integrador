@@ -1,6 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.presentation.post
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,8 +93,13 @@ abstract class PostAdapter(
                 .into(binding.postDetailImage)
         }
 
-        if (post.latitude == null && post.longitude == null)
+        Log.d("PostAdapter", "onBindPostDetailHolder: longitude: ${post.longitude}, latitude: ${post.latitude}")
+        if (post.latitude == null || post.longitude == null) {
+            Log.d("PostAdapter", "onBindPostDetailHolder: location is null")
             binding.btnPostLocation.visibility = View.GONE
+        } else {
+            Log.d("PostAdapter", "onBindPostDetailHolder: location is not null")
+        }
 
         binding.btnPostDetailLike.setImageResource(
             if (post.likes?.contains(username) == true) R.drawable.ic_baseline_favorite_24
