@@ -62,7 +62,7 @@ class UserRepositoryImp(
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                trySend(Res.Success<Nothing>())
+                trySend(Res.Success())
             }
             .addOnFailureListener {
                 trySend(Res.Error(it.message))

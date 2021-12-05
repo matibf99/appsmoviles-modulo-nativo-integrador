@@ -103,7 +103,6 @@ class UserViewModel @Inject constructor(
                     is Res.Loading -> {
                         _status.postValue(UserStatus.LOADING)
 
-
                     }
                     is Res.Success -> {
                         _user.postValue(it.data!!)

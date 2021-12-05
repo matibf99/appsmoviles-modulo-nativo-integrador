@@ -10,6 +10,5 @@ data class User(
     val email: String? = null,
     val createdAt: Date? = null,
     val modifiedAt: Date? = null,
-    val photo: String? = null,
-    val groups: List<String>? = null,
+    val photo: String? = null
 )
