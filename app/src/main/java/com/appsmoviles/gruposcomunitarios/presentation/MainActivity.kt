@@ -3,6 +3,7 @@ package com.appsmoviles.gruposcomunitarios.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.appsmoviles.gruposcomunitarios.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

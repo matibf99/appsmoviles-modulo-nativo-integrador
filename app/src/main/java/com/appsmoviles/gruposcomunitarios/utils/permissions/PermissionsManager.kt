@@ -3,10 +3,21 @@ package com.appsmoviles.gruposcomunitarios.utils.permissions
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.appsmoviles.gruposcomunitarios.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import android.text.TextUtils
+
+import android.os.Build
+import android.provider.Settings.SettingNotFoundException
+import com.appsmoviles.gruposcomunitarios.utils.permissions.PermissionsManager.isLocationEnabled
+
 
 object PermissionsManager {
     const val LOCATION_PERMISSION_REQUEST_CODE = 0x0001
@@ -35,5 +46,21 @@ object PermissionsManager {
 
     private fun isPermissionGranted(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    fun showGPSNotEnabledDialog(context: Context) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.create_post_dialog_location_title)
+            .setMessage(R.string.create_post_dialog_location_message)
+            .setPositiveButton(R.string.create_post_dialog_location_positive_action) { _, _ ->
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            .setNegativeButton(R.string.create_post_dialog_location_negative_action, null)
+            .show()
     }
 }

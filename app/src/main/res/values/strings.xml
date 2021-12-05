@@ -40,7 +40,7 @@
     <string name="fragment_posts_fab">New comment</string>
 
     <!-- CreateGroupFragment -->
-    <string name="fragment_create_group_title">Create a new group</string>
+    <string name="fragment_create_group_title">Create new group</string>
     <string name="create_group_header_group_info">Group information</string>
     <string name="create_group_label_group_name">Name</string>
     <string name="create_group_hint_group_name">Group name</string>
@@ -59,7 +59,7 @@
     <string name="create_group_validation_image_invalid">You need to select an image</string>
 
     <!-- CreatePostFragment -->
-    <string name="fragment_create_post_title">Create a new post</string>
+    <string name="fragment_create_post_title">Create new post</string>
     <string name="create_post_header_post_info">Post details</string>
     <string name="create_post_label_title">Title</string>
     <string name="create_post_header_content">Content</string>
@@ -69,13 +69,23 @@
     <string name="create_post_image_description_pick_storage">Pick a photo from gallery</string>
     <string name="create_post_add_location">Add location</string>
     <string name="create_post_validation_title_invalid">Title can not be empty</string>
-    <string name="crate_post_error">Can\'t create post</string>
+    <string name="create_post_error">Can\'t create post</string>
+    <string name="create_post_dialog_location_title">Location</string>
+    <string name="create_post_dialog_location_message">To use this feature you need to activate location access</string>
+    <string name="create_post_dialog_location_positive_action">ACTIVATE NOW</string>
+    <string name="create_post_dialog_location_negative_action">CANCEL</string>
+    <string name="create_post_dialog_permission_denied_title">Permission denied</string>
+    <string name="create_post_dialog_permission_denied_message">Can not access your location</string>
+    <string name="create_post_dialog_permission_denied_positive_button">OK</string>
 
     <!-- CreateCommentFragment -->
     <string name="fragment_create_comment_title">Create a new comment</string>
     <string name="create_comment_hint">Comment</string>
     <string name="button_create_comment">Create comment</string>
     <string name="create_comment_validation_content_invalid">Comment can not be empty</string>
+
+    <!-- MapFragment -->
+    <string name="fragment_map_title">Map</string>
 
     <!-- UserFragment -->
 
@@ -96,6 +106,4 @@
     <string name="btn_like_post">Like post</string>
     <string name="btn_like_comment">Like comment</string>
     <string name="comments_count">Comments count</string>
-
-
 </resources>

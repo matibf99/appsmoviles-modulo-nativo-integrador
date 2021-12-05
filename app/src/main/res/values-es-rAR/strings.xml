@@ -53,11 +53,19 @@
     <string name="btn_like_comment">Dar like a comentario</string>
     <string name="comments_count">Número de comentarios</string>
     <string name="create_post_validation_title_invalid">El título no puede estar vacío</string>
-    <string name="crate_post_error">Error al crear el post</string>
+    <string name="create_post_error">Error al crear el post</string>
     <string name="create_comment_validation_content_invalid">El comentario no puede estar vacío</string>
     <string name="create_group_validation_name_invalid">El nombre no puede estar vacío</string>
     <string name="create_group_validation_description_invalid">La descripción no puede estar vacía</string>
     <string name="create_group_validation_image_invalid">Necesita cargar una imagen</string>
     <string name="create_group_validation_tags_invalid">El grupo debe tener al menos un tag</string>
     <string name="create_post_add_location">Añadir ubicación</string>
+    <string name="fragment_map_title">Ubicación</string>
+    <string name="create_post_dialog_location_title">Ubicación</string>
+    <string name="create_post_dialog_location_message">Para utilizar esta característica necesita activar los permisos de ubicación</string>
+    <string name="create_post_dialog_location_positive_action">ACTIVAR AHORA</string>
+    <string name="create_post_dialog_location_negative_action">CANCELAR</string>
+    <string name="create_post_dialog_permission_denied_title">Permiso denegado</string>
+    <string name="create_post_dialog_permission_denied_message">No es posible acceder a su ubicación</string>
+    <string name="create_post_dialog_permission_denied_positive_button">OK</string>
 </resources>

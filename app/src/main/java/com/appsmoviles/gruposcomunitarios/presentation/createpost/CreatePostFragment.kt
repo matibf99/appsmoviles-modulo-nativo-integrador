@@ -20,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentCreatePostBinding
+import com.appsmoviles.gruposcomunitarios.utils.MapLocation
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.utils.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.permissions.PermissionsManager
@@ -28,6 +29,7 @@ import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraInten
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -70,7 +72,7 @@ class CreatePostFragment : Fragment() {
                     binding.progressCreatePost.visibility = View.GONE
                     Toast.makeText(
                         requireContext(),
-                        it.message ?: resources.getString(R.string.crate_post_error),
+                        it.message ?: resources.getString(R.string.create_post_error),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -146,10 +148,16 @@ class CreatePostFragment : Fragment() {
         }
 
         binding.btnPostAddLocation.setOnClickListener {
-            if (PermissionsManager.isLocationPermissionGranted(requireContext()))
-                viewModel.getLocation()
-            else
-                PermissionsManager.requestLocationPermission(requireActivity())
+            getLocation()
+        }
+
+        binding.layoutPostLocation.setOnClickListener {
+            val location = viewModel.location.value
+
+            val action = CreatePostFragmentDirections.actionCreatePostFragmentToMapFragment(
+                MapLocation(location!!.latitude, location.longitude)
+            )
+            findNavController().navigate(action)
         }
 
         binding.btnCreatePost.setOnClickListener {
@@ -169,6 +177,20 @@ class CreatePostFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun getLocation() {
+        if (PermissionsManager.isLocationPermissionGranted(requireContext())) {
+            if (!PermissionsManager.isLocationEnabled(requireActivity())) {
+                Log.d(TAG, "getLocation: location desactivated")
+                PermissionsManager.showGPSNotEnabledDialog(requireActivity())
+            } else {
+                Log.d(TAG, "getLocation: location activatad")
+                viewModel.getLocation()
+            }
+        } else {
+            PermissionsManager.requestLocationPermission(this)
+        }
     }
 
     override fun onDestroyView() {
@@ -202,8 +224,14 @@ class CreatePostFragment : Fragment() {
     ) {
         if (requestCode == PermissionsManager.LOCATION_PERMISSION_REQUEST_CODE && grantResults.isNotEmpty()) {
             when (grantResults.first()) {
-                PackageManager.PERMISSION_GRANTED -> viewModel.getLocation()
-                else -> Log.d(TAG, "onRequestPermissionsResult: permission denied")
+                PackageManager.PERMISSION_GRANTED -> getLocation()
+                else -> {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.create_post_dialog_permission_denied_title)
+                        .setMessage(R.string.create_post_dialog_permission_denied_message)
+                        .setPositiveButton(R.string.create_post_dialog_permission_denied_positive_button, null)
+                        .show()
+                }
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

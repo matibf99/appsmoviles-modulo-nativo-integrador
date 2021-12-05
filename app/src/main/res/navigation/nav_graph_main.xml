@@ -112,6 +112,13 @@
         <argument
             android:name="group"
             app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.Group" />
+        <action
+            android:id="@+id/action_createPostFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/postFragment"
@@ -174,5 +181,14 @@
             app:argType="com.appsmoviles.gruposcomunitarios.domain.entities.PostComment"
             app:nullable="true"
             android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.appsmoviles.gruposcomunitarios.presentation.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <argument
+            android:name="location"
+            app:argType="com.appsmoviles.gruposcomunitarios.utils.MapLocation" />
     </fragment>
 </navigation>

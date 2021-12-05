@@ -45,8 +45,8 @@ class CreatePostViewModel @Inject constructor(
     private val _imageUri: MutableLiveData<Uri?> = MutableLiveData()
     val imageUri: LiveData<Uri?> get() = _imageUri
 
-    private val _location: MutableLiveData<Location> = MutableLiveData()
-    val location: LiveData<Location> get() = _location
+    private val _location: MutableLiveData<Location?> = MutableLiveData()
+    val location: LiveData<Location?> get() = _location
 
     private val _fieldTitleStatus: MutableLiveData<FieldStatus> = MutableLiveData()
     val fieldTitleStatus: LiveData<FieldStatus> get() = _fieldTitleStatus
