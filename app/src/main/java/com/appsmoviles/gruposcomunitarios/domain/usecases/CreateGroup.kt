@@ -24,7 +24,6 @@ interface CreateGroupUseCase {
 
 class CreateGroupUseCaseImp(
     private val groupRepository: GroupRepository,
-    private val userRepository: UserRepository,
     private val storageRepository: StorageRepository
 ) : CreateGroupUseCase {
     override fun createGroup(

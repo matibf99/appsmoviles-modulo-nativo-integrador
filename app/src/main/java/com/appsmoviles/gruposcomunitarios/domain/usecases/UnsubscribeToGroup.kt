@@ -9,17 +9,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 interface UnsubscribeToGroupUseCase {
-    fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>>
+    fun unsubscribeToGroup(groupId: String, username: String): Flow<Res<Nothing>>
 }
 
 class UnsubscribeToGroupUseCaseImp(
-    private val userRepository: UserRepository,
     private val groupRepository: GroupRepository
 ) : UnsubscribeToGroupUseCase {
-    override fun unsubscribeToGroup(groupId: String): Flow<Res<Nothing>> = flow {
+    override fun unsubscribeToGroup(groupId: String, username: String): Flow<Res<Nothing>> = flow {
         emit(Res.Loading())
-        val userId = userRepository.getCurrentUserDocumentId().first()
-        val result = groupRepository.unsubscribeToGroup(groupId, userId.data!!).first()
+        val result = groupRepository.unsubscribeToGroup(groupId, username).first()
         emit(result)
     }
 }

@@ -17,36 +17,36 @@ class ViewModelModule {
         GetGroupsUseCaseImp(groupRepository)
 
     @Provides
-    fun provideSubscribeToGroupUseCase(userRepository: UserRepository, groupRepository: GroupRepository): SubscribeToGroupUseCase =
-        SubscribeToGroupUseCaseImp(userRepository, groupRepository)
+    fun provideSubscribeToGroupUseCase(groupRepository: GroupRepository): SubscribeToGroupUseCase =
+        SubscribeToGroupUseCaseImp(groupRepository)
 
     @Provides
-    fun provideUnsubscribeToGroupUseCase(userRepository: UserRepository, groupRepository: GroupRepository): UnsubscribeToGroupUseCase =
-        UnsubscribeToGroupUseCaseImp(userRepository, groupRepository)
+    fun provideUnsubscribeToGroupUseCase(groupRepository: GroupRepository): UnsubscribeToGroupUseCase =
+        UnsubscribeToGroupUseCaseImp(groupRepository)
 
     @Provides
     fun provideGetGroupsByTagUseCase(groupRepository: GroupRepository): GetGroupsByTagUseCase =
         GetGroupsByTagUseCaseImp(groupRepository)
 
     @Provides
-    fun provideGetSubscribedGroups(groupRepository: GroupRepository, userRepository: UserRepository): GetSubscribedGroupsUseCase =
-        GetSubscribedGroupsUseCaseImp(groupRepository, userRepository)
+    fun provideGetSubscribedGroups(groupRepository: GroupRepository): GetSubscribedGroupsUseCase =
+        GetSubscribedGroupsUseCaseImp(groupRepository)
 
     @Provides
     fun provideGetUserInfo(userRepository: UserRepository): GetUserInfoUseCase =
         GetUserInfoUseCaseImp(userRepository)
 
     @Provides
-    fun provideGetGroupsWithRole(groupRepository: GroupRepository, userRepository: UserRepository): GetGroupsWithRoleUseCase =
-        GetGroupsWithRoleUseCaseImp(groupRepository, userRepository)
+    fun provideGetGroupsWithRole(groupRepository: GroupRepository): GetGroupsWithRoleUseCase =
+        GetGroupsWithRoleUseCaseImp(groupRepository)
 
     @Provides
-    fun provideCreateGroupUseCase(groupRepository: GroupRepository, userRepository: UserRepository, storageRepository: StorageRepository): CreateGroupUseCase =
-        CreateGroupUseCaseImp(groupRepository, userRepository, storageRepository)
+    fun provideCreateGroupUseCase(groupRepository: GroupRepository, storageRepository: StorageRepository): CreateGroupUseCase =
+        CreateGroupUseCaseImp(groupRepository, storageRepository)
 
     @Provides
-    fun provideCreatePostUseCase(postRepository: PostRepository, userRepository: UserRepository, storageRepository: StorageRepository): CreatePostUseCase =
-        CreatePostUseCaseImp(postRepository, userRepository, storageRepository)
+    fun provideCreatePostUseCase(postRepository: PostRepository, storageRepository: StorageRepository): CreatePostUseCase =
+        CreatePostUseCaseImp(postRepository, storageRepository)
 
     @Provides
     fun provideGetPostsUseCase(postRepository: PostRepository): GetPostsFromGroupUseCase =

@@ -1,14 +1,9 @@
 package com.appsmoviles.gruposcomunitarios.presentation.adapters
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
+import com.appsmoviles.gruposcomunitarios.databinding.ItemPostBinding
 import com.appsmoviles.gruposcomunitarios.domain.entities.Post
 import com.appsmoviles.gruposcomunitarios.utils.calculateImageHeight
 import com.appsmoviles.gruposcomunitarios.utils.time.getTimeAgo
@@ -26,59 +21,95 @@ abstract class PostsAdapter(
     private var height: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
-        return PostViewHolder(view)
+        return PostViewHolder(
+            ItemPostBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = items[position]
+        val binding = holder.binding
+        val liked = item.likes?.contains(username) == true
 
-        holder.tvUsername.text = item.createdBy
-        holder.tvGroup.text = item.groupName
-        holder.tvTime.text = item.createdAt?.getTimeAgo()
-        holder.tvTitle.text = item.title
+        binding.textPostUsername.text = item.createdBy
+        binding.textPostGroup.text = item.groupName
+        binding.textPostTime.text = item.createdAt?.getTimeAgo()
+        binding.textPostTitle.text = item.title
 
         if (item.photo != null) {
-            holder.tvContent.visibility = View.GONE
-            holder.imageView.visibility = View.VISIBLE
-            holder.imageViewBackground.visibility = View.VISIBLE
+            binding.textPostContent.visibility = View.GONE
+            binding.postImage.visibility = View.VISIBLE
+            binding.postImageBackground.visibility = View.VISIBLE
 
             if (height == 0)
                 height = calculateImageHeight()
 
-            holder.layoutImage.layoutParams.height = height
+            binding.layoutPostImage.layoutParams.height = height
 
-            Glide.with(holder.itemView.context)
+            Glide.with(binding.root.context)
                 .load(item.photo)
                 .transform(MultiTransformation(CenterCrop(), BlurTransformation(25, 6)))
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.imageViewBackground)
+                .into(binding.postImageBackground)
 
-            Glide.with(holder.itemView.context)
+            Glide.with(binding.root.context)
                 .load(item.photo)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.imageView)
+                .into(binding.postImage)
         } else {
-            holder.imageView.visibility = View.GONE
-            holder.imageViewBackground.visibility = View.GONE
+            binding.postImage.visibility = View.GONE
+            binding.postImageBackground.visibility = View.GONE
 
-            holder.tvContent.visibility = View.VISIBLE
-            holder.tvContent.text = item.content
+            binding.textPostContent.visibility = View.VISIBLE
+            binding.textPostContent.text = item.content
         }
 
-        holder.tvLikesCount.text = item.likes?.count().toString()
-        holder.tvCommentsCount.text = item.commentsCount.toString()
+        binding.postLikesCount.text = item.likes?.count().toString()
+        binding.postTextCommentsCount.text = item.commentsCount.toString()
 
-        if (item.likes!!.contains(username))
-            holder.btnLike.setImageResource(R.drawable.ic_baseline_favorite_24)
+        if (liked)
+            binding.btnPostLike.setImageResource(R.drawable.ic_baseline_favorite_24)
         else
-            holder.btnLike.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            binding.btnPostLike.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-        holder.tvGroup.setOnClickListener { onOpenGroupListener(position) }
-        holder.btnLike.setOnClickListener { onLikeListener(position, username) }
-        holder.card.setOnClickListener { onPostClickListener(position) }
-        holder.imageViewBackground.setOnClickListener { onOpenImageListener(position) }
-        holder.imageView.setOnClickListener { onOpenImageListener(position) }
+        binding.textPostGroup.setOnClickListener { onOpenGroupListener(position) }
+        binding.btnPostLike.setOnClickListener { onLikeListener(position, username) }
+        binding.cardPost.setOnClickListener { onPostClickListener(position) }
+        binding.layoutPostImage.setOnClickListener { onOpenImageListener(position) }
+
+        binding.layoutPostImage.setOnLongClickListener { false }
+
+        binding.cardPost.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            createContextMenu(menu, position, liked)
+        }
+    }
+
+    private fun createContextMenu(menu: ContextMenu, position: Int, liked: Boolean) {
+        val openPost = menu.add(Menu.NONE, MENU_OPEN_POST, 1, R.string.menu_open_post)
+        val openImage = menu.add(Menu.NONE, MENU_OPEN_IMAGE, 2, R.string.menu_open_image)
+        val like = menu.add(
+            Menu.NONE, MENU_LIKE, 3,
+            if (liked) R.string.menu_unlike else R.string.menu_like
+        )
+
+        openPost.setOnMenuItemClickListener {
+            onPostClickListener(position)
+            true
+        }
+
+        openImage.setOnMenuItemClickListener {
+            onOpenImageListener(position)
+            true
+        }
+
+        like.setOnMenuItemClickListener {
+            onLikeListener(position, username)
+            true
+        }
     }
 
     override fun getItemCount(): Int = items.count()
@@ -91,18 +122,14 @@ abstract class PostsAdapter(
 
     abstract fun onOpenImageListener(position: Int)
 
-    inner class PostViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val card: CardView = view.findViewById(R.id.card_post)
-        val tvUsername: TextView = view.findViewById(R.id.text_post_username)
-        val tvGroup: TextView = view.findViewById(R.id.text_post_group)
-        val tvTime: TextView = view.findViewById(R.id.text_post_time)
-        val tvTitle: TextView = view.findViewById(R.id.text_post_title)
-        val tvContent: TextView = view.findViewById(R.id.text_post_content)
-        val layoutImage: ConstraintLayout = view.findViewById(R.id.layout_post_image)
-        val imageView: ImageView = view.findViewById(R.id.post_image)
-        val imageViewBackground: ImageView = view.findViewById(R.id.post_image_background)
-        val btnLike: ImageView = view.findViewById(R.id.btn_post_like)
-        val tvLikesCount: TextView = view.findViewById(R.id.post_likes_count)
-        val tvCommentsCount: TextView = view.findViewById(R.id.post_text_comments_count)
+    inner class PostViewHolder(val binding: ItemPostBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+    }
+
+    companion object {
+        const val MENU_OPEN_POST = 1
+        const val MENU_OPEN_IMAGE = 2
+        const val MENU_LIKE = 3
     }
 }

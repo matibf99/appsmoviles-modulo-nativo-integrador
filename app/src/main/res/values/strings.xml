@@ -109,4 +109,13 @@
     <string name="btn_location">Location</string>
     <string name="btn_like_comment">Like comment</string>
     <string name="comments_count">Comments count</string>
+
+    <!-- Menus -->
+    <string name="menu_open_post">Open post</string>
+    <string name="menu_open_image">Open image</string>
+    <string name="menu_open_group">Open group</string>
+    <string name="menu_subscribe">Subscribe</string>
+    <string name="menu_unsubscribe">Unsubscribe</string>
+    <string name="menu_like">Like</string>
+    <string name="menu_unlike">Unlike</string>
 </resources>

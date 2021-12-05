@@ -28,7 +28,6 @@ interface CreatePostUseCase {
 
 class CreatePostUseCaseImp(
     private val postRepository: PostRepository,
-    private val userRepository: UserRepository,
     private val storageRepository: StorageRepository
 ) : CreatePostUseCase {
     override fun createPost(

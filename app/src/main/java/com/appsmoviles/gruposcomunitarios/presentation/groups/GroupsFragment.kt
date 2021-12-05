@@ -50,7 +50,9 @@ class GroupsFragment : Fragment() {
 
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
             when (it) {
-                UserStatus.SUCCESS -> viewModel.loadGroups(mainViewModel.user.value!!.username ?: "")
+                UserStatus.SUCCESS -> viewModel.loadGroups(
+                    mainViewModel.user.value!!.username ?: ""
+                )
                 UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
                 UserStatus.ERROR -> Log.d(TAG, "onCreateView: error loading user")
             }
@@ -102,7 +104,7 @@ class GroupsFragment : Fragment() {
             true
         ) {
             override fun onUnsubscribeListener(position: Int) {
-                viewModel.unsubscribeTo(position)
+                viewModel.unsubscribeTo(position, mainViewModel.user.value?.username ?: "")
             }
 
             override fun onOpenGroupListener(position: Int) {

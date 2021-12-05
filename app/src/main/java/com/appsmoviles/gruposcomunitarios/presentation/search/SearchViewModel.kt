@@ -94,7 +94,7 @@ class SearchViewModel @Inject constructor(
         _groups.value!![position].subscribed = subscribed
 
         viewModelScope.launch(Dispatchers.IO) {
-            val res = if (isSubscribed) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!)
+            val res = if (isSubscribed) unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!, username)
                 else subscribeToGroupUseCase.subscribeToGroup(group.documentId!!, username)
 
             res.collect {

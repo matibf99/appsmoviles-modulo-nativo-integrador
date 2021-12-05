@@ -1,14 +1,13 @@
 package com.appsmoviles.gruposcomunitarios.presentation.adapters
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.appsmoviles.gruposcomunitarios.R
+import com.appsmoviles.gruposcomunitarios.databinding.ItemSearchBinding
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -19,16 +18,21 @@ abstract class SearchAdapter(
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_search, parent, false)
-
-        return SearchViewHolder(view)
+        return SearchViewHolder(
+            ItemSearchBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val item = items[position]
+        val binding = holder.binding
+        val isSubscribed = item.subscribed?.contains(username) == true
 
-        holder.tvTitle.text = item.name
+        binding.itemSearchTitle.text = item.name
 
         var tags = ""
 
@@ -38,22 +42,56 @@ abstract class SearchAdapter(
             if (i != item.tags.size - 1)
                 tags += ", "
         }
-        holder.tvSubtitle.text = tags
+        binding.itemSearchSubtitle.text = tags
 
-        Glide.with(holder.itemView.context)
+        Glide.with(binding.root.context)
             .load(item.photo)
             .circleCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
-            .into(holder.imageView)
+            .into(binding.itemSearchImageView)
 
-        if (item.subscribed?.contains(username) == true)
-            holder.btnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
+        if (isSubscribed)
+            binding.itemSearchBtnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
         else
-            holder.btnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            binding.itemSearchBtnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-        holder.btnSubscribe.setOnClickListener { onSubscribeListener(position, username) }
-        holder.layout.setOnClickListener { onOpenGroupListener(position) }
-        holder.imageView.setOnClickListener { onOpenImageListener(position) }
+        binding.itemSearchBtnSubscribe.setOnClickListener {
+            onSubscribeListener(
+                position,
+                username
+            )
+        }
+        binding.itemSearchLayout.setOnClickListener { onOpenGroupListener(position) }
+        binding.itemSearchImageView.setOnClickListener { onOpenImageListener(position) }
+
+        binding.itemSearchLayout.setOnCreateContextMenuListener { menu, v, menuInfo ->
+            createContextMenu(menu, position, isSubscribed)
+        }
+    }
+
+    private fun createContextMenu(menu: ContextMenu, position: Int, isSubscribed: Boolean) {
+        val openGroup = menu.add(Menu.NONE, MENU_OPEN_GROUP, 1, R.string.menu_open_group)
+        val openImage = menu.add(Menu.NONE, MENU_OPEN_IMAGE, 2, R.string.menu_open_image)
+        val subscribe = menu.add(
+            Menu.NONE, MENU_SUBSCRIBE, 3,
+            if (!isSubscribed) R.string.menu_subscribe else R.string.menu_unsubscribe
+        )
+
+        openGroup.setOnMenuItemClickListener {
+            onOpenGroupListener(position)
+            true
+        }
+
+
+        openImage.setOnMenuItemClickListener {
+            onOpenImageListener(position)
+            true
+        }
+
+        subscribe.setOnMenuItemClickListener {
+            onSubscribeListener(position, username)
+            true
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -64,11 +102,14 @@ abstract class SearchAdapter(
 
     abstract fun onOpenImageListener(position: Int)
 
-    inner class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val layout: ConstraintLayout = view.findViewById(R.id.item_search_layout)
-        val tvTitle: TextView = view.findViewById(R.id.item_search_title)
-        val tvSubtitle: TextView = view.findViewById(R.id.item_search_subtitle)
-        val imageView: ImageView = view.findViewById(R.id.item_search_image_view)
-        val btnSubscribe: ImageButton = view.findViewById(R.id.item_search_btn_subscribe)
+    inner class SearchViewHolder(val binding: ItemSearchBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+    }
+
+    companion object {
+        const val MENU_OPEN_GROUP = 1
+        const val MENU_SUBSCRIBE = 2
+        const val MENU_OPEN_IMAGE = 3
     }
 }

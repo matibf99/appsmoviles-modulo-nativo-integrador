@@ -13,8 +13,7 @@ interface  GetSubscribedGroupsUseCase {
 }
 
 class GetSubscribedGroupsUseCaseImp(
-    private val groupRepository: GroupRepository,
-    private val userRepository: UserRepository
+    private val groupRepository: GroupRepository
 ) : GetSubscribedGroupsUseCase {
     override fun getSubscribedGroups(username: String): Flow<Res<List<Group>>> = flow {
         emit(Res.Loading())

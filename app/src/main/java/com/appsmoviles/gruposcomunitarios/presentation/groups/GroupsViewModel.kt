@@ -75,7 +75,7 @@ class GroupsViewModel @Inject constructor(
         }
     }
 
-    fun unsubscribeTo(position: Int) {
+    fun unsubscribeTo(position: Int, username: String) {
         viewModelScope.launch {
             val group = subscribedGroups.value?.get(position) ?: return@launch
 
@@ -83,7 +83,7 @@ class GroupsViewModel @Inject constructor(
             groups.removeAt(position)
             _subscribedGroups.postValue(groups)
 
-            unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!).collect {
+            unsubscribeToGroupUseCase.unsubscribeToGroup(group.documentId!!, username).collect {
                 when (it) {
                     is Res.Success -> Log.d(TAG, "unsubscribeTo: unsubscribed successfully")
                     is Res.Loading -> Log.d(TAG, "unsubscribeTo: unsubscribing...")

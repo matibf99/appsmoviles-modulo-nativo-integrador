@@ -14,7 +14,6 @@ interface GetGroupsWithRoleUseCase {
 
 class GetGroupsWithRoleUseCaseImp(
     private val groupRepository: GroupRepository,
-    private val userRepository: UserRepository
 ) : GetGroupsWithRoleUseCase {
     override fun getGroups(username: String): Flow<Res<List<Group>>> = flow {
         emit(Res.Loading())

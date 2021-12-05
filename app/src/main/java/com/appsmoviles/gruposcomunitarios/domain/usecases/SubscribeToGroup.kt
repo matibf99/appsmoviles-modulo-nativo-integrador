@@ -12,7 +12,6 @@ interface SubscribeToGroupUseCase {
 }
 
 class SubscribeToGroupUseCaseImp(
-    private val userRepository: UserRepository,
     private val groupRepository: GroupRepository
 ) : SubscribeToGroupUseCase {
     override fun subscribeToGroup(groupId: String, username: String): Flow<Res<Nothing>> = flow {
