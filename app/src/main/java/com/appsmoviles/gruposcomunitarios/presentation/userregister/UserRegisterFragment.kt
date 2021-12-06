@@ -86,6 +86,12 @@ class UserRegisterFragment : Fragment() {
                 .into(binding.userRegisterPhoto)
         })
 
+        binding.userRegisterPhoto.setOnClickListener {
+            val imageUrl = viewModel.imageUri.value?.toString() ?: ""
+            val action = UserRegisterFragmentDirections.actionUserRegisterFragmentToPhotoFragment(imageUrl)
+            findNavController().navigate(action)
+        }
+
         binding.btnRegisterCamera.setOnClickListener {
             startActivityForResult(
                 pickImageFromCameraIntent(requireActivity().applicationContext),

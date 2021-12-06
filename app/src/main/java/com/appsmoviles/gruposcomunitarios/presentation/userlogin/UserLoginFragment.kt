@@ -51,7 +51,8 @@ class UserLoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
-            viewModel.logInUser()
+            if (viewModel.isFormValid())
+                viewModel.logInUser()
         }
 
         viewModel.logInStatus.observe(viewLifecycleOwner, {
@@ -73,6 +74,10 @@ class UserLoginFragment : Fragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
+        })
+
+        viewModel.formEmailStatus.observe(viewLifecycleOwner, {
+
         })
 
         return binding.root

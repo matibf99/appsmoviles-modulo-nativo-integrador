@@ -85,6 +85,12 @@ class UserFragment : Fragment() {
             }
         })
 
+        binding.userPhoto.setOnClickListener {
+            val imageUri = mainViewModel.user.value?.photo ?: ""
+            val action = UserFragmentDirections.actionUserFragmentToPhotoFragment(imageUri)
+            findNavController().navigate(action)
+        }
+
         binding.btnUserRegister.setOnClickListener {
             val action = UserFragmentDirections.actionUserFragmentToUserRegisterFragment()
             findNavController().navigate(action)

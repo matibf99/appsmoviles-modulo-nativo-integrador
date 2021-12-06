@@ -104,6 +104,13 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_userFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createGroupFragment"
@@ -276,7 +283,15 @@
     <fragment
         android:id="@+id/userRegisterFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.userregister.UserRegisterFragment"
-        android:label="UserRegisterFragment" />
+        android:label="UserRegisterFragment" >
+        <action
+            android:id="@+id/action_userRegisterFragment_to_photoFragment"
+            app:destination="@id/photoFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/userLoginFragment"
         android:name="com.appsmoviles.gruposcomunitarios.presentation.userlogin.UserLoginFragment"
