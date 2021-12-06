@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
-            android:text="Insert your account information"
+            android:text="@string/fragment_user_login_account_information"
             android:textAppearance="?attr/textAppearanceOverline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -88,8 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="LOG IN"
-            app:layout_constraintTop_toBottomOf="@id/edit_login_password" />
+            android:text="@string/fragment_user_login"
+            app:layout_constraintTop_toBottomOf="@id/edit_login_password"
+            android:textAllCaps="true"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

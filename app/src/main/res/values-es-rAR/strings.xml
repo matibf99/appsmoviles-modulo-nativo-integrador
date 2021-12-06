@@ -71,4 +71,26 @@
     <string name="fragment_photo_title">Imagen</string>
     <string name="btn_location">Localización</string>
     <string name="fragment_user_title">Usuario</string>
+    <string name="post_in">En</string>
+    <string name="menu_open_post">Abrir post</string>
+    <string name="menu_open_image">Abrir imagen</string>
+    <string name="menu_open_group">Abrir grupo</string>
+    <string name="menu_subscribe">Suscribirse</string>
+    <string name="menu_unsubscribe">Desuscribirse</string>
+    <string name="menu_like">Me gusta</string>
+    <string name="menu_unlike">Ya no me gusta</string>
+    <string name="notification_new_comments_in_post">Este post tiene nuevos comentarios</string>
+    <string name="fragment_user_register">Registrarse</string>
+    <string name="fragment_user_login">Ingresar</string>
+    <string name="fragment_user_registe_register">Registrarse</string>
+    <string name="fragment_user_login_login">Ingresar</string>
+    <string name="fragment_user_register_register">Registrarse</string>
+    <string name="fragment_user_login_account_information">Ingrese la informacion de su cuenta</string>
+    <string name="fragment_user_register_user_information">Informacion del usuario</string>
+    <string name="fragment_post_datial">Comentarios</string>
+    <string name="fragment_post_detail">Comentarios</string>
+    <string name="fragment_post_group">grupo</string>
+    <string name="fragment_post_text">Texto</string>
+    <string name="fragment_post_username">Nombre de usuario</string>
+    <string name="fragment_post_example">Ejemplo</string>
 </resources>
