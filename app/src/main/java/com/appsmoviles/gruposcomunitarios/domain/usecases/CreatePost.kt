@@ -54,9 +54,6 @@ class CreatePostUseCaseImp(
             imageUrl = imageUrlRes.data!!
         }
 
-        Log.d("CreatePost", "createPost: latitude: $latitude")
-        Log.d("CreatePost", "createPost: longitude: $longitude")
-
         val post = Post(
             title = title,
             content = content,

@@ -1,5 +1,7 @@
 package com.appsmoviles.gruposcomunitarios.presentation.userregister
 
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,6 +49,9 @@ class UserRegisterViewModel @Inject constructor(
     private val _username: MutableLiveData<String> = MutableLiveData()
     val username: LiveData<String> get() = _username
 
+    private val _imageUri: MutableLiveData<Uri> = MutableLiveData()
+    val imageUri: LiveData<Uri> get() = _imageUri
+
     fun setName(name: String) {
         _name.value = name
     }
@@ -67,14 +72,19 @@ class UserRegisterViewModel @Inject constructor(
         _password.value = password
     }
 
-    fun registerUser() {
+    fun setImageUri(uri: Uri) {
+        _imageUri.value = uri
+    }
+
+    fun registerUser(bitmap: Bitmap? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             registerUserUseCase.registerUser(
                 username = username.value!!,
                 name = name.value!!,
                 surname = surname.value!!,
                 email = email.value!!,
-                password = password.value!!
+                password = password.value!!,
+                bitmap = bitmap
             ).collect {
                 when (it) {
                     is Res.Success -> _statusRegistered.postValue(UserRegisterStatus.Success)

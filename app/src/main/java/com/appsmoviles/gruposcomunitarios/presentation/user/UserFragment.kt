@@ -16,6 +16,10 @@ import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
 import com.appsmoviles.gruposcomunitarios.utils.locale.LocaleManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.TransitionOptions
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
@@ -66,6 +70,12 @@ class UserFragment : Fragment() {
                 binding.userName.text = name
                 binding.userEmail.text = it.email
                 binding.userUsername.text = it.username
+
+                Glide.with(requireContext())
+                    .load(it.photo)
+                    .circleCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(binding.userPhoto)
 
                 binding.userLayoutRegistered.visibility = View.VISIBLE
                 binding.userLayoutNoRegistered.visibility = View.GONE

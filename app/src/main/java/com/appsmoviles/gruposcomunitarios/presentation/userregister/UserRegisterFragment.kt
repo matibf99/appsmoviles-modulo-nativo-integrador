@@ -1,8 +1,10 @@
 package com.appsmoviles.gruposcomunitarios.presentation.userregister
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,12 +12,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserRegisterBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.presentation.creategroup.CreateGroupFragment
+import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
+import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraIntent
+import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,7 +70,31 @@ class UserRegisterFragment : Fragment() {
         }
 
         binding.btnRegister.setOnClickListener {
-            viewModel.registerUser()
+            val bitmap = MediaStore.Images.Media.getBitmap(
+                requireActivity().contentResolver,
+                viewModel.imageUri.value
+            )
+            viewModel.registerUser(bitmap)
+        }
+
+        viewModel.imageUri.observe(viewLifecycleOwner, {
+            Glide.with(requireContext())
+                .load(it)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .circleCrop()
+                .into(binding.userRegisterPhoto)
+        })
+
+        binding.btnRegisterCamera.setOnClickListener {
+            startActivityForResult(
+                pickImageFromCameraIntent(requireActivity().applicationContext),
+                REQUEST_CAPTURE_IMAGE
+            )
+        }
+
+        binding.btnRegisterStorage.setOnClickListener {
+            startActivityForResult(pickImageFromGalleryIntent(), REQUEST_CAPTURE_IMAGE)
         }
 
         viewModel.statusRegistered.observe(viewLifecycleOwner, {
@@ -94,7 +127,7 @@ class UserRegisterFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> findNavController().popBackStack()
         }
 
@@ -106,8 +139,23 @@ class UserRegisterFragment : Fragment() {
         super.onDestroyView()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode) {
+            REQUEST_CAPTURE_IMAGE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data?.data != null) // Gallery or storage
+                        viewModel.setImageUri(data.data!!)
+                    else // Camera
+                        viewModel.setImageUri(getImageUriTakenWithCamera(requireActivity().applicationContext))
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     companion object {
         private const val TAG = "UserRegisterFragment"
+        private const val REQUEST_CAPTURE_IMAGE = 1
 
         fun newInstance() = UserRegisterFragment()
     }

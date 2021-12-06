@@ -12,7 +12,7 @@
     <string name="adapter_groups_rol_user">Usuario</string>
     <string name="fragment_search_title">Buscar</string>
     <string name="fragment_search_dialog_order_by">Ordenar por</string>
-    <string name="fragment_search_sorting_by">Ordenando por</string>
+    <string name="fragment_search_sorting_by">Ordenando por: </string>
     <string name="fragment_group_fab">Crear post</string>
     <string name="fragment_post_fab">Nuevo comentario</string>
     <string name="fragment_posts_fab">Nuevo comentario</string>
