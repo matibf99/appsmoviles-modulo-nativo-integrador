@@ -45,8 +45,8 @@
     <string name="order_by_name_descending">nombre, descendiente</string>
     <string name="order_by_created_at_ascending">creación, ascendiente</string>
     <string name="order_by_created_at_descending">creación, descendiente</string>
-    <string name="dialog_positive_button_select">Seleccionar</string>
-    <string name="dialog_negative_button_cancel">Cancelar</string>
+    <string name="dialog_positive_button_select">SELECCIONAR</string>
+    <string name="dialog_negative_button_cancel">CANCELAR</string>
     <string name="btn_image_subscribe">Suscribirse</string>
     <string name="group_photo">Foto del grupo</string>
     <string name="btn_like_post">Dar like a post</string>
@@ -82,15 +82,69 @@
     <string name="notification_new_comments_in_post">Este post tiene nuevos comentarios</string>
     <string name="fragment_user_register">Registrarse</string>
     <string name="fragment_user_login">Ingresar</string>
-    <string name="fragment_user_registe_register">Registrarse</string>
-    <string name="fragment_user_login_login">Ingresar</string>
     <string name="fragment_user_register_register">Registrarse</string>
+    <string name="fragment_user_login_login">Ingresar</string>
     <string name="fragment_user_login_account_information">Ingrese la informacion de su cuenta</string>
     <string name="fragment_user_register_user_information">Informacion del usuario</string>
-    <string name="fragment_post_datial">Comentarios</string>
-    <string name="fragment_post_detail">Comentarios</string>
+    <string name="fragment_post_detail">comentarios</string>
     <string name="fragment_post_group">grupo</string>
     <string name="fragment_post_text">Texto</string>
     <string name="fragment_post_username">Nombre de usuario</string>
     <string name="fragment_post_example">Ejemplo</string>
+    <string name="fragment_user_register_validation_email_invalid">Email inválido</string>
+    <string name="fragment_user_register_validation_email_empty">El email está vacío</string>
+    <string name="fragment_user_register_validation_password_invalid">Contraseña inválida</string>
+    <string name="fragment_user_register_validation_password_empty">La contraseña está vacía</string>
+    <string name="fragment_user_register_validation_name_empty">El nombre está vacío</string>
+    <string name="fragment_user_register_validation_surname_empty">El apellido está vacío</string>
+    <string name="fragment_user_register_validation_username_empty">El nombre de usuario está vacío</string>
+    <string name="fragment_user_validation_email_invalid">Email inválido</string>
+    <string name="fragment_user_validation_email_empty">El email está vacío</string>
+    <string name="fragment_user_validation_password_invalid">Contraseña inválida</string>
+    <string name="fragment_user_validation_password_empty">La contraseña está vacía</string>
+    <string name="menu_language">Seleccionar idioma</string>
+    <string name="menu_filter">Ordenar por</string>
+    <string name="select_language_title">Seleccione un lenguaje</string>
+    <string name="select_language_changed_title">Se ha seleccionado un lenguaje</string>
+    <string name="select_language_changed_content">Se requiere de un reinicio para efectuar los cambios</string>
+    <string name="select_language_changed_positive_action">OK</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_groups">Grupos</string>
+    <string name="menu_search">Buscar</string>
+    <string name="menu_user">Usuario</string>
+    <string name="user_header_username">Nombre de usuario</string>
+    <string name="user_header_email">Email</string>
+    <string name="user_image_description">Imagen del usuario</string>
+    <string name="user_register_header_user_info">Información del usuario</string>
+    <string name="user_register_username">Nombre de usuario</string>
+    <string name="user_register_name">Nombre</string>
+    <string name="user_register_surname">Apellido</string>
+    <string name="user_register_email">Email</string>
+    <string name="user_register_password">Contraseña</string>
+    <string name="user_register_description_image">Imagen</string>
+    <string name="user_login_password">Contraseña</string>
+    <string name="user_login_email">Email</string>
+    <string name="user_login_app_logo">Logo</string>
+    <string-array name="language_options">
+        <item>Español</item>
+        <item>Inglés</item>
+        <item>Chino</item>
+    </string-array>
+    <string-array name="fragment_search_dialog_sort_by">
+        <item>Nombre - Ascendiente</item>
+        <item>Nombre - Descendiente</item>
+        <item>Creación - Ascendiente</item>
+        <item>Creación - Descendiente</item>
+    </string-array>
+    <string name="time_ago_moment">unos instantes atrás</string>
+    <string name="time_ago_minute">minuto</string>
+    <string name="time_ago_minutes">minutos</string>
+    <string name="time_ago_hour">hora</string>
+    <string name="time_ago_hours">horas</string>
+    <string name="time_ago_day">día</string>
+    <string name="time_ago_days">días</string>
+    <string name="time_ago_month">mes</string>
+    <string name="time_ago_months">meses</string>
+    <string name="time_ago_year">año</string>
+    <string name="time_ago_years">años</string>
 </resources>

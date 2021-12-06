@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
 import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserBinding
@@ -17,11 +15,8 @@ import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
 import com.appsmoviles.gruposcomunitarios.utils.locale.LocaleManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.util.*
 
 class UserFragment : Fragment() {
 
@@ -43,7 +38,7 @@ class UserFragment : Fragment() {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        (activity as AppCompatActivity).supportActionBar!!.title = "User"
+        (activity as AppCompatActivity).supportActionBar!!.setTitle(R.string.fragment_user_title)
 
         mainViewModel.loadUser()
 
@@ -146,7 +141,7 @@ class UserFragment : Fragment() {
                 when(position) {
                     0 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_ES)
                     1 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_EN)
-                    2 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_PT)
+                    2 -> LocaleManager.setLocale(requireContext(), LocaleManager.LOCALE_ZH)
                 }
 
                 showDialogRestartApp()

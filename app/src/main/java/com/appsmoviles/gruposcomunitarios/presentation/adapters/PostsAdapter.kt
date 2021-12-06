@@ -38,7 +38,7 @@ abstract class PostsAdapter(
 
         binding.textPostUsername.text = item.createdBy
         binding.textPostGroup.text = item.groupName
-        binding.textPostTime.text = item.createdAt?.getTimeAgo()
+        binding.textPostTime.text = item.createdAt?.getTimeAgo(binding.root.context)
         binding.textPostTitle.text = item.title
 
         if (hasImage) {

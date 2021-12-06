@@ -49,7 +49,7 @@ class UserRegisterFragment : Fragment() {
     ): View {
         _binding = FragmentUserRegisterBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Register"
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.fragment_user_register)
 
         binding.editRegisterUsername.editText?.doAfterTextChanged {
             viewModel.setUsername(it.toString())

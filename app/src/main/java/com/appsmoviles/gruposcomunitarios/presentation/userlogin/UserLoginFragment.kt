@@ -41,7 +41,7 @@ class UserLoginFragment : Fragment() {
     ): View {
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Log in"
+        (activity as AppCompatActivity).supportActionBar?.setTitle(R.string.fragment_user_login)
 
         binding.editLoginEmail.editText?.doAfterTextChanged {
             viewModel.setEmail(it.toString())

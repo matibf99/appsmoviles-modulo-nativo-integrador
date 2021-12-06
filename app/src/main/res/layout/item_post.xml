@@ -161,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:textAppearance="?attr/textAppearanceSubtitle2"
-            android:text="comments"
+            android:text="@string/fragment_post_detail"
             app:layout_constraintTop_toTopOf="@+id/post_likes_count"
             app:layout_constraintBottom_toBottomOf="@id/post_likes_count"
             app:layout_constraintRight_toRightOf="parent" />

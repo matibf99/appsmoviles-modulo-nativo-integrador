@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">社区团体</string>
+
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="select_capture_image">请选择或捕获图像</string>
+
+    <string name="menu_home">家</string>
+    <string name="menu_groups">团体</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_user">用户</string>
+
+    <string name="fragment_home_title">家</string>
+
+    <string name="fragment_groups_title">团体</string>
+    <string name="fragment_groups_category_my_groups">我的群组</string>
+    <string name="fragment_groups_category_subscribed_groups">订阅的群组</string>
+    <string name="fragment_groups_fab">创建组</string>
+
+    <string name="adapter_groups_rol_owner">所有者</string>
+    <string name="adapter_groups_rol_moderator">版主</string>
+    <string name="adapter_groups_rol_user">用户</string>
+
+    <string name="fragment_search_title">搜索</string>
+    <string name="fragment_search_dialog_order_by">订购方式</string>
+    <string-array name="fragment_search_dialog_sort_by">
+        <item>名称 - 升序</item>
+        <item>名称 - 降序</item>
+        <item>创建于 - 升序</item>
+        <item>创建于 - 降序</item>
+    </string-array>
+    <string name="fragment_search_sorting_by">排序依据</string>
+
+    <string name="fragment_group_fab">创建帖子</string>
+
+    <string name="fragment_post_fab">新评论</string>
+    <string name="fragment_post_detail">注释</string>
+    <string name="fragment_post_group">团体</string>
+    <string name="fragment_post_text">文本</string>
+    <string name="fragment_post_username">用户名</string>
+    <string name="fragment_post_example">例子</string>
+
+    <string name="fragment_posts_fab">新评论</string>
+
+    <string name="fragment_create_group_title">创建新组</string>
+    <string name="create_group_header_group_info">团体信息</string>
+    <string name="create_group_label_group_name">姓名</string>
+    <string name="create_group_hint_group_name">团队名字</string>
+    <string name="create_group_label_group_description">描述</string>
+    <string name="create_group_hint_group_description">团体简介</string>
+    <string name="create_group_label_tags_description">标签</string>
+    <string name="create_group_hint_tags_description">引入逗号分隔的标签</string>
+    <string name="create_group_header_photo">照片</string>
+    <string name="create_group_btn_camera">从相机中选择照片</string>
+    <string name="create_group_btn_storage">从图库中选择照片</string>
+    <string name="create_group_btn_create_group">创建组</string>
+    <string name="create_group_image_description">合影</string>
+    <string name="create_group_validation_name_invalid">名称不能为空</string>
+    <string name="create_group_validation_description_invalid">说明不能为空</string>
+    <string name="create_group_validation_tags_invalid">您需要添加至少一个标签</string>
+    <string name="create_group_validation_image_invalid">您需要选择一张图片</string>
+
+    <string name="fragment_create_post_title">创建新帖子</string>
+    <string name="create_post_header_post_info">发布详情</string>
+    <string name="create_post_label_title">标题</string>
+    <string name="create_post_header_content">内容</string>
+    <string name="create_post_label_content">内容</string>
+    <string name="create_post_btn_create">创建帖子</string>
+    <string name="create_post_image_description_pick_camera">从相机中选择一张照片</string>
+    <string name="create_post_image_description_pick_storage">从图库中选择一张照片</string>
+    <string name="create_post_add_location">添加位置</string>
+    <string name="create_post_validation_title_invalid">标题不能为空</string>
+    <string name="create_post_error">无法创建帖子</string>
+    <string name="create_post_dialog_location_title">地点</string>
+    <string name="create_post_dialog_location_message">要使用此功能，您需要激活位置访问权限</string>
+    <string name="create_post_dialog_location_positive_action">立即激活</string>
+    <string name="create_post_dialog_location_negative_action">取消</string>
+    <string name="create_post_dialog_permission_denied_title">没有权限</string>
+    <string name="create_post_dialog_permission_denied_message">无法访问您的位置</string>
+    <string name="create_post_dialog_permission_denied_positive_button">好的</string>
+
+    <string name="fragment_create_comment_title">创建新评论</string>
+    <string name="create_comment_hint">评论</string>
+    <string name="button_create_comment">创建评论</string>
+    <string name="create_comment_validation_content_invalid">评论不能为空</string>
+
+    <string name="fragment_map_title">地图</string>
+
+    <string name="fragment_photo_title">图片</string>
+
+    <string name="fragment_user_title">用户</string>
+    <string name="fragment_user_register_register">登记</string>
+    <string name="fragment_user_login_login">登录</string>
+    <string name="user_header_username">用户名</string>
+    <string name="user_header_email">电子邮件</string>
+    <string name="user_image_description">用户照片</string>
+
+    <string name="fragment_user_register">登记</string>
+    <string name="fragment_user_register_user_information">用户信息</string>
+    <string name="fragment_user_register_validation_email_invalid">不合规电邮</string>
+    <string name="fragment_user_register_validation_email_empty">电子邮件为空</string>
+    <string name="fragment_user_register_validation_password_invalid">无效的密码</string>
+    <string name="fragment_user_register_validation_password_empty">密码为空</string>
+    <string name="fragment_user_register_validation_name_empty">名称为空</string>
+    <string name="fragment_user_register_validation_surname_empty">姓氏为空</string>
+    <string name="fragment_user_register_validation_username_empty">用户名为空</string>
+    <string name="user_register_header_user_info">用户信息</string>
+    <string name="user_register_username">用户名</string>
+    <string name="user_register_name">姓名</string>
+    <string name="user_register_surname">姓</string>
+    <string name="user_register_email">电子邮件</string>
+    <string name="user_register_password">密码</string>
+    <string name="user_register_description_image">图片</string>
+
+    <string name="fragment_user_login">登录</string>
+    <string name="fragment_user_login_account_information">插入您的帐户信息</string>
+    <string name="fragment_user_validation_email_invalid">不合规电邮</string>
+    <string name="fragment_user_validation_email_empty">电子邮件为空</string>
+    <string name="fragment_user_validation_password_invalid">无效的密码</string>
+    <string name="fragment_user_validation_password_empty">密码为空</string>
+    <string name="user_login_password">密码</string>
+    <string name="user_login_email">电子邮件</string>
+    <string name="user_login_app_logo">标识</string>
+
+    <string name="order_by_nothing">没有订单</string>
+    <string name="order_by_name_ascending">名称，升序</string>
+    <string name="order_by_name_descending">名称，降序</string>
+    <string name="order_by_created_at_ascending">创建于，上升</string>
+    <string name="order_by_created_at_descending">创建于，降序</string>
+
+    <string name="dialog_positive_button_select">选择</string>
+    <string name="dialog_negative_button_cancel">取消</string>
+
+    <string name="btn_image_subscribe">订阅</string>
+    <string name="group_photo">合影</string>
+    <string name="btn_like_post">喜欢帖子</string>
+    <string name="btn_location">地点</string>
+    <string name="btn_like_comment">喜欢评论</string>
+    <string name="comments_count">评论数</string>
+    <string name="post_in">在</string>
+
+    <string name="menu_open_post">打开帖子</string>
+    <string name="menu_open_image">打开图片</string>
+    <string name="menu_open_group">公开组</string>
+    <string name="menu_subscribe">订阅</string>
+    <string name="menu_unsubscribe">退订</string>
+    <string name="menu_like">喜欢</string>
+    <string name="menu_unlike">不像</string>
+    <string name="menu_language">选择语言</string>
+    <string name="menu_filter">订购方式</string>
+
+    <string name="select_language_title">选择语言</string>
+    <string-array name="language_options">
+        <item>西班牙语</item>
+        <item>英语</item>
+        <item>汉语</item>
+    </string-array>
+    <string name="select_language_changed_title">选择的语言</string>
+    <string name="select_language_changed_content">需要重新启动才能显示更改</string>
+    <string name="select_language_changed_positive_action">好的</string>
+
+    <string name="notification_new_comments_in_post">这个帖子有新评论</string>
+</resources>

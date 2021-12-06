@@ -52,11 +52,20 @@ class GroupsFragment : Fragment() {
 
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
             when (it) {
-                UserStatus.SUCCESS -> viewModel.loadGroups(
-                    mainViewModel.user.value!!.username ?: ""
-                )
-                UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
-                UserStatus.ERROR -> Log.d(TAG, "onCreateView: error loading user")
+                UserStatus.SUCCESS -> {
+                    viewModel.loadGroups(
+                        mainViewModel.user.value?.username ?: ""
+                    )
+                    binding.groupsFab.visibility = View.VISIBLE
+                }
+                UserStatus.LOADING -> {
+                    binding.groupsFab.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: loading user")
+                }
+                UserStatus.ERROR -> {
+                    binding.groupsFab.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: error loading user")
+                }
                 else -> Log.d(TAG, "onCreateView: unknown status")
             }
         })

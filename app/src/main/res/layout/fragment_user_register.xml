@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
-            android:text="User information"
+            android:text="@string/user_register_header_user_info"
             android:textAppearance="?attr/textAppearanceOverline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -37,11 +37,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="6dp"
-            android:hint="Username"
+            android:hint="@string/user_register_surname"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_register_header_info"
-            app:startIconContentDescription="@string/create_post_label_title"
+            app:startIconContentDescription="@string/user_register_surname"
             app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -57,11 +57,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="6dp"
-            android:hint="Name"
+            android:hint="@string/user_register_name"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_register_username"
-            app:startIconContentDescription="@string/create_post_label_title"
+            app:startIconContentDescription="@string/user_register_name"
             app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -77,11 +77,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="6dp"
-            android:hint="Surname"
+            android:hint="@string/user_register_surname"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_register_name"
-            app:startIconContentDescription="@string/create_post_label_title"
+            app:startIconContentDescription="@string/user_register_surname"
             app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -97,11 +97,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="6dp"
-            android:hint="Email"
+            android:hint="@string/user_register_email"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_register_surname"
-            app:startIconContentDescription="@string/create_post_label_title"
+            app:startIconContentDescription="@string/user_register_email"
             app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -118,11 +118,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="6dp"
-            android:hint="Password"
+            android:hint="@string/user_register_password"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_register_email"
-            app:startIconContentDescription="@string/create_post_label_title"
+            app:startIconContentDescription="@string/user_register_password"
             app:startIconDrawable="@drawable/ic_baseline_text_fields_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -139,6 +139,7 @@
             android:layout_height="96dp"
             android:layout_margin="16dp"
             android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/user_register_description_image"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_register_password" />
 
@@ -188,7 +189,8 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
-            android:text="REGISTER"
+            android:text="@string/fragment_user_register_register"
+            android:textAllCaps="true"
             app:layout_constraintTop_toBottomOf="@id/text_register_photo_error" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

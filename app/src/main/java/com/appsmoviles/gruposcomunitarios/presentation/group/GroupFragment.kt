@@ -17,6 +17,7 @@ import com.appsmoviles.gruposcomunitarios.databinding.FragmentGroupBinding
 import com.appsmoviles.gruposcomunitarios.domain.entities.Group
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.presentation.UserStatus
 import com.appsmoviles.gruposcomunitarios.presentation.adapters.PostsAdapter
 import com.appsmoviles.gruposcomunitarios.presentation.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,25 @@ class GroupFragment : Fragment() {
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
 
         (activity as AppCompatActivity).supportActionBar?.title = ""
+
+        mainViewModel.userStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                UserStatus.SUCCESS -> {
+                    binding.createPostFab.visibility = View.VISIBLE
+                    adapter.username = mainViewModel.user.value?.username ?: ""
+
+                    Log.d(TAG, "onCreateView: user success")
+                }
+                UserStatus.LOADING -> {
+                    binding.createPostFab.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: user loading")
+                }
+                UserStatus.ERROR -> {
+                    binding.createPostFab.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: user error")
+                }
+            }
+        })
 
         args.let {
             if (it.group != null)

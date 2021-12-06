@@ -78,6 +78,11 @@ abstract class GroupsAdapter(
             onUnsubscribeListener(position)
         }
 
+        if (username.isEmpty())
+            binding.itemGroupBtnSubscribe.visibility = View.GONE
+        else
+            binding.itemGroupBtnSubscribe.visibility = View.VISIBLE
+
         if (displaySubscribeButton) {
             if (isSubscribed)
                 binding.itemGroupBtnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)

@@ -55,6 +55,11 @@ abstract class SearchAdapter(
         else
             binding.itemSearchBtnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
+        if (username.isEmpty())
+            binding.itemSearchBtnSubscribe.visibility = View.GONE
+        else
+            binding.itemSearchBtnSubscribe.visibility = View.VISIBLE
+
         binding.itemSearchBtnSubscribe.setOnClickListener {
             onSubscribeListener(
                 position,

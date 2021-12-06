@@ -73,32 +73,30 @@ abstract class PostAdapter(
 
         binding.textPostDetailUsername.text = post.createdBy
         binding.textPostDetailGroup.text = post.groupName
-        binding.textPostDetailTime.text = post.createdAt?.getTimeAgo()
+        binding.textPostDetailTime.text = post.createdAt?.getTimeAgo(binding.root.context)
         binding.textPostDetailTitle.text = post.title
         binding.textPostDetailContent.text = post.content
 
-        post.photo?.let {
+        if (post.photo != null) {
             binding.layoutPostDetailImage.layoutParams.height = calculateImageHeight()
 
             Glide.with(binding.root.context)
-                .load(it)
+                .load(post.photo)
                 .transform(MultiTransformation(CenterCrop(), BlurTransformation(25, 3)))
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.postDetailImageBackground)
 
             Glide.with(binding.root.context)
-                .load(it)
+                .load(post.photo)
                 .fitCenter()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.postDetailImage)
+        } else {
+            binding.layoutPostDetailImage.visibility = View.GONE
         }
 
-        Log.d("PostAdapter", "onBindPostDetailHolder: longitude: ${post.longitude}, latitude: ${post.latitude}")
         if (post.latitude == null || post.longitude == null) {
-            Log.d("PostAdapter", "onBindPostDetailHolder: location is null")
             binding.btnPostLocation.visibility = View.GONE
-        } else {
-            Log.d("PostAdapter", "onBindPostDetailHolder: location is not null")
         }
 
         binding.btnPostDetailLike.setImageResource(
@@ -120,7 +118,7 @@ abstract class PostAdapter(
         val binding = holder.binding
 
         binding.textCommentUsername.text = comment.username
-        binding.textCommentTime.text = comment.createdAt?.getTimeAgo()
+        binding.textCommentTime.text = comment.createdAt?.getTimeAgo(binding.root.context)
         binding.textCommentContent.text = comment.content
         binding.textCommentCommentsCount.text =
             allComments.filter { it.parent == comment.documentId }.count().toString()

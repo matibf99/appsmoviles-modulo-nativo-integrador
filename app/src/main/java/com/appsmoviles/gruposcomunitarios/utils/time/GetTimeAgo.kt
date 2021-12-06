@@ -1,8 +1,10 @@
 package com.appsmoviles.gruposcomunitarios.utils.time
 
+import android.content.Context
+import com.appsmoviles.gruposcomunitarios.R
 import java.util.*
 
-fun Date.getTimeAgo(): String {
+fun Date.getTimeAgo(context: Context): String {
     val calendar = Calendar.getInstance()
     calendar.time = this
 
@@ -22,20 +24,20 @@ fun Date.getTimeAgo(): String {
 
     return if (year < currentYear ) {
         val interval = currentYear - year
-        "${interval}y"
+        if (interval == 1) "$interval ${context.getString(R.string.time_ago_year)}" else "$interval ${context.getString(R.string.time_ago_years)}"
     } else if (month < currentMonth) {
         val interval = currentMonth - month
-        "${interval}m"
+        if (interval == 1) "$interval ${context.getString(R.string.time_ago_month)}" else "$interval ${context.getString(R.string.time_ago_months)}"
     } else  if (day < currentDay) {
         val interval = currentDay - day
-        "${interval}d"
+        if (interval == 1) "$interval ${context.getString(R.string.time_ago_day)}" else "$interval ${context.getString(R.string.time_ago_days)}"
     } else if (hour < currentHour) {
         val interval = currentHour - hour
-        "${interval}h"
+        if (interval == 1) "$interval ${context.getString(R.string.time_ago_hour)}" else "$interval ${context.getString(R.string.time_ago_hour)}"
     } else if (minute < currentMinute) {
         val interval = currentMinute - minute
-        if (interval == 1) "$interval min" else "$interval mins"
+        if (interval == 1) "$interval ${context.getString(R.string.time_ago_minute)}" else "$interval ${context.getString(R.string.time_ago_minutes)}"
     } else {
-        "a moment ago"
+        context.getString(R.string.time_ago_moment)
     }
 }

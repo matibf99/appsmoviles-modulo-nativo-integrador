@@ -109,11 +109,18 @@ class PostCommentsFragment : Fragment() {
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
             when(it) {
                 UserStatus.SUCCESS -> {
+                    binding.fabAddComment.visibility = View.VISIBLE
                     adapter.username = mainViewModel.user.value?.username ?: ""
                     adapter.notifyDataSetChanged()
                 }
-                UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
-                UserStatus.ERROR -> Log.d(TAG, "onCreateView: error loading user")
+                UserStatus.LOADING -> {
+                    binding.fabAddComment.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: loading user")
+                }
+                UserStatus.ERROR -> {
+                    binding.fabAddComment.visibility = View.GONE
+                    Log.d(TAG, "onCreateView: error loading user")
+                }
                 else -> Log.d(TAG, "onCreateView: unknown state")
             }
         })

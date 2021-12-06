@@ -54,7 +54,7 @@ abstract class PostCommentsAdapter(
         val binding = holder.binding
 
         binding.textCommentParentUsername.text = parent.username
-        binding.textCommentParentTime.text = parent.createdAt?.getTimeAgo()
+        binding.textCommentParentTime.text = parent.createdAt?.getTimeAgo(binding.root.context)
         binding.textCommentParentCommentsCount.text = comments.count().toString()
         binding.textCommentParentContent.text = parent.content
         binding.textCommentParentLikesCount.text = parent.likes?.count().toString()
@@ -71,7 +71,7 @@ abstract class PostCommentsAdapter(
         val binding = holder.binding
 
         binding.textCommentChildUsername.text = comment.username
-        binding.textCommentChildTime.text = comment.createdAt?.getTimeAgo()
+        binding.textCommentChildTime.text = comment.createdAt?.getTimeAgo(binding.root.context)
         binding.textCommentChildContent.text = comment.content
         binding.textCommentChildLikesCount.text = comment.likes?.count().toString()
 
