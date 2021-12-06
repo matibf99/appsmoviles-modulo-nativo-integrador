@@ -127,15 +127,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="REGISTER"
-                app:layout_constraintBottom_toTopOf="@id/btn_user_log_in" />
+                android:text="@string/fragment_user_register_register"
+                app:layout_constraintBottom_toTopOf="@id/btn_user_log_in"
+                android:textAllCaps="true"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_user_log_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="LOG IN"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                android:text="@string/fragment_user_login_login"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textAllCaps="true"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

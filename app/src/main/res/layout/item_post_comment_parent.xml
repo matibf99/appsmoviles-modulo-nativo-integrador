@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/text_comment_parent_time"
-            android:text="username"
+            android:text="@string/fragment_post_username"
             android:textStyle="bold"
             android:textColor="?attr/colorPrimaryDark"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:text="Example"
+            android:text="@string/fragment_post_example"
             app:layout_constraintTop_toBottomOf="@id/text_comment_parent_username"
             android:paddingVertical="12dp" />
 

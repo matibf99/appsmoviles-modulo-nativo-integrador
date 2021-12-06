@@ -40,6 +40,12 @@
 
     <!-- PostFragment -->
     <string name="fragment_post_fab">New comment</string>
+    <string name="fragment_post_detail">Comments</string>
+    <string name="fragment_post_group">group</string>
+    <string name="fragment_post_text">Text</string>
+    <string name="fragment_post_username">Username</string>
+    <string name="fragment_post_example">Example</string>
+
 
     <!-- PostCommentsFragment -->
     <string name="fragment_posts_fab">New comment</string>
@@ -97,10 +103,17 @@
 
     <!-- UserFragment -->
     <string name="fragment_user_title">User</string>
+    <string name="fragment_user_register_register">Register</string>
+    <string name="fragment_user_login_login">Log in</string>
 
     <!-- UserRegisterFragment -->
+    <string name="fragment_user_register">Register</string>
+    <string name="fragment_user_register_user_information">User information</string>
+
 
     <!-- UserLoginFragment -->
+    <string name="fragment_user_login">Log in</string>
+    <string name="fragment_user_login_account_information">Insert your account information</string>
 
     <!-- SortBy -->
     <string name="order_by_nothing">no order</string>
