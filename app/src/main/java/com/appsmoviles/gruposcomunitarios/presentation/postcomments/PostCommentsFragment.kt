@@ -61,13 +61,17 @@ class PostCommentsFragment : Fragment() {
             viewModel.comments.value!!
         ) {
             override fun likeParentComment(username: String) {
-                viewModel.likeParentComment(username)
-                adapter.notifyItemChanged(0)
+                if (username.isNotEmpty()) {
+                    viewModel.likeParentComment(username)
+                    adapter.notifyItemChanged(0)
+                }
             }
 
             override fun likeChildComment(position: Int, username: String) {
-                viewModel.likeChildComment(position, username)
-                adapter.notifyItemChanged(position + 1)
+                if (username.isNotEmpty()) {
+                    viewModel.likeChildComment(position, username)
+                    adapter.notifyItemChanged(position + 1)
+                }
             }
 
         }

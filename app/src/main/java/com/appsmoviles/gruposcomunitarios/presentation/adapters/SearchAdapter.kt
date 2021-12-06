@@ -50,15 +50,15 @@ abstract class SearchAdapter(
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.itemSearchImageView)
 
+        if (username.isNotEmpty())
+            binding.itemSearchBtnSubscribe.visibility = View.VISIBLE
+        else
+            binding.itemSearchBtnSubscribe.visibility = View.GONE
+
         if (isSubscribed)
             binding.itemSearchBtnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_24)
         else
             binding.itemSearchBtnSubscribe.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-
-        if (username.isEmpty())
-            binding.itemSearchBtnSubscribe.visibility = View.GONE
-        else
-            binding.itemSearchBtnSubscribe.visibility = View.VISIBLE
 
         binding.itemSearchBtnSubscribe.setOnClickListener {
             onSubscribeListener(

@@ -59,13 +59,17 @@ class PostFragment : Fragment() {
             viewModel.allComments.value!!
         ) {
             override fun likePost(username: String) {
-                viewModel.likePost(username)
-                adapter.notifyItemChanged(0)
+                if (username.isNotEmpty()) {
+                    viewModel.likePost(username)
+                    adapter.notifyItemChanged(0)
+                }
             }
 
             override fun likeComment(position: Int, username: String) {
-                viewModel.likeComment(position, username)
-                adapter.notifyItemChanged(position + 1)
+                if (username.isNotEmpty()) {
+                    viewModel.likeComment(position, username)
+                    adapter.notifyItemChanged(position + 1)
+                }
             }
 
             override fun onOpenGroupListener() {

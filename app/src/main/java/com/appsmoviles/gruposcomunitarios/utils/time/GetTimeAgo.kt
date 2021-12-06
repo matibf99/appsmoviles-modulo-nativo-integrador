@@ -33,7 +33,7 @@ fun Date.getTimeAgo(context: Context): String {
         if (interval == 1) "$interval ${context.getString(R.string.time_ago_day)}" else "$interval ${context.getString(R.string.time_ago_days)}"
     } else if (hour < currentHour) {
         val interval = currentHour - hour
-        if (interval == 1) "$interval ${context.getString(R.string.time_ago_hour)}" else "$interval ${context.getString(R.string.time_ago_hour)}"
+        if (interval == 1) "$interval ${context.getString(R.string.time_ago_hour)}" else "$interval ${context.getString(R.string.time_ago_hours)}"
     } else if (minute < currentMinute) {
         val interval = currentMinute - minute
         if (interval == 1) "$interval ${context.getString(R.string.time_ago_minute)}" else "$interval ${context.getString(R.string.time_ago_minutes)}"

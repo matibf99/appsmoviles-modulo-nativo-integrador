@@ -59,8 +59,10 @@ class HomeFragment : Fragment() {
             }
 
             override fun onLikeListener(position: Int, username: String) {
-                viewModel.likePost(position, username)
-                adapter.notifyItemChanged(position)
+                if (username.isNotEmpty()) {
+                    viewModel.likePost(position, username)
+                    adapter.notifyItemChanged(position)
+                }
             }
 
             override fun onOpenGroupListener(position: Int) {

@@ -160,4 +160,16 @@
     <string name="select_language_changed_positive_action">好的</string>
 
     <string name="notification_new_comments_in_post">这个帖子有新评论</string>
+
+    <string name="time_ago_moment">刚才</string>
+    <string name="time_ago_minute">分钟</string>
+    <string name="time_ago_minutes">分钟</string>
+    <string name="time_ago_hour">小时</string>
+    <string name="time_ago_hours">小时</string>
+    <string name="time_ago_day">日</string>
+    <string name="time_ago_days">天</string>
+    <string name="time_ago_month">月</string>
+    <string name="time_ago_months">月</string>
+    <string name="time_ago_year">年</string>
+    <string name="time_ago_years">年</string>
 </resources>

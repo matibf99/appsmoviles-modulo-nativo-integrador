@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
-    private val mainViewModel: MainAcitivityViewModel by viewModels()
+    private val mainViewModel: MainAcitivityViewModel by activityViewModels()
 
     // Only is valid between onCreateView and onDestroyView
     private var _binding: FragmentSearchBinding? = null
@@ -54,8 +55,10 @@ class SearchFragment : Fragment() {
         adapter = object :
             SearchAdapter(mainViewModel.user.value?.username ?: "", viewModel.groups.value!!) {
             override fun onSubscribeListener(position: Int, username: String) {
-                viewModel.subscribeToGroup(position, username)
-                adapter.notifyItemChanged(position)
+                if (username.isNotEmpty()) {
+                    viewModel.subscribeToGroup(position, username)
+                    adapter.notifyItemChanged(position)
+                }
             }
 
             override fun onOpenGroupListener(position: Int) {
@@ -78,8 +81,11 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.adapter = adapter
 
         mainViewModel.userStatus.observe(viewLifecycleOwner, {
+            adapter.username = mainViewModel.user.value?.username ?: ""
+            adapter.notifyDataSetChanged()
+
             when (it) {
-                UserStatus.SUCCESS -> adapter.username = mainViewModel.user.value?.username ?: ""
+                UserStatus.SUCCESS -> Log.d(TAG, "onCreateView: user loaded")
                 UserStatus.LOADING -> Log.d(TAG, "onCreateView: loading user")
                 UserStatus.ERROR -> Log.d(TAG, "onCreateView: error in loading user")
                 else -> Log.d(TAG, "onCreateView: prevent null")

@@ -56,7 +56,6 @@ class GroupFragment : Fragment() {
                 UserStatus.SUCCESS -> {
                     binding.createPostFab.visibility = View.VISIBLE
                     adapter.username = mainViewModel.user.value?.username ?: ""
-
                     Log.d(TAG, "onCreateView: user success")
                 }
                 UserStatus.LOADING -> {
@@ -102,8 +101,10 @@ class GroupFragment : Fragment() {
             }
 
             override fun onLikeListener(position: Int, username: String) {
-                viewModel.likePost(position, username)
-                adapter.notifyItemChanged(position)
+                if (username.isNotEmpty()) {
+                    viewModel.likePost(position, username)
+                    adapter.notifyItemChanged(position)
+                }
             }
 
             override fun onOpenGroupListener(position: Int) {
@@ -230,14 +231,16 @@ class GroupFragment : Fragment() {
         val username = mainViewModel.user.value?.username ?: ""
         val isSubscribed = group.subscribed?.contains(username) == true
 
-        val menuItem = this.menu?.findItem(R.id.menu_like)
-        menuItem?.apply {
-            if (isSubscribed) {
-                setTitle(R.string.menu_like)
-                setIcon(R.drawable.ic_baseline_favorite_24)
-            } else {
-                setTitle(R.string.menu_unlike)
-                setIcon(R.drawable.ic_baseline_favorite_border_24)
+        if (username.isNotEmpty()) {
+            val menuItem = this.menu?.findItem(R.id.menu_like)
+            menuItem?.apply {
+                if (isSubscribed) {
+                    setTitle(R.string.menu_like)
+                    setIcon(R.drawable.ic_baseline_favorite_24)
+                } else {
+                    setTitle(R.string.menu_unlike)
+                    setIcon(R.drawable.ic_baseline_favorite_border_24)
+                }
             }
         }
     }
