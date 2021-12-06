@@ -14,18 +14,9 @@
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_register"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/register_image_logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/icongrups"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -34,11 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
-            android:text="@string/fragment_user_register_user_information"
+            android:text="User information"
             android:textAppearance="?attr/textAppearanceOverline"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_image_logo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_register_username"
@@ -142,14 +133,63 @@
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ImageView
+            android:id="@+id/user_register_photo"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_register_password" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_register_photo_error"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/create_group_validation_image_invalid"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorError"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@+id/user_register_photo"
+            app:layout_constraintRight_toRightOf="@id/user_register_photo"
+            app:layout_constraintTop_toBottomOf="@+id/user_register_photo" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_register_camera"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/create_group_btn_camera"
+            android:textAllCaps="true"
+            app:layout_constraintLeft_toRightOf="@id/user_register_photo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/user_register_photo" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_register_storage"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/create_group_btn_storage"
+            android:textAllCaps="true"
+            app:layout_constraintLeft_toRightOf="@id/user_register_photo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_register_camera" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/fragment_user_register"
-            app:layout_constraintTop_toBottomOf="@id/edit_register_password"
-            android:textAllCaps="true"/>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:text="REGISTER"
+            app:layout_constraintTop_toBottomOf="@id/text_register_photo_error" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

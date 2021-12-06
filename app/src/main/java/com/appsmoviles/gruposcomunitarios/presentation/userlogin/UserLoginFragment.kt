@@ -18,6 +18,7 @@ import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserLoginBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -77,7 +78,19 @@ class UserLoginFragment : Fragment() {
         })
 
         viewModel.formEmailStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.editLoginEmail.error = getString(R.string.fragment_user_validation_email_empty)
+                FieldStatus.INVALID_EMAIL -> binding.editLoginEmail.error = getString(R.string.fragment_user_validation_email_invalid)
+                else -> binding.editLoginEmail.isErrorEnabled = false
+            }
+        })
 
+        viewModel.formPasswordStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.editLoginPassword.error = getString(R.string.fragment_user_validation_password_empty)
+                FieldStatus.INVALID_PASSWORD -> binding.editLoginPassword.error = getString(R.string.fragment_user_validation_password_invalid)
+                else -> binding.editLoginPassword.isErrorEnabled = false
+            }
         })
 
         return binding.root

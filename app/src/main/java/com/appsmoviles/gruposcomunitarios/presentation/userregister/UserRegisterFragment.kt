@@ -16,10 +16,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.appsmoviles.gruposcomunitarios.R
 import com.appsmoviles.gruposcomunitarios.databinding.FragmentUserRegisterBinding
 import com.appsmoviles.gruposcomunitarios.presentation.MainAcitivityViewModel
 import com.appsmoviles.gruposcomunitarios.presentation.MainActivity
 import com.appsmoviles.gruposcomunitarios.presentation.creategroup.CreateGroupFragment
+import com.appsmoviles.gruposcomunitarios.utils.helpers.FieldStatus
 import com.appsmoviles.gruposcomunitarios.utils.storage.getImageUriTakenWithCamera
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromCameraIntent
 import com.appsmoviles.gruposcomunitarios.utils.storage.pickImageFromGalleryIntent
@@ -69,12 +71,58 @@ class UserRegisterFragment : Fragment() {
             viewModel.setPassword(it.toString())
         }
 
+        viewModel.formUsernameStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                FieldStatus.EMPTY -> binding.editRegisterUsername.error = getString(R.string.fragment_user_register_validation_username_empty)
+                else -> binding.editRegisterUsername.isErrorEnabled = false
+            }
+        })
+
+        viewModel.formNameStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                FieldStatus.EMPTY -> binding.editRegisterName.error = getString(R.string.fragment_user_register_validation_name_empty)
+                else -> binding.editRegisterName.isErrorEnabled = false
+            }
+        })
+
+        viewModel.formSurnameStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                FieldStatus.EMPTY -> binding.editRegisterSurname.error = getString(R.string.fragment_user_register_validation_surname_empty)
+                else -> binding.editRegisterSurname.isErrorEnabled = false
+            }
+        })
+
+        viewModel.formImageStatus.observe(viewLifecycleOwner, {
+            when(it) {
+                FieldStatus.EMPTY -> binding.textRegisterPhotoError.visibility = View.VISIBLE
+                else -> binding.textRegisterPhotoError.visibility = View.GONE
+            }
+        })
+
+        viewModel.formEmailStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.editRegisterEmail.error = getString(R.string.fragment_user_validation_email_empty)
+                FieldStatus.INVALID_EMAIL -> binding.editRegisterEmail.error = getString(R.string.fragment_user_validation_email_invalid)
+                else -> binding.editRegisterEmail.isErrorEnabled = false
+            }
+        })
+
+        viewModel.formPasswordStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                FieldStatus.EMPTY -> binding.editRegisterPassword.error = getString(R.string.fragment_user_validation_password_empty)
+                FieldStatus.INVALID_PASSWORD -> binding.editRegisterPassword.error = getString(R.string.fragment_user_validation_password_invalid)
+                else -> binding.editRegisterPassword.isErrorEnabled = false
+            }
+        })
+
         binding.btnRegister.setOnClickListener {
-            val bitmap = MediaStore.Images.Media.getBitmap(
-                requireActivity().contentResolver,
-                viewModel.imageUri.value
-            )
-            viewModel.registerUser(bitmap)
+            if (viewModel.isFormValid()) {
+                val bitmap = MediaStore.Images.Media.getBitmap(
+                    requireActivity().contentResolver,
+                    viewModel.imageUri.value
+                )
+                viewModel.registerUser(bitmap)
+            }
         }
 
         viewModel.imageUri.observe(viewLifecycleOwner, {
@@ -87,9 +135,15 @@ class UserRegisterFragment : Fragment() {
         })
 
         binding.userRegisterPhoto.setOnClickListener {
-            val imageUrl = viewModel.imageUri.value?.toString() ?: ""
-            val action = UserRegisterFragmentDirections.actionUserRegisterFragmentToPhotoFragment(imageUrl)
-            findNavController().navigate(action)
+            val imageUrl = viewModel.imageUri.value?.toString()
+
+            if (imageUrl != null) {
+                val action =
+                    UserRegisterFragmentDirections.actionUserRegisterFragmentToPhotoFragment(
+                        imageUrl
+                    )
+                findNavController().navigate(action)
+            }
         }
 
         binding.btnRegisterCamera.setOnClickListener {

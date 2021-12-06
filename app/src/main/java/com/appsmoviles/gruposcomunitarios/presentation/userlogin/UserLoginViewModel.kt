@@ -62,7 +62,7 @@ class UserLoginViewModel @Inject constructor(
     private fun validateEmail() {
         if (email.value?.isEmpty() == true || email.value == null)
             _formEmailStatus.value = FieldStatus.EMPTY
-        else if (android.util.Patterns.EMAIL_ADDRESS.matcher(email.value!!).matches())
+        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value!!).matches())
             _formEmailStatus.value = FieldStatus.INVALID_EMAIL
         else
             _formEmailStatus.value = FieldStatus.VALID

@@ -109,11 +109,21 @@
     <!-- UserRegisterFragment -->
     <string name="fragment_user_register">Register</string>
     <string name="fragment_user_register_user_information">User information</string>
-
+    <string name="fragment_user_register_validation_email_invalid">Invalid email</string>
+    <string name="fragment_user_register_validation_email_empty">Email is empty</string>
+    <string name="fragment_user_register_validation_password_invalid">Invalid password</string>
+    <string name="fragment_user_register_validation_password_empty">Password is empty</string>
+    <string name="fragment_user_register_validation_name_empty">Name is empty</string>
+    <string name="fragment_user_register_validation_surname_empty">Surname is empty</string>
+    <string name="fragment_user_register_validation_username_empty">Username is empty</string>
 
     <!-- UserLoginFragment -->
     <string name="fragment_user_login">Log in</string>
     <string name="fragment_user_login_account_information">Insert your account information</string>
+    <string name="fragment_user_validation_email_invalid">Invalid email</string>
+    <string name="fragment_user_validation_email_empty">Email is empty</string>
+    <string name="fragment_user_validation_password_invalid">Invalid password</string>
+    <string name="fragment_user_validation_password_empty">Password is empty</string>
 
     <!-- SortBy -->
     <string name="order_by_nothing">no order</string>
